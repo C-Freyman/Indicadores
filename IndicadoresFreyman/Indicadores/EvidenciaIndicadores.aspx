@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EvidenciaIndicadores.aspx.cs" Inherits="IndicadoresFreyman.Indicadores.EvidenciaIndicadores" %>
 <%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
+<%@ Import Namespace="System.Web.Services" %>
 
 <!DOCTYPE html>
 
@@ -10,22 +11,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <telerik:RadAjaxManager runat="server">
-            <AjaxSettings>
-                <telerik:AjaxSetting AjaxControlID="gridEvidencias">
-                    <UpdatedControls>
-                        <telerik:AjaxUpdatedControl ControlID="gridEvidencias" LoadingPanelID="RadAjaxLoadingPanel1" />
-                        <telerik:AjaxUpdatedControl ControlID="SavedChangesList" />
-                    </UpdatedControls>
-                </telerik:AjaxSetting>
-                <telerik:AjaxSetting AjaxControlID="ConfigurationPanel1">
-                    <UpdatedControls>
-                        <telerik:AjaxUpdatedControl ControlID="gridEvidencias" LoadingPanelID="RadAjaxLoadingPanel1" />
-                        <telerik:AjaxUpdatedControl ControlID="ConfigurationPanel1"/>
-                    </UpdatedControls>
-                </telerik:AjaxSetting>
-            </AjaxSettings>
-        </telerik:RadAjaxManager>
+       <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <telerik:RadAjaxLoadingPanel runat="server" ID="RadAjaxLoadingPanel1"></telerik:RadAjaxLoadingPanel>
         <telerik:RadFormDecorator RenderMode="Lightweight" ID="RadFormDecorator1" runat="server" DecorationZoneID="demo" DecoratedControls="All" EnableRoundedCorners="false" />
         <div id="demo">
@@ -33,12 +19,18 @@
             <telerik:RadGrid RenderMode="Lightweight" ID="gridEvidencias" GridLines="None" runat="server"
                 CellSpacing="0" CellPadding="0" Font-Size="Smaller" Style="padding: 0; margin: 0 auto"
                 AllowAutomaticInserts="True" PageSize="10" AllowAutomaticUpdates="True" AllowPaging="True"
-                AutoGenerateColumns="False" DataSourceID="SqlDataSource1">
+                AutoGenerateColumns="False" DataSourceID="SqlDataSource1" OnBatchEditCommand="gridEvidencias_BatchEditCommand">
 
-                <MasterTableView  EditMode="Batch" AutoGenerateColumns="False" CellPadding="0" CellSpacing="0">
-                   
+                <MasterTableView  CommandItemDisplay="TopAndBottom"  EditMode="Batch" AutoGenerateColumns="False" CellPadding="0" CellSpacing="0">
+                    <CommandItemSettings ShowAddNewRecordButton="false"  />
+                    <CommandItemTemplate>
+                        
+                        <asp:Button ID="SaveChangesButton" runat="server" CommandName="BatchSave" Text="Guardar Cambios" />
+                        <asp:Button ID="CancelChangesButton" runat="server" CommandName="BatchCancel" Text="Cancelar Cambios" />
+                        <asp:Button ID="GuardarBorradorButton" OnClientClick="return guardarBorrador();" runat="server" Text="Guardar Borrador" />
+                    </CommandItemTemplate>
                     <Columns>
-                        <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='50' UniqueName="IndicadorId" DataField='IndicadorId' SortExpression="IndicadorId" HeaderText='ID' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon='false' ReadOnly="true"></telerik:GridBoundColumn>
+                        <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='50' UniqueName="indicadorId" DataField='indicadorId' SortExpression="indicadorId" HeaderText='ID' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon='false' ReadOnly="true"></telerik:GridBoundColumn>
                         <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='50' UniqueName="descripcionIndicador" DataField='descripcionIndicador' SortExpression="descripcionIndicador" HeaderText='Descripción' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true"></telerik:GridBoundColumn>
                         <telerik:GridBoundColumn FilterControlWidth="80%" HeaderStyle-Width='50' UniqueName="ponderacion" DataField='ponderacion' SortExpression="ponderacion" HeaderText='Ponderación' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true"></telerik:GridBoundColumn>
                         <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='50' UniqueName="indicadorMinimo" DataField='indicadorMinimo' SortExpression="indicadorMinimo" HeaderText='IndicadorMinimo' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true"></telerik:GridBoundColumn>
@@ -58,8 +50,8 @@
                 </ClientSettings>
             </telerik:RadGrid>
         </div>
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Server=34.203.98.187; User ID=sa; password=similares*3; DataBase=Indicadores;"
-            SelectCommand="select i.IndicadorId, pli.descripcionIndicador, i.ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, 
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Server=187.174.147.102; User ID=sa; password=similares*3; DataBase=Indicadores;"
+            SelectCommand="select i.indicadorId, pli.descripcionIndicador, i.ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, 
                             isnull(cumplimientoOBjetivo,0)as cumplimientoObjetivo, isnull(evaluacionPonderada,0)as evaluacionPonderada from Indicador i 
                             left join Asignacion a on i.asignacionId=a.asignacionId
                             left join PlantillaIndicador pli on pli.pIndicadorId=a.pIndicadorId
@@ -67,7 +59,7 @@
                             where a.empleadoId=13178 and mes=1;"
             UpdateCommand="">
             <InsertParameters>
-                <asp:Parameter Name="IndicadorId" Type="Int32"></asp:Parameter>
+                <asp:Parameter Name="indicadorId" Type="Int32"></asp:Parameter>
                 <asp:Parameter Name="resultado" Type="Decimal"></asp:Parameter>
                 <asp:Parameter Name="cumplimientoObjetivo" Type="Decimal"></asp:Parameter>
                 <asp:Parameter Name="evaluacionPonderada" Type="Decimal"></asp:Parameter>
@@ -91,56 +83,66 @@
 <script>
     function BatchEditCellValueChanged(sender, args) {
         debugger;
-        var editorValue = args.get_editorValue();
+        var cell = args.get_cell();
+        var row = cell.parentNode;
+        var filaHTML = row.innerText;
+        var valorEditado = cell.innerText;
 
-        var columnUniqueName = args.get_columnUniqueName();
-
-        if (columnUniqueName === "archivo") {
-            editorValue = args.get_editorValue();
-
-            // Obtén el control de archivo y su valor
-            var inputFile = document.getElementById("FileUpload2");
-            if (inputFile.files.length > 0) {
-                var file = inputFile.files[0];
-
-                // Crear un FormData para enviar el archivo al servidor
-                var formData = new FormData();
-                formData.append("archivo", file);
-
-                // Realizar la llamada AJAX para enviar el archivo al servidor
-                $.ajax({
-                    type: "POST",
-                    url: "YourPage.aspx/UploadFile",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        // Manejar la respuesta de éxito
-                        console.log("Archivo subido correctamente");
-                    },
-                    error: function (response) {
-                        // Manejar el error
-                        console.log("Error al subir el archivo");
-                    }
-                });
-            }
-        }
-
-        // Send the editor value to the server using AJAX
+        // Enviar los valores de la fila al servidor usando AJAX
         $.ajax({
             type: "POST",
-            url: "EvidenciaIndicadores.aspx/SaveEditorValue",
-            data: JSON.stringify({ editorValue: editorValue }),
+            url: "EvidenciaIndicadores.aspx/SaveRowValues",
+            data: JSON.stringify({ filaHTML: filaHTML, valorEditado: valorEditado }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                // Handle success
-                console.log("Value saved successfully");
+                // Manejar el éxito
+                console.log("Values saved successfully");
             },
             error: function (response) {
-                // Handle error
-                console.log("Error saving value: " + response);
+                // Manejar el error
+                console.log("Error saving values: " + response);
             }
         });
+    }
+    function guardarBorrador() {
+        debugger;
+        var grid = $find("<%= gridEvidencias.ClientID %>");
+        var batchManager = grid.get_batchEditingManager();
+        var changes = batchManager.get_changes();
+
+        // Crear un array para almacenar las filas modificadas
+        var modifiedRows = [];
+
+        for (var i = 0; i < changes.length; i++) {
+            var change = changes[i];
+            var dataItem = change.get_tableView().get_dataItems()[change.get_dataItemIndex()];
+
+            // Crear un objeto para almacenar los valores de la fila
+            var rowData = {};
+            for (var j = 0; j < dataItem.get_cellElements().length; j++) {
+                var columnName = grid.get_masterTableView().get_columns()[j].get_uniqueName();
+                rowData[columnName] = dataItem[columnName];
+            }
+
+            modifiedRows.push(rowData);
+        }
+
+        // Enviar los cambios al servidor usando AJAX
+        $.ajax({
+            type: "POST",
+            url: "EvidenciaIndicadores.aspx/GuardarBorrador",
+            data: JSON.stringify({ rows: modifiedRows }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                alert("Cambios guardados correctamente.");
+            },
+            error: function (response) {
+                alert("Error al guardar los cambios: " + response.responseText);
+            }
+        });
+
+        return false; // Para evitar el postback
     }
 </script>

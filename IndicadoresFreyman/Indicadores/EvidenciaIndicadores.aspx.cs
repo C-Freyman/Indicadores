@@ -32,23 +32,6 @@ namespace IndicadoresFreyman.Indicadores
             
         }
 
-        private DataTable ObtenerDatosDesdeDB()
-        {
-            
-            DataTable dt = new DataTable();
-            using (SqlConnection conn = new SqlConnection("Server=34.203.98.187; User ID=sa; password=similares*3; DataBase=Indicadores;"))
-            {
-                string query = "select i.pIndicadorId,i.descripcionIndicador, i.ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado,e.cumplimientoOBjetivo,e.evaluacionPonderada " +
-                    "from Indicadores.dbo.plantillaIndicador i left join Indicadores.dbo.Asignacion a on i.pIndicadorId=a.indicadorId left join Indicadores.dbo.Evidencia e on a.asignacionId=e.asignacionId " +
-                    "where empleadoId=13178;";
-                using (SqlDataAdapter adapter = new SqlDataAdapter(query, conn))
-                {
-                    adapter.Fill(dt);
-                }
-            }
-            return dt;
-        }
-
         [WebMethod]
         public static void SaveEditorValue(string editorValue)
         {
@@ -56,18 +39,83 @@ namespace IndicadoresFreyman.Indicadores
             Debug.WriteLine("Editor Value: " + editorValue);
         }
 
-        [WebMethod]
-        public static void UploadFile()
+        protected void gridEvidencias_BatchEditCommand(object sender, GridBatchEditingEventArgs e)
         {
-            HttpPostedFile file = HttpContext.Current.Request.Files["archivo"];
-            if (file != null)
-            {
-                string savePath = HttpContext.Current.Server.MapPath("~/Uploads/") + file.FileName;
-                file.SaveAs(savePath);
 
-                // Aquí puedes agregar lógica adicional para guardar la información del archivo en la base de datos
-                System.Diagnostics.Debug.WriteLine("Archivo guardado en: " + savePath);
+        }
+
+        protected void GuardarBorradorButton_Click(object sender, EventArgs e)
+        {
+            // Lógica para guardar el borrador
+            // Obteniendo los datos del RadGrid
+
+            List<MyDataModel> borradorData = new List<MyDataModel>();
+
+            foreach (GridDataItem item in gridEvidencias.MasterTableView.Items)
+            {
+                string indicadorId = item["IndicadorId"].Text;
+                string descripcionIndicador = item["descripcionIndicador"].Text;
+                string ponderacion = item["ponderacion"].Text;
+                string indicadorMinimo = item["indicadorMinimo"].Text;
+                string indicadorDeseable = item["indicadorDeseable"].Text;
+                string resultado = item["resultado"].Text;
+                string cumplimientoObjetivo = item["cumplimientoObjetivo"].Text;
+                string evaluacionPonderada = item["evaluacionPonderada"].Text;
+
+                // Crear una instancia del modelo de datos y agregarla a la lista
+                MyDataModel data = new MyDataModel
+                {
+                    IndicadorId = indicadorId,
+                    DescripcionIndicador = descripcionIndicador,
+                    Ponderacion = ponderacion,
+                    IndicadorMinimo = indicadorMinimo,
+                    IndicadorDeseable = indicadorDeseable,
+                    Resultado = resultado,
+                    CumplimientoObjetivo = cumplimientoObjetivo,
+                    EvaluacionPonderada = evaluacionPonderada
+                };
+
+                borradorData.Add(data);
+            }
+
+            // Lógica para guardar el borrador en la base de datos o en una variable de sesión
+            // Por ejemplo, guardar en una variable de sesión
+            Session["BorradorData"] = borradorData;
+
+            // Muestra un mensaje de confirmación
+            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Borrador guardado exitosamente.');", true);
+        }
+        [WebMethod]
+        public static void SaveRowValues(string filaHTML, string valorEditado)
+        {
+           
+        }
+        [System.Web.Services.WebMethod]
+        public static void GuardarBorrador(List<Dictionary<string, object>> rows)
+        {
+            foreach (var row in rows)
+            {
+                // Procesa cada fila
+                // Por ejemplo:
+                string indicadorId = row["IndicadorId"].ToString();
+                string descripcionIndicador = row["descripcionIndicador"].ToString();
+                // Obtén otros campos de la fila
+
+                // Guarda los cambios en la base de datos
+                // Tu lógica de guardado aquí
             }
         }
+    }
+    // Clase del modelo de datos
+    public class MyDataModel
+    {
+        public string IndicadorId { get; set; }
+        public string DescripcionIndicador { get; set; }
+        public string Ponderacion { get; set; }
+        public string IndicadorMinimo { get; set; }
+        public string IndicadorDeseable { get; set; }
+        public string Resultado { get; set; }
+        public string CumplimientoObjetivo { get; set; }
+        public string EvaluacionPonderada { get; set; }
     }
 }
