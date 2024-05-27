@@ -51,12 +51,12 @@
             </telerik:RadGrid>
         </div>
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Server=187.174.147.102; User ID=sa; password=similares*3; DataBase=Indicadores;"
-            SelectCommand="select i.indicadorId, pli.descripcionIndicador, i.ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, 
+            SelectCommand="select pli.pIndicadorId as indicadorId, pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, 
                             isnull(cumplimientoOBjetivo,0)as cumplimientoObjetivo, isnull(evaluacionPonderada,0)as evaluacionPonderada from Indicador i 
                             left join Asignacion a on i.asignacionId=a.asignacionId
                             left join PlantillaIndicador pli on pli.pIndicadorId=a.pIndicadorId
                             left join Evidencia e on i.IndicadorId=e.indicadorId 
-                            where a.empleadoId=13178 and mes=1;"
+                            where a.empleadoId=3246 and mes=1;"
             UpdateCommand="">
             <InsertParameters>
                 <asp:Parameter Name="indicadorId" Type="Int32"></asp:Parameter>
@@ -96,7 +96,19 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                // Manejar el éxito
+                // Manejar el éxito y actualizar las celdas correspondientes
+                var data = response.d;
+                var cumplimientoObjetivo = data.cumplimientoObjetivo;
+                var evaluacionPonderada = data.evaluacionPonderada;
+
+                // Asumiendo que las celdas de cumplimientoObjetivo y evaluacionPonderada están en la misma fila
+                // Puedes cambiar esto según tu estructura de tabla
+                var cumplimientoObjetivoCell = row.cells[7]; // Ajusta el índice según la posición real de la celda
+                var evaluacionPonderadaCell = row.cells[8]; // Ajusta el índice según la posición real de la celda
+
+                cumplimientoObjetivoCell.innerText = cumplimientoObjetivo.toFixed(2);
+                evaluacionPonderadaCell.innerText = evaluacionPonderada.toFixed(2) + '%';
+
                 console.log("Values saved successfully");
             },
             error: function (response) {
@@ -108,41 +120,37 @@
     function guardarBorrador() {
         debugger;
         var grid = $find("<%= gridEvidencias.ClientID %>");
-        var batchManager = grid.get_batchEditingManager();
-        var changes = batchManager.get_changes();
+        var masterTableView = grid.get_masterTableView();
+        var rows = masterTableView.get_dataItems();
+        var tableData = [];
 
-        // Crear un array para almacenar las filas modificadas
-        var modifiedRows = [];
-
-        for (var i = 0; i < changes.length; i++) {
-            var change = changes[i];
-            var dataItem = change.get_tableView().get_dataItems()[change.get_dataItemIndex()];
-
-            // Crear un objeto para almacenar los valores de la fila
-            var rowData = {};
-            for (var j = 0; j < dataItem.get_cellElements().length; j++) {
-                var columnName = grid.get_masterTableView().get_columns()[j].get_uniqueName();
-                rowData[columnName] = dataItem[columnName];
-            }
-
-            modifiedRows.push(rowData);
+        for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].get_element().cells;
+            //if (cells[6].innerText.trim()!='0.00') {
+            var rowData = {
+                indicadorId: cells[0].innerText.trim(),
+                resultado: cells[6].innerText.trim(),
+                cumplimientoObjetivo: cells[7].innerText.trim(),
+                evaluacionPonderada: cells[8].innerText.trim()
+            };
+            tableData.push(rowData);
+            //}
         }
 
-        // Enviar los cambios al servidor usando AJAX
         $.ajax({
             type: "POST",
             url: "EvidenciaIndicadores.aspx/GuardarBorrador",
-            data: JSON.stringify({ rows: modifiedRows }),
+            data: JSON.stringify({ tableData: tableData }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                alert("Cambios guardados correctamente.");
+                alert("Datos guardados exitosamente.");
             },
             error: function (response) {
-                alert("Error al guardar los cambios: " + response.responseText);
+                alert("Error al guardar los datos: " + response.responseText);
             }
         });
 
-        return false; // Para evitar el postback
+        return false; // Prevent default form submission
     }
 </script>
