@@ -5,14 +5,6 @@
 
 <!DOCTYPE html>
 <style>
-    #example {
-        text-align: center;
-    }
-
-        #example .demo-container {
-            display: inline-block;
-            text-align: left;
-        }
 
     .demo-container .RadUpload .ruUploadProgress {
         width: 210px;
@@ -76,6 +68,17 @@
         text-overflow: ellipsis;
         vertical-align: top;
     }
+
+    .label1 {
+        margin-left: 50px;
+        font-size:15px;
+    }
+    .label2{
+        font-size:18px;
+        margin-right:200px;
+        float:right;
+    }
+
 </style>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -93,7 +96,7 @@
             <%--<telerik:RadListBox RenderMode="Lightweight" runat="server" ID="SavedChangesList" Width="600px" Height="200px" Visible="false"></telerik:RadListBox>--%>
             <telerik:RadGrid RenderMode="Lightweight" ID="gridEvidencias" GridLines="None" runat="server"
                 CellSpacing="0" CellPadding="0" Font-Size="Smaller" Style="padding: 0; margin: 0 auto"
-                AllowAutomaticInserts="True" PageSize="10" AllowAutomaticUpdates="True" AllowPaging="True"
+                AllowAutomaticInserts="True" PageSize="10" AllowAutomaticUpdates="True" AllowPaging="True" OnItemCreated="gridEvidencias_ItemCreated"
                 AutoGenerateColumns="False" DataSourceID="SqlDataSource1" OnBatchEditCommand="gridEvidencias_BatchEditCommand" OnItemDataBound="gridEvidencias_ItemDataBound" ShowFooter="true">
 
                 <MasterTableView  CommandItemDisplay="Top"  EditMode="Batch" AutoGenerateColumns="False" CellPadding="0" CellSpacing="0">
@@ -102,6 +105,10 @@
                         <asp:Button ID="SaveChangesButton" runat="server" CommandName="BatchSave" Text="Guardar Cambios" />
                         <asp:Button ID="CancelChangesButton" runat="server" CommandName="BatchCancel" Text="Cancelar Cambios" />
                         <asp:Button ID="GuardarBorradorButton" OnClientClick="return guardarBorrador();" runat="server" Text="Guardar Borrador" />
+
+                        <asp:Label ID="nombreColaborador" CssClass="label1" runat="server" Text="Texto"></asp:Label>
+
+                        <asp:Label ID="mes" CssClass="label2" runat="server" Text="Texto"></asp:Label>
                     </CommandItemTemplate>
                     <Columns>
                         <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='20' UniqueName="indicadorId" DataField='indicadorId' SortExpression="indicadorId" HeaderText='ID' 
@@ -127,6 +134,8 @@
                     <ClientEvents OnBatchEditCellValueChanged="BatchEditCellValueChanged"/>
                 </ClientSettings>
             </telerik:RadGrid>
+             <!-- Hidden label to store the value from the database -->
+            <asp:Label ID="HiddenLabel" runat="server" Visible="false"></asp:Label>
         </div>
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Server=187.174.147.102; User ID=sa; password=similares*3; DataBase=Indicadores;"
             SelectCommand="select pli.pIndicadorId as indicadorId, pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, 
@@ -138,38 +147,38 @@
 
         </asp:SqlDataSource>
         <div class="demo-container no-bg">
-        <telerik:RadFormDecorator RenderMode="Lightweight" ID="FormDecorator1" runat="server" Skin="Office2007" DecoratedControls="Textbox, Buttons" />
+            <telerik:RadFormDecorator RenderMode="Lightweight" ID="FormDecorator1" runat="server" Skin="Office2007" DecoratedControls="Textbox, Buttons" />
  
-        <h3>Archivo Evidencia</h3>
+            <h3>Archivo Evidencia</h3>
  
-        <div class="uploaded-files">
-            <asp:Literal runat="server" ID="ltrNoResults" Visible="True" Text="<strong>No files uploaded</strong>" />
-            <asp:Repeater runat="server" ID="Repeater1">
-                <HeaderTemplate>
-                    <ul>
-                </HeaderTemplate>
-                <FooterTemplate></ul></FooterTemplate>
-                <ItemTemplate>
-                    <li>
-                        <dl>
-                            <dt>Nombre:</dt>
-                            <dd><%# DataBinder.Eval(Container.DataItem, "FileName").ToString() %></dd>
-                            <dt>Tamaño:</dt>
-                            <dd><%# DataBinder.Eval(Container.DataItem, "ContentLength").ToString() %></dd>
-                        </dl>
-                    </li>
-                </ItemTemplate>
-            </asp:Repeater>
+            <div class="uploaded-files">
+                <asp:Literal runat="server" ID="ltrNoResults" Visible="True" Text="<strong>No files uploaded</strong>" />
+                <asp:Repeater runat="server" ID="Repeater1">
+                    <HeaderTemplate>
+                        <ul>
+                    </HeaderTemplate>
+                    <FooterTemplate></ul></FooterTemplate>
+                    <ItemTemplate>
+                        <li>
+                            <dl>
+                                <dt>Nombre:</dt>
+                                <dd><%# DataBinder.Eval(Container.DataItem, "FileName").ToString() %></dd>
+                                <dt>Tamaño:</dt>
+                                <dd><%# DataBinder.Eval(Container.DataItem, "ContentLength").ToString() %></dd>
+                            </dl>
+                        </li>
+                    </ItemTemplate>
+                </asp:Repeater>
+            </div>
+ 
+            <telerik:RadAsyncUpload RenderMode="Lightweight" runat="server" ID="RadAsyncUpload1" OnClientFileUploading="onClientFileUploading" OnClientFileUploaded="onClientFileUploaded" OnFileUploaded="RadAsyncUpload1_FileUploaded"
+                MultipleFileSelection="Disabled" Skin="Office2007"  />
+ 
+            <p class="buttons">
+                <asp:Button runat="server" ID="button1" OnClick="button1_Click"  Text="Submit" />
+            </p>
+ 
         </div>
- 
-        <telerik:RadAsyncUpload RenderMode="Lightweight" runat="server" ID="RadAsyncUpload1" OnClientFileUploaded="onClientFileUploaded" OnFileUploaded="RadAsyncUpload1_FileUploaded"
-            MultipleFileSelection="Automatic" Skin="Office2007"  />
- 
-        <p class="buttons">
-            <asp:Button runat="server" ID="button1" OnClick="button1_Click"  Text="Submit" />
-        </p>
- 
-    </div>
 
     </form>
 </body>
@@ -287,5 +296,13 @@
             return label;
         }
     })();
+
+    function onClientFileUploading(sender, args) {//Validacion de mas de un archivo
+        var uploadedFiles = sender.getUploadedFiles();
+        if (uploadedFiles.length > 0) {
+            args.set_cancel(true);
+            alert("Solo un archivo puede ser seleccionado.");
+        }
+    }
 
 </script>

@@ -60,6 +60,15 @@ namespace IndicadoresFreyman.Indicadores
         protected global::Telerik.Web.UI.RadGrid gridEvidencias;
 
         /// <summary>
+        /// Control HiddenLabel.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label HiddenLabel;
+
+        /// <summary>
         /// Control SqlDataSource1.
         /// </summary>
         /// <remarks>

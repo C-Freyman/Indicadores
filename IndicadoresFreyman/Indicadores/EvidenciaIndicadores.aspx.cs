@@ -28,111 +28,64 @@ namespace IndicadoresFreyman.Indicadores
         {
             if (!IsPostBack)
             {
-                //string fileName = GetFileNameFromDatabase();
-                //if (!string.IsNullOrEmpty(fileName))
-                //{
-                //    // Mostrar el nombre del archivo en un control de texto
-                //    //lblFileName.Text = fileName;
-                //}
-
-                Session["UploadedFile"] = null;
-                Session["UploadedFileName"] = null;
+                BindRepeater();
+                LoadDataFromDatabase();
             }
- 
         }
 
-        private string GetFileNameFromDatabase()
+        private void LoadDataFromDatabase()
         {
-            string query = "SELECT nombreArchivo FROM Evidencia WHERE mes=1 and año=2024 and empleadoId=3246;";
-            string fileName = null;
+            string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=3246;";
 
-            using (SqlConnection connection = new SqlConnection(conn))
+            using (SqlConnection con = new SqlConnection(conn))
             {
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+                    con.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        fileName = reader["nombreArchivo"].ToString();
+                        // Assuming your data is a string
+                        string dataFromDb = reader["nombre"].ToString();
+                        HiddenLabel.Text = dataFromDb; // Assigning to a hidden label
                     }
                 }
             }
-
-            return fileName;
         }
 
+        private void BindRepeater()
+        {
+            DataTable dt = GetUploadedFiles();
+            if (dt.Rows.Count > 0)
+            {
+                ltrNoResults.Visible = false;
+                Repeater1.DataSource = dt;
+                Repeater1.DataBind();
+            }
+            else
+            {
+                ltrNoResults.Visible = true;
+            }
+        }
 
+        private DataTable GetUploadedFiles()
+        {
+            DataTable dt = new DataTable();
+            string query = "SELECT nombreArchivo as FileName, tamaño as ContentLength FROM Evidencia WHERE empleadoId = 3246 AND mes = 1 AND año = 2024";
 
-        //private bool CargarArchivo(FileUpload fileUpload)
-        //{
-        //    string path = Server.MapPath("~/Indicadores/");
-        //    bool fileOK = false;
+            using (SqlConnection con = new SqlConnection(conn))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                }
+            }
 
-        //    if (fileUpload.HasFile)
-        //    {
-        //        string fileExtension = System.IO.Path.GetExtension(fileUpload.FileName).ToLower();
-        //         string[] allowedExtensions = { ".jpeg", ".jpg", ".png", ".pdf" };
-        //        //string[] allowedExtensions = { ".pdf" };
+            return dt;
+        }
 
-        //        for (int i = 0; i < allowedExtensions.Length; i++)
-        //        {
-        //            if (fileExtension == allowedExtensions[i])
-        //            {
-        //                fileOK = true;
-        //                break;
-        //            }
-        //        }
-
-        //        if (fileOK)
-        //        {
-        //            byte[] fileBytes;
-        //            using (MemoryStream ms = new MemoryStream())
-        //            {
-        //                fileUpload.FileContent.CopyTo(ms);
-        //                fileBytes = ms.ToArray();
-        //            }
-        //            try
-        //            {
-        //                string nombreArchivo = fileUpload.FileName;
-        //                string query = "if not exists(select* from Evidencia where mes=1 and año=2024 and empleadoId=3246) " +
-        //                                    "begin " +
-        //                                    "insert into Evidencia values(3246,1,2024,'" + nombreArchivo + "',null,@archivo); " +
-        //                                "end " +
-        //                                "else " +
-        //                                    "begin " +
-        //                                    "update Evidencia set nombreArchivo='" + nombreArchivo + "', archivo=@archivo where empleadoId=3246 and mes=1 and año=2024 " +
-        //                                "end";
-
-        //                using (SqlConnection connection = new SqlConnection(conn))
-        //                {
-        //                    using (SqlCommand command = new SqlCommand(query, connection))
-        //                    {
-        //                        command.Parameters.Add("@archivo", SqlDbType.VarBinary).Value = fileBytes;
-
-        //                        connection.Open();
-        //                        command.ExecuteNonQuery();
-        //                    }
-        //                }
-
-
-        //            }
-        //            catch (Exception)
-        //            {
-        //                return false;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Response.Write("<script language='JavaScript'>alert('Este formato no es admitido. Solo se aceptan formato PDF');</script>");
-        //        }
-        //    }
-        //    else
-        //    {
-              
-        //    }
-        //    return true;
-        //}
 
         [WebMethod]
         public static void SaveEditorValue(string editorValue)
@@ -236,7 +189,7 @@ namespace IndicadoresFreyman.Indicadores
                     {
                         command.Connection = con;
                         command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
-                            "where indicadorId=(select indicadorId from Indicador where asignacionId=(select asignacionId from Asignacion where pIndicadorId=" + row.IndicadorId + ")) and mes=1 and año=2024";
+                            "where indicadorId=(select indicadorId from Indicador where asignacionId=(select asignacionId from Asignacion where pIndicadorId=" + row.IndicadorId + " and activo=1)) and mes=1 and año=2024";
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }   
@@ -264,14 +217,14 @@ namespace IndicadoresFreyman.Indicadores
             }
         }
 
-        //protected void archivos_Click(object sender, EventArgs e)
-        //{
-        //    CargarArchivo(FileUpload1);
-        //}
-
-
         protected void RadAsyncUpload1_FileUploaded(object sender, FileUploadedEventArgs e)
         {
+            if (RadAsyncUpload1.UploadedFiles.Count > 1)
+            {
+                // If more than one file is uploaded, show an error and return
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Solo se puede seleccionar un archivo');", true);
+                return;
+            }
             if (e.File != null)
             {
                 // Convert file to byte array
@@ -329,8 +282,26 @@ namespace IndicadoresFreyman.Indicadores
             }
             else
             {
-                ltrNoResults.Visible = true;
-                Repeater1.Visible = false;
+                //ltrNoResults.Visible = true;
+                //Repeater1.Visible = false;
+            }
+        }
+
+        protected void gridEvidencias_ItemCreated(object sender, GridItemEventArgs e)
+        {
+            if (e.Item is GridCommandItem)
+            {
+                Label labelNombre = (Label)e.Item.FindControl("nombreColaborador");
+                if (labelNombre != null)
+                {
+                    labelNombre.Text = "Nombre del Colaborador: " + HiddenLabel.Text;
+                }
+
+                Label mes = (Label)e.Item.FindControl("mes");
+                if (mes != null)
+                {
+                    mes.Text = DateTime.Now.ToString("MMMM-yyyy", new System.Globalization.CultureInfo("es-ES"));
+                }
             }
         }
     }
