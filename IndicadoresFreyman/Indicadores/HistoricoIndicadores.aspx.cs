@@ -35,24 +35,52 @@ namespace IndicadoresFreyman.Indicadores
 
                 // Seleccionar el mes anterior
                 RadDropDownList1.SelectedValue = mesAnteriorNumero.ToString();
+                LoadDataFromDatabase();
                 CargarDatos(1);
             }
         }
 
-        protected void gridHistorico_SortCommand(object sender, GridSortCommandEventArgs e)
+        private void LoadDataFromDatabase()//Datos del usuario
         {
+            string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["empleadoId"] + ";";
 
+            using (SqlConnection con = new SqlConnection(conn))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        // Assuming your data is a string
+                        string dataFromDb = reader["nombre"].ToString();
+                        HiddenLabel.Text = dataFromDb; // Assigning to a hidden label
+                    }
+                }
+            }
         }
 
-        protected void gridHistorico_PageIndexChanged(object sender, GridPageChangedEventArgs e)
+        public string CargarEstilosCumplimiento(decimal valor)//Estilos en columna Cumplimiento del Objetivo
         {
+            string estilo = "";
 
+            if (valor >= 90)
+            {
+                estilo = "badge badge-pill badge-success";
+            }
+            else if (valor >= 75)
+            {
+                estilo = "badge badge-pill badge-warning";
+            }
+            else
+            {
+                estilo = "badge badge-pill badge-danger";
+            }
+
+            return estilo;
         }
 
-        protected void gridHistorico_PageSizeChanged(object sender, GridPageSizeChangedEventArgs e)
-        {
 
-        }
         private void CargarDatos(int mes)
         {
             DataTable dt = new DataTable();
@@ -115,6 +143,58 @@ namespace IndicadoresFreyman.Indicadores
                         Response.Flush();
                         Response.End();
                     }
+                }
+            }
+        }
+
+        protected void gridHistorico_ItemDataBound(object sender, GridItemEventArgs e)
+        {
+            if (e.Item is GridFooterItem)
+            {
+                GridFooterItem footerItem = e.Item as GridFooterItem;
+                decimal totalEvaluacionPonderada = 0;
+
+                foreach (GridDataItem item in gridHistorico.MasterTableView.Items)
+                {
+                    if (decimal.TryParse(item["evaluacionPonderada"].Text, out decimal value))
+                    {
+                        totalEvaluacionPonderada += value;
+                    }
+                }
+                string resultado = "";
+
+                if (totalEvaluacionPonderada >= 90)
+                {
+                    resultado = "<span style='Font-size:17px' class='badge badge-success'>" + totalEvaluacionPonderada + "</span>";
+                }
+                else if (totalEvaluacionPonderada >= 80)
+                {
+                    resultado = "<span style='Font-size:17px' class='badge badge-warning'>" + totalEvaluacionPonderada + "</span>";
+                }
+                else
+                {
+                    resultado = "<span style='Font-size:17px' class='badge badge-danger'>" + totalEvaluacionPonderada + "</span>";
+                }
+                //footerItem["cumplimientoObjetivo"].Text = "Evaluación Mensual: ";
+                footerItem["cumplimientoObjetivo"].Text = "<div style='text-align: right;'>Evaluación Mensual: </div>";
+                footerItem["evaluacionPonderada"].Text = resultado;
+            }
+        }
+
+        protected void gridHistorico_ItemCreated(object sender, GridItemEventArgs e)
+        {
+            if (e.Item is GridCommandItem)
+            {
+                Label labelNombre = (Label)e.Item.FindControl("nombreColaborador");
+                if (labelNombre != null)
+                {
+                    labelNombre.Text = "Nombre del Colaborador: " + HiddenLabel.Text;
+                }
+
+                Label mes = (Label)e.Item.FindControl("mes");
+                if (mes != null)
+                {
+                    mes.Text = DateTime.Now.ToString("MMMM-yyyy", new System.Globalization.CultureInfo("es-ES"));
                 }
             }
         }
