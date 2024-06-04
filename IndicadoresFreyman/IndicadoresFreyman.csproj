@@ -44,6 +44,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -118,12 +121,17 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\pantallaDivida.css" />
     <Content Include="Global.asax" />
+
     <Content Include="js\bootstrap.bundle.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery-1.8.2.min.js" />
     <Content Include="js\jquery-1.8.3.min.js" />
     <Content Include="js\scripts.js" />
     <Content Include="Paramentros.aspx" />
+
+    <Content Include="Indicadores\EvidenciaIndicadores.aspx" />
+    <Content Include="Indicadores\HistoricoIndicadores.aspx" />
+
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +159,20 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Indicadores\EvidenciaIndicadores.aspx.cs">
+      <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Indicadores\EvidenciaIndicadores.aspx.designer.cs">
+      <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Indicadores\HistoricoIndicadores.aspx.cs">
+      <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Indicadores\HistoricoIndicadores.aspx.designer.cs">
+      <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
     </Compile>
     <Compile Include="MasterPage.Master.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
