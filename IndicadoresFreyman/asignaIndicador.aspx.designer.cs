@@ -11,17 +11,8 @@ namespace IndicadoresFreyman
 {
 
 
-    public partial class crearIndicador
+    public partial class asignaIndicador
     {
-
-        /// <summary>
-        /// Control RadSkinManager1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadSkinManager RadSkinManager1;
 
         /// <summary>
         /// Control divMsgs.
@@ -51,40 +42,40 @@ namespace IndicadoresFreyman
         protected global::System.Web.UI.WebControls.Label Label2;
 
         /// <summary>
-        /// Control RadWindowManager1.
+        /// Control ErrorMessageLabel.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadWindowManager RadWindowManager1;
+        protected global::System.Web.UI.WebControls.Label ErrorMessageLabel;
 
         /// <summary>
-        /// Control btnguardar.
+        /// Control lblSumPonderacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnguardar;
+        protected global::System.Web.UI.WebControls.Label lblSumPonderacion;
 
         /// <summary>
-        /// Control RadAjaxLoadingPanel1.
+        /// Control radGridEmpleados.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadAjaxLoadingPanel RadAjaxLoadingPanel1;
+        protected global::Telerik.Web.UI.RadGrid radGridEmpleados;
 
         /// <summary>
-        /// Control SavedChangesList.
+        /// Control SqlEmpleados.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadListBox SavedChangesList;
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlEmpleados;
 
         /// <summary>
         /// Control radIndicador.
@@ -114,6 +105,24 @@ namespace IndicadoresFreyman
         protected global::System.Web.UI.WebControls.SqlDataSource SqlTipo;
 
         /// <summary>
+        /// Control htntotal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField htntotal;
+
+        /// <summary>
+        /// Control hdneditar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdneditar;
+
+        /// <summary>
         /// Control hdnArea.
         /// </summary>
         /// <remarks>
@@ -123,12 +132,12 @@ namespace IndicadoresFreyman
         protected global::System.Web.UI.WebControls.HiddenField hdnArea;
 
         /// <summary>
-        /// Control hdnProyecto.
+        /// Control hdnEmpleado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnProyecto;
+        protected global::System.Web.UI.WebControls.HiddenField hdnEmpleado;
     }
 }

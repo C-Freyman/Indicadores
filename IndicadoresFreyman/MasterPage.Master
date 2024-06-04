@@ -14,6 +14,35 @@
         <div>
             <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                <telerik:RadSkinManager ID="RadSkinManager1" runat="server" ShowChooser="true" Visible="false" Skin="WebBlue" />
+       
+                    <telerik:RadMenu ID="RadIndicador" runat="server" RenderMode="Lightweight" EnableEmbeddedBaseStylesheet="true" EnableEmbeddedSkins="true" Flow="Horizontal"  Visible="false">
+                        <Items>
+                            <telerik:RadMenuItem Text="Crear indicador" NavigateUrl="crearIndicadores.aspx"></telerik:RadMenuItem>
+                            <telerik:RadMenuItem Text="Crear indicador" NavigateUrl="asignaIndicador.aspx"></telerik:RadMenuItem>
+                              
+                            <%--<telerik:RadMenuItem Text="Reportes">
+                                <GroupSettings Width="200px" />
+                                <Items>
+                                    <telerik:RadMenuItem Text="Crear indicador" NavigateUrl="crearIndicador.aspx"></telerik:RadMenuItem>
+                                    <telerik:RadMenuItem Text="Asignar indicador" NavigateUrl="asignaIndicador.aspx"></telerik:RadMenuItem>                                    
+
+
+                                </Items>
+                            </telerik:RadMenuItem>--%>
+
+                           
+
+
+                           
+
+                            
+
+                           
+                        </Items>
+                    </telerik:RadMenu>
+
+
             </asp:ContentPlaceHolder>
         </div>
     </form>
