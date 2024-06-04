@@ -174,6 +174,13 @@
 
     <Content Include="asignaIndicador.aspx" />
     <Content Include="crearIndicador.aspx" />
+
+    <Content Include="Default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="Log.aspx" />
+    <Content Include="Reportes\ReporteTableroHist.aspx" />
+    <Content Include="Reportes\ReporteTableroHistorico.aspx" />
+
     <Content Include="crearIndicadores.aspx" />
 
     <Content Include="css\bootstrap-icons.css" />
@@ -216,16 +223,33 @@
     <Compile Include="crearIndicador.aspx.designer.cs">
       <DependentUpon>crearIndicador.aspx</DependentUpon>
     </Compile>
+
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+
     <Compile Include="crearIndicadores.aspx.cs">
       <DependentUpon>crearIndicadores.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="crearIndicadores.aspx.designer.cs">
       <DependentUpon>crearIndicadores.aspx</DependentUpon>
+
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+
+    <Compile Include="Log.aspx.cs">
+      <DependentUpon>Log.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Log.aspx.designer.cs">
+      <DependentUpon>Log.aspx</DependentUpon>
+
     <Compile Include="Indicadores\EvidenciaIndicadores.aspx.cs">
       <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -239,6 +263,7 @@
     </Compile>
     <Compile Include="Indicadores\HistoricoIndicadores.aspx.designer.cs">
       <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
+
     </Compile>
     <Compile Include="MasterPage.Master.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
@@ -255,6 +280,20 @@
       <DependentUpon>Paramentros.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes\ReporteTableroHist.aspx.cs">
+      <DependentUpon>ReporteTableroHist.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteTableroHist.aspx.designer.cs">
+      <DependentUpon>ReporteTableroHist.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteTableroHistorico.aspx.cs">
+      <DependentUpon>ReporteTableroHistorico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteTableroHistorico.aspx.designer.cs">
+      <DependentUpon>ReporteTableroHistorico.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage.Master" />
@@ -285,7 +324,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+
+    <Folder Include="Imagenes\" />
+
     <Folder Include="css\.vs\css\v17\" />
+
     <Folder Include="Models\" />
     <Folder Include="NewFolder1\" />
   </ItemGroup>

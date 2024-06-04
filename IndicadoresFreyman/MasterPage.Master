@@ -1,17 +1,26 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="IndicadoresFreyman.MasterPage" %>
 
+<%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <!DOCTYPE html>
 
 <html>
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Sistema de Indicadores</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+    <style>
+        body {
+            font-family: Calibri;
+            margin: 0 auto;
+            padding: 0;
+        }
+    </style>
+
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
+        <%-- <div>
             <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                 <telerik:RadSkinManager ID="RadSkinManager1" runat="server" ShowChooser="true" Visible="false" Skin="WebBlue" />
@@ -43,6 +52,54 @@
                     </telerik:RadMenu>
 
 
+            </asp:ContentPlaceHolder>
+        </div>--%>
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div>
+            <telerik:RadSkinManager ID="RadSkinManager1" runat="server" ShowChooser="true" Visible="false" Skin="Vista" />
+            <div class="demo-container no-bg">
+                <telerik:RadMenu RenderMode="Lightweight" ID="RadMenu1" Style="float: none" CssClass="mainMenu" runat="server" ShowToggleHandle="true" EnableEmbeddedBaseStylesheet="true" EnableEmbeddedSkins="true" Flow="Horizontal">
+                    <Items>
+                        <telerik:RadMenuItem Text="ADMINISTRAR">
+                            <GroupSettings Width="250px" />
+                            <Items>
+                                <telerik:RadMenuItem Text="Crear Indicadores" NavigateUrl="" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Asignar Indicadores" NavigateUrl="" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
+                            </Items>
+                        </telerik:RadMenuItem>
+                        <%--<telerik:RadMenuItem Text="SOLICITAR VACACIONES" NavigateUrl="/VacacionesAD/Solicitud_M.aspx" EnableImageSprite="true" />--%>
+                        <telerik:RadMenuItem Text="INDICADORES">
+                            <GroupSettings Width="250px" />
+                            <Items>
+                                <telerik:RadMenuItem Text="Subir Indicadores" NavigateUrl="" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Histórico Indicadores" NavigateUrl="" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
+                            </Items>
+                        </telerik:RadMenuItem>
+                        <telerik:RadMenuItem Text="REPORTES">
+                            <GroupSettings Width="250px" />
+                            <Items>
+                                <telerik:RadMenuItem Text="Tablero Indicadores" NavigateUrl="/Reportes/ReporteTableroHist.aspx" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="RRHH" NavigateUrl="" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
+                            </Items>
+                        </telerik:RadMenuItem>
+                    </Items>
+                </telerik:RadMenu>
+                <div onclick="document.getElementById(btnDeslog').click();" style="position: absolute; margin-top: -30px; margin-left: 90%; z-index: 10000">
+                    <table>
+                        <tr>
+                            <td>
+                                <asp:ImageButton ID="btnDeslog" ImageUrl="~/Imagenes/LogF_.png" Width="30px" Style="margin-right: 85%" runat="server" OnClick="btnDeslog_Click" /></td>
+                            <td>
+                                <%--<span style="color: dimgray; cursor: pointer">SALIR</span>--%>
+                                <asp:Button ID="btnSalir" runat="server" Text="SALIR" OnClick="btnSalir_Click" Style="margin: 0px; padding: 0px; border: none; background-color: transparent; color: white; cursor: pointer" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <asp:PlaceHolder runat="server" ID="Content" />
+
+            </div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
         </div>
     </form>
