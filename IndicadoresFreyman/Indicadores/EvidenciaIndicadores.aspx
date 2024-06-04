@@ -102,7 +102,7 @@
                 <MasterTableView  CommandItemDisplay="Top"  EditMode="Batch" AutoGenerateColumns="False" CellPadding="0" CellSpacing="0">
                     <CommandItemSettings ShowAddNewRecordButton="false"  />
                     <CommandItemTemplate>                        
-                        <asp:Button ID="SaveChangesButton" runat="server" CommandName="BatchSave" Text="Guardar Cambios" />
+                        <asp:Button ID="SaveChangesButton" runat="server" OnClientClick="return cerrarCambios();" Text="Cerrar Indicadores" />
                         <asp:Button ID="CancelChangesButton" runat="server" CommandName="BatchCancel" Text="Cancelar Cambios" />
                         <asp:Button ID="GuardarBorradorButton" OnClientClick="return guardarBorrador();" runat="server" Text="Guardar Borrador" />
 
@@ -140,14 +140,16 @@
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Server=187.174.147.102; User ID=sa; password=similares*3; DataBase=Indicadores;"
             SelectCommand="select pli.pIndicadorId as indicadorId, pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, 
                             isnull(cumplimientoOBjetivo,0)as cumplimientoObjetivo, isnull(evaluacionPonderada,0)as evaluacionPonderada from Indicador i 
-                            left join Asignacion a on i.asignacionId=a.asignacionId
-                            left join PlantillaIndicador pli on pli.pIndicadorId=a.pIndicadorId
+                            left join PlantillaIndicador pli on pli.pIndicadorId=i.pIndicadorId
                             left join resultadoIndicador e on i.IndicadorId=e.indicadorId 
-                            where a.empleadoId=3246 and mes=1;">
-
+                            where empleadoId=@empleadoId and  mes=1;">
+            <SelectParameters>
+                    <asp:SessionParameter Name="empleadoId" SessionField="empleadoId" Type="Int32" />
+                    <asp:Parameter Name="mes" Type="Int32" />
+            </SelectParameters>
         </asp:SqlDataSource>
         <div class="demo-container no-bg">
-            <telerik:RadFormDecorator RenderMode="Lightweight" ID="FormDecorator1" runat="server" Skin="Office2007" DecoratedControls="Textbox, Buttons" />
+            <telerik:RadFormDecorator RenderMode="Lightweight" ID="FormDecorator1" runat="server" DecoratedControls="Textbox, Buttons" />
  
             <h3>Archivo Evidencia</h3>
  
@@ -172,10 +174,10 @@
             </div>
  
             <telerik:RadAsyncUpload RenderMode="Lightweight" runat="server" ID="RadAsyncUpload1" OnClientFileUploading="onClientFileUploading" OnClientFileUploaded="onClientFileUploaded" OnFileUploaded="RadAsyncUpload1_FileUploaded"
-                MultipleFileSelection="Disabled" Skin="Office2007"  />
+                MultipleFileSelection="Disabled" />
  
             <p class="buttons">
-                <asp:Button runat="server" ID="button1" OnClick="button1_Click"  Text="Submit" />
+                <asp:Button runat="server" ID="button1" OnClick="button1_Click"  Text="Guardar Archivo" />
             </p>
  
         </div>
@@ -217,7 +219,6 @@
                 evaluacionPonderadaCell.innerText = evaluacionPonderada.toFixed(2);
 
                 console.log("Values saved successfully");
-                /*updateFooterTotal();*/
             },
             error: function (response) {
                 // Manejar el error
@@ -234,10 +235,6 @@
         var rows = masterTableView.get_dataItems();
         var tableData = []; 
 
-        var fileInput = document.getElementById('FileUploadControl');
-        if (fileInput != null) {
-            var file = fileInput.files[0];
-        }
 
         for (var i = 0; i < rows.length; i++) {
             var cells = rows[i].get_element().cells;
@@ -272,6 +269,54 @@
                 return false;
             }
         });
+
+        return false; // Prevent default form submission
+    }
+
+    function cerrarCambios() {
+        var seleccion = confirm("¿Desea cerrar los indicadores del mes? \n\n\tYa no podrá realizar cambios.");
+
+        if (seleccion) {
+            var grid = $find("<%= gridEvidencias.ClientID %>");
+            var masterTableView = grid.get_masterTableView();
+            var rows = masterTableView.get_dataItems();
+            var tableData = [];
+
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].get_element().cells;
+                //if (cells[6].innerText.trim()!='0.00') {
+                var rowData = {
+                    indicadorId: cells[0].innerText.trim(),
+                    resultado: cells[5].innerText.trim(),
+                    cumplimientoObjetivo: cells[6].innerText.trim(),
+                    evaluacionPonderada: cells[7].innerText.trim()
+                };
+                tableData.push(rowData);
+                //}
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "EvidenciaIndicadores.aspx/CerrarCambios",
+                data: JSON.stringify({ tableData: tableData }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    var grid = $find("<%= gridEvidencias.ClientID %>");
+                    if (grid) {
+                        grid.get_masterTableView().rebind();
+                    }
+
+                    return true;
+                },
+                error: function (response) {
+                    alert("Error al guardar los datos: " + response.responseText);
+                    return false;
+                }
+            });
+        }
+        
 
         return false; // Prevent default form submission
     }

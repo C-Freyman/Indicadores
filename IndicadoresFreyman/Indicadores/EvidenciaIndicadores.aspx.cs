@@ -17,6 +17,8 @@ using System.Web.UI.HtmlControls;
 using Newtonsoft.Json;
 using Telerik.Web.UI.Chat;
 using System.Runtime.InteropServices.ComTypes;
+using Telerik.Web.UI.PivotGrid.Queryable.Groups;
+using System.Drawing;
 
 namespace IndicadoresFreyman.Indicadores
 {
@@ -26,16 +28,45 @@ namespace IndicadoresFreyman.Indicadores
         
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             if (!IsPostBack)
             {
+                Session["empleadoId"] = "3246";
                 BindRepeater();
                 LoadDataFromDatabase();
+                SqlDataSource1.SelectParameters["mes"].DefaultValue = DateTime.Now.Month.ToString();
+                ValidacionIndicadoresCerrado();
+            }
+        }
+
+        private void ValidacionIndicadoresCerrado()
+        {
+            string query = "select top 1  isnull(cast(fechaCerrado as varchar(10)),'1') as fechaCerrado from resultadoIndicador ri left join Indicador i on ri.indicadorId=i.IndicadorId where mes=1 and empleadoId=" + Session["empleadoId"];
+            string cerrado = "";
+            using (SqlConnection con = new SqlConnection(conn))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        cerrado = reader["fechaCerrado"].ToString();
+                    }
+                }
+            }
+            if (cerrado != "1")
+            {
+                (gridEvidencias.MasterTableView.GetColumn("resultado") as GridBoundColumn).ReadOnly = true;
+                gridEvidencias.MasterTableView.GetColumn("resultado").ItemStyle.BackColor = ColorTranslator.FromHtml("#74C99B");
+                RadAsyncUpload1.Visible = false;
+                button1.Visible = false;
             }
         }
 
         private void LoadDataFromDatabase()
         {
-            string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=3246;";
+            string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["empleadoId"] + ";";
 
             using (SqlConnection con = new SqlConnection(conn))
             {
@@ -55,7 +86,8 @@ namespace IndicadoresFreyman.Indicadores
 
         private void BindRepeater()
         {
-            DataTable dt = GetUploadedFiles();
+
+            DataTable dt = GetUploadedFiles(DateTime.Now.Month, DateTime.Now.Year);
             if (dt.Rows.Count > 0)
             {
                 ltrNoResults.Visible = false;
@@ -68,10 +100,10 @@ namespace IndicadoresFreyman.Indicadores
             }
         }
 
-        private DataTable GetUploadedFiles()
+        private DataTable GetUploadedFiles(int mes, int año)
         {
             DataTable dt = new DataTable();
-            string query = "SELECT nombreArchivo as FileName, tamaño as ContentLength FROM Evidencia WHERE empleadoId = 3246 AND mes = 1 AND año = 2024";
+            string query = "SELECT nombreArchivo as FileName, tamaño as ContentLength FROM Evidencia WHERE empleadoId =  " + Session["empleadoId"] + " AND mes = 1 AND año =" + año;
 
             using (SqlConnection con = new SqlConnection(conn))
             {
@@ -154,7 +186,7 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     command.Connection = con;
                     command.CommandText = "select pli.esAscendente, pli.TipoId,i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli" +
-                        " left join Asignacion a on pli.pIndicadorId=a.pIndicadorId left join Indicador i on a.asignacionId=i.asignacionId where pli.pIndicadorId=" + id + ";";
+                        " left join Indicador i on pli.pIndicadorId=i.pIndicadorId where pli.pIndicadorId=" + id + ";";
                     command.CommandType = CommandType.Text;
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -189,13 +221,35 @@ namespace IndicadoresFreyman.Indicadores
                     {
                         command.Connection = con;
                         command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
-                            "where indicadorId=(select indicadorId from Indicador where asignacionId=(select asignacionId from Asignacion where pIndicadorId=" + row.IndicadorId + " and activo=1)) and mes=1 and año=2024";
+                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " ) and mes=1 and año=2024 and fechaCerrado is null";
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }   
                 }
             }
         }
+
+        [WebMethod]
+        public static void cerrarCambios(List<MyDataModel> tableData)
+        {
+
+            using (var con = new SqlConnection(conn))
+            {
+                con.Open();
+                foreach (var row in tableData)
+                {
+                    using (var command = new SqlCommand())
+                    {
+                        command.Connection = con;
+                        command.CommandText = "update resultadoIndicador set fechaCerrado=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
+                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " ) and mes=1 and año=2024";
+                        command.CommandType = CommandType.Text;
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
 
         protected void gridEvidencias_ItemDataBound(object sender, GridItemEventArgs e)
         {
@@ -239,14 +293,15 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     string nombreArchivo = e.File.FileName;
                     long tamaño = e.File.ContentLength;
-                    string query = "if not exists(select* from Evidencia where mes=1 and año=2024 and empleadoId=3246) " +
+                    string query = "if (select top 1 fechaCerrado from resultadoIndicador where mes=" + DateTime.Now.Month + " and año=2024 and indicadorId=(select top 1 indicadorId from Indicador where empleadoId=3246 and activo=1)) is not null begin " +
+                                    "if not exists(select* from Evidencia where mes=1 and año=2024 and empleadoId=" + Session["empleadoId"] + ") " +
                                         "begin " +
                                         "insert into Evidencia values(3246,1,2024,'" + nombreArchivo + "',null,@archivo," + tamaño + "); " +
                                     "end " +
                                     "else " +
                                         "begin " +
-                                        "update Evidencia set nombreArchivo='" + nombreArchivo + "', archivo=@archivo, tamaño=" + tamaño + " where empleadoId=3246 and mes=1 and año=2024 " +
-                                    "end";
+                                        "update Evidencia set nombreArchivo='" + nombreArchivo + "', archivo=@archivo, tamaño=" + tamaño + " where empleadoId=" + Session["empleadoId"] + " and mes=1 and año=2024 " +
+                                    "end end";
 
                     using (SqlConnection connection = new SqlConnection(conn))
                     {

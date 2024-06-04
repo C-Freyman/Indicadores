@@ -19,6 +19,7 @@ namespace IndicadoresFreyman.Indicadores
         {
             if (!IsPostBack)
             {
+                Session["empleadoId"] = "3246";
                 // Obtener el mes anterior
                 DateTime mesAnterior = DateTime.Now.AddMonths(-1);
                 int mesAnteriorNumero = mesAnterior.Month;
@@ -56,8 +57,8 @@ namespace IndicadoresFreyman.Indicadores
         {
             DataTable dt = new DataTable();
             string query = "select pli.pIndicadorId as indicadorId, pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
-                "isnull(cumplimientoOBjetivo,0)as cumplimientoObjetivo, isnull(evaluacionPonderada,0)as evaluacionPonderada from Indicador i left join Asignacion a on i.asignacionId=a.asignacionId " +
-                "left join PlantillaIndicador pli on pli.pIndicadorId=a.pIndicadorId left join resultadoIndicador e on i.IndicadorId=e.indicadorId where a.empleadoId=3246 and mes=" + mes + ";";
+                "isnull(cumplimientoOBjetivo,0)as cumplimientoObjetivo, isnull(evaluacionPonderada,0)as evaluacionPonderada from Indicador i " +
+                "left join PlantillaIndicador pli on pli.pIndicadorId=i.pIndicadorId left join resultadoIndicador e on i.IndicadorId=e.indicadorId where empleadoId=" + Session["empleadoId"] + " and mes=" + mes + ";";
 
             using (SqlConnection con = new SqlConnection(conn))
             {
@@ -83,6 +84,39 @@ namespace IndicadoresFreyman.Indicadores
             int mesSeleccionado = int.Parse(selectedValue);
 
             CargarDatos(mesSeleccionado);
+        }
+
+        protected void btnDescargarArchivo_Click(object sender, EventArgs e)
+        {
+            int selectedMonth = int.Parse(RadDropDownList1.SelectedValue);
+            DescargarArchivo(selectedMonth);
+
+        }
+        private void DescargarArchivo(int mes)
+        {
+            string query = "select nombreArchivo, archivo from Evidencia where empleadoId=" + Session["empleadoId"] + " and mes=" + mes + " and año=2024;";
+
+            using (SqlConnection conn_ = new SqlConnection(conn))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn_))
+                {
+                    conn_.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        string fileName = reader["nombreArchivo"].ToString();
+                        byte[] fileData = (byte[])reader["archivo"];
+
+                        // Enviar el archivo al cliente
+                        Response.Clear();
+                        Response.AddHeader("Content-Disposition", $"attachment; filename={fileName}");
+                        Response.OutputStream.Write(fileData, 0, fileData.Length);
+                        Response.Flush();
+                        Response.End();
+                    }
+                }
+            }
         }
     }
 }
