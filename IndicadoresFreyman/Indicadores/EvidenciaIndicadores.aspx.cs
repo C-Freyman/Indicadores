@@ -39,21 +39,21 @@ namespace IndicadoresFreyman.Indicadores
             }
         }
 
-        public string CargarEstilosCumplimiento(decimal valor)
+        public string CargarEstilosCumplimiento(decimal valor)//Estilos en columna Cumplimiento del Objetivo
             {
             string estilo = "";
 
             if (valor >= 90)
             {
-                estilo = "badge rounded-pill bg-success";
+                estilo = "badge badge-pill badge-success";
             }
             else if (valor >= 75)
             {
-                estilo = "badge rounded-pill bg-warning";
+                estilo = "badge badge-pill badge-warning";
             }
             else
             {
-                estilo = "badge rounded-pill bg-danger";
+                estilo = "badge badge-pill badge-danger";
             }
 
             return estilo;
@@ -84,7 +84,7 @@ namespace IndicadoresFreyman.Indicadores
             }
         }
 
-        private void LoadDataFromDatabase()
+        private void LoadDataFromDatabase()//Datos del usuario
         {
             string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["empleadoId"] + ";";
 
@@ -104,7 +104,7 @@ namespace IndicadoresFreyman.Indicadores
             }
         }
 
-        private void BindRepeater()
+        private void BindRepeater()//Datos del mes
         {
 
             DataTable dt = GetUploadedFiles(DateTime.Now.Month, DateTime.Now.Year);
@@ -286,8 +286,23 @@ namespace IndicadoresFreyman.Indicadores
                         totalEvaluacionPonderada += value;
                     }
                 }
+                string resultado = "";
 
-                footerItem["evaluacionPonderada"].Text = "Evaluación Mensual: " + totalEvaluacionPonderada.ToString("N2");
+                if (totalEvaluacionPonderada >= 90)
+                {
+                    resultado = "<span style='Font-size:17px' class='badge badge-success'>" + totalEvaluacionPonderada + "</span>";
+                }
+                else if (totalEvaluacionPonderada >= 80)
+                {
+                    resultado = "<span style='Font-size:17px' class='badge badge-warning'>" + totalEvaluacionPonderada + "</span>";
+                }
+                else
+                {
+                    resultado = "<span style='Font-size:17px' class='badge badge-danger'>" + totalEvaluacionPonderada + "</span>";
+                }
+                //footerItem["cumplimientoObjetivo"].Text = "Evaluación Mensual: ";
+                footerItem["cumplimientoObjetivo"].Text = "<div style='text-align: right;'>Evaluación Mensual: </div>";
+                footerItem["evaluacionPonderada"].Text = resultado;
             }
         }
 
