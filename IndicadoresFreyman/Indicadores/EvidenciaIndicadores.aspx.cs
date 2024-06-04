@@ -39,6 +39,26 @@ namespace IndicadoresFreyman.Indicadores
             }
         }
 
+        public string CargarEstilosCumplimiento(decimal valor)
+            {
+            string estilo = "";
+
+            if (valor >= 90)
+            {
+                estilo = "badge rounded-pill bg-success";
+            }
+            else if (valor >= 75)
+            {
+                estilo = "badge rounded-pill bg-warning";
+            }
+            else
+            {
+                estilo = "badge rounded-pill bg-danger";
+            }
+
+            return estilo;
+        }
+
         private void ValidacionIndicadoresCerrado()
         {
             string query = "select top 1  isnull(cast(fechaCerrado as varchar(10)),'1') as fechaCerrado from resultadoIndicador ri left join Indicador i on ri.indicadorId=i.IndicadorId where mes=1 and empleadoId=" + Session["empleadoId"];
@@ -267,7 +287,7 @@ namespace IndicadoresFreyman.Indicadores
                     }
                 }
 
-                footerItem["evaluacionPonderada"].Text = "TOTAL: " + totalEvaluacionPonderada.ToString("N2");
+                footerItem["evaluacionPonderada"].Text = "Evaluación Mensual: " + totalEvaluacionPonderada.ToString("N2");
             }
         }
 

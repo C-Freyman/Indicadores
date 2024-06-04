@@ -84,6 +84,10 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="../js/bootstrap.bundle.js" type="text/javascript"></script>
+<link href="../css/bootstrap.css" rel="stylesheet" />
+<link href="../css/bootstrap-icons.css" rel="stylesheet" />
     <title></title>
 </head>
 <body>
@@ -123,8 +127,12 @@
                             HeaderText='IndicadorDeseable' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
                         <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='20' UniqueName="resultado" DataField='resultado' SortExpression="resultado" HeaderText='Resultado' 
                             ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" ItemStyle-BackColor="#BFBBBB"></telerik:GridBoundColumn>
-                        <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='20' UniqueName="cumplimientoObjetivo" DataField='cumplimientoObjetivo' SortExpression="cumplimientoObjetivo" 
-                            HeaderText='CumplimientoObjetivo' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
+                        <telerik:GridTemplateColumn  FilterControlWidth='80%' HeaderStyle-Width='20' UniqueName="cumplimientoObjetivo" DataField='cumplimientoObjetivo' SortExpression="cumplimientoObjetivo" 
+                            HeaderText='CumplimientoObjetivo' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="false" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center">
+                                <ItemTemplate>
+                                    <span class='<%# CargarEstilosCumplimiento(Convert.ToDecimal(Eval("cumplimientoObjetivo")))%>'>  <%# Eval("cumplimientoObjetivo") %></span>
+                                </ItemTemplate>
+                        </telerik:GridTemplateColumn>
                         <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='50' UniqueName="evaluacionPonderada" DataField='evaluacionPonderada' SortExpression="evaluacionPonderada"
                             HeaderText='EvaluacionPonderada' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true"  HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
                     </Columns>
