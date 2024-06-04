@@ -11,17 +11,8 @@ namespace IndicadoresFreyman
 {
 
 
-    public partial class crearIndicador
+    public partial class crearIndicadores
     {
-
-        /// <summary>
-        /// Control RadSkinManager1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadSkinManager RadSkinManager1;
 
         /// <summary>
         /// Control divMsgs.
@@ -60,40 +51,13 @@ namespace IndicadoresFreyman
         protected global::Telerik.Web.UI.RadWindowManager RadWindowManager1;
 
         /// <summary>
-        /// Control btnguardar.
+        /// Control radGridIndicador.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnguardar;
-
-        /// <summary>
-        /// Control RadAjaxLoadingPanel1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadAjaxLoadingPanel RadAjaxLoadingPanel1;
-
-        /// <summary>
-        /// Control SavedChangesList.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadListBox SavedChangesList;
-
-        /// <summary>
-        /// Control radIndicador.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadGrid radIndicador;
+        protected global::Telerik.Web.UI.RadGrid radGridIndicador;
 
         /// <summary>
         /// Control SqlIndicador.

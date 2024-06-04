@@ -44,6 +44,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -110,12 +113,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+
     <Content Include="bin\EnvDTE.dll" />
+    <Content Include="bin\EnvDTE.xml" />
     <Content Include="bin\IndicadoresFreyman.dll" />
     <Content Include="bin\IndicadoresFreyman.pdb" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
     <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
     <Content Include="bin\roslyn\csc.exe" />
     <Content Include="bin\roslyn\csi.exe" />
     <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
@@ -157,30 +163,58 @@
     <Content Include="bin\roslyn\VBCSCompiler.exe" />
     <Content Include="bin\stdole.dll" />
     <Content Include="bin\Telerik.Web.Design.dll" />
-    <Content Include="bin\Telerik.Web.Device.Detection.dll" />
-    <Content Include="bin\Telerik.Web.Spreadsheet.dll" />
-    <Content Include="bin\Telerik.Web.Spreadsheet.xml" />
     <Content Include="bin\Telerik.Web.UI.dll" />
     <Content Include="bin\Telerik.Web.UI.Skins.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Core.dll" />
-    <Content Include="bin\Telerik.Windows.Documents.Core.xml" />
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll" />
-    <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.xml" />
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.xml" />
     <Content Include="bin\Telerik.Windows.Zip.dll" />
-    <Content Include="bin\Telerik.Windows.Zip.Extensions.dll" />
-    <Content Include="bin\Telerik.Windows.Zip.Extensions.xml" />
-    <Content Include="bin\Telerik.Windows.Zip.xml" />
     <Content Include="crearIndicador.aspx" />
+
+    <Content Include="asignaIndicador.aspx" />
+    <Content Include="crearIndicador.aspx" />
+
+    <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="obj\Debug\IndicadoresFreyman.csproj.FileListAbsolute.txt" />
-    <Content Include="obj\Debug\IndicadoresFreyman.dll" />
-    <Content Include="obj\Debug\indicadoresfreyman.dll.licenses" />
-    <Content Include="obj\Debug\IndicadoresFreyman.pdb" />
+    <Content Include="Log.aspx" />
+    <Content Include="Reportes\ReporteTableroHist.aspx" />
+    <Content Include="Reportes\ReporteTableroHistorico.aspx" />
+
+    <Content Include="crearIndicadores.aspx" />
+
+    <Content Include="css\bootstrap-icons.css" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\pantallaDivida.css" />
+    <Content Include="Global.asax" />
+
+    <Content Include="js\bootstrap.bundle.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\jquery-1.8.2.min.js" />
+    <Content Include="js\jquery-1.8.3.min.js" />
+    <Content Include="js\scripts.js" />
+    <Content Include="Paramentros.aspx" />
+
+    <Content Include="Indicadores\EvidenciaIndicadores.aspx" />
+    <Content Include="Indicadores\HistoricoIndicadores.aspx" />
+
+    <Content Include="js\bootstrap.bundle.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\jquery-1.8.2.min.js" />
+    <Content Include="js\jquery-1.8.3.min.js" />
+    <Content Include="js\scripts.js" />
+
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="asignaIndicador.aspx.cs">
+      <DependentUpon>asignaIndicador.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="asignaIndicador.aspx.designer.cs">
+      <DependentUpon>asignaIndicador.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Conexion.cs" />
     <Compile Include="crearIndicador.aspx.cs">
       <DependentUpon>crearIndicador.aspx</DependentUpon>
@@ -189,8 +223,47 @@
     <Compile Include="crearIndicador.aspx.designer.cs">
       <DependentUpon>crearIndicador.aspx</DependentUpon>
     </Compile>
+
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+
+    <Compile Include="crearIndicadores.aspx.cs">
+      <DependentUpon>crearIndicadores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="crearIndicadores.aspx.designer.cs">
+      <DependentUpon>crearIndicadores.aspx</DependentUpon>
+
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+
+    <Compile Include="Log.aspx.cs">
+      <DependentUpon>Log.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Log.aspx.designer.cs">
+      <DependentUpon>Log.aspx</DependentUpon>
+
+    <Compile Include="Indicadores\EvidenciaIndicadores.aspx.cs">
+      <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Indicadores\EvidenciaIndicadores.aspx.designer.cs">
+      <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Indicadores\HistoricoIndicadores.aspx.cs">
+      <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Indicadores\HistoricoIndicadores.aspx.designer.cs">
+      <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
+
     </Compile>
     <Compile Include="MasterPage.Master.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
@@ -199,11 +272,32 @@
     <Compile Include="MasterPage.Master.designer.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
     </Compile>
-    <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Include="Paramentros.aspx.cs">
+      <DependentUpon>Paramentros.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paramentros.aspx.designer.cs">
+      <DependentUpon>Paramentros.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes\ReporteTableroHist.aspx.cs">
+      <DependentUpon>ReporteTableroHist.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteTableroHist.aspx.designer.cs">
+      <DependentUpon>ReporteTableroHist.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteTableroHistorico.aspx.cs">
+      <DependentUpon>ReporteTableroHistorico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteTableroHistorico.aspx.designer.cs">
+      <DependentUpon>ReporteTableroHistorico.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage.Master" />
+
     <Content Include="bin\IndicadoresFreyman.dll.config" />
     <Content Include="bin\roslyn\csc.exe.config" />
     <Content Include="bin\roslyn\csc.rsp" />
@@ -215,11 +309,11 @@
     <Content Include="bin\roslyn\vbc.exe.config" />
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <Content Include="obj\Debug\Indicado.5176FAF1.Up2Date" />
-    <Content Include="obj\Debug\IndicadoresFreyman.csproj.AssemblyReference.cache" />
-    <Content Include="obj\Debug\IndicadoresFreyman.csproj.CoreCompileInputs.cache" />
+    <Content Include="css\.vs\slnx.sqlite" />
+    <Content Include="css\.vs\VSWorkspaceState.json" />
+
+    <Content Include="css\fonts\bootstrap-icons.woff" />
+    <Content Include="css\fonts\bootstrap-icons.woff2" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -230,9 +324,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+
     <Folder Include="Imagenes\" />
+
+    <Folder Include="css\.vs\css\v17\" />
+
     <Folder Include="Models\" />
-    <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
