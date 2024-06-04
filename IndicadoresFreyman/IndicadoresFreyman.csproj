@@ -44,6 +44,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -113,6 +116,7 @@
     <Content Include="crearIndicador.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Indicadores\EvidenciaIndicadores.aspx" />
+    <Content Include="Indicadores\HistoricoIndicadores.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +137,13 @@
     </Compile>
     <Compile Include="Indicadores\EvidenciaIndicadores.aspx.designer.cs">
       <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Indicadores\HistoricoIndicadores.aspx.cs">
+      <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Indicadores\HistoricoIndicadores.aspx.designer.cs">
+      <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
     </Compile>
     <Compile Include="MasterPage.Master.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
