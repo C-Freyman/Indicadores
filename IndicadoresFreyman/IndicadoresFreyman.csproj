@@ -113,7 +113,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-
     <Content Include="bin\EnvDTE.dll" />
     <Content Include="bin\EnvDTE.xml" />
     <Content Include="bin\IndicadoresFreyman.dll" />
@@ -171,33 +170,34 @@
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.xml" />
     <Content Include="bin\Telerik.Windows.Zip.dll" />
     <Content Include="crearIndicador.aspx" />
-
     <Content Include="asignaIndicador.aspx" />
     <Content Include="crearIndicador.aspx" />
-    <Content Include="crearIndicadores.aspx" />
 
+    <Content Include="Default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="Log.aspx" />
+    <Content Include="Reportes\ReporteTableroHist.aspx" />
+    <Content Include="Reportes\ReporteTableroHistorico.aspx" />
+
+    <Content Include="crearIndicadores.aspx" />
     <Content Include="css\bootstrap-icons.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\pantallaDivida.css" />
     <Content Include="Global.asax" />
-
     <Content Include="js\bootstrap.bundle.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery-1.8.2.min.js" />
     <Content Include="js\jquery-1.8.3.min.js" />
     <Content Include="js\scripts.js" />
     <Content Include="Paramentros.aspx" />
-
     <Content Include="Indicadores\EvidenciaIndicadores.aspx" />
     <Content Include="Indicadores\HistoricoIndicadores.aspx" />
-
     <Content Include="js\bootstrap.bundle.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery-1.8.2.min.js" />
     <Content Include="js\jquery-1.8.3.min.js" />
     <Content Include="js\scripts.js" />
-
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +216,16 @@
     <Compile Include="crearIndicador.aspx.designer.cs">
       <DependentUpon>crearIndicador.aspx</DependentUpon>
     </Compile>
+
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+		<SubType>ASPXCodeBehind</SubType>
+	</Compile>
+
     <Compile Include="crearIndicadores.aspx.cs">
       <DependentUpon>crearIndicadores.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -226,6 +236,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+
+    <Compile Include="Log.aspx.cs">
+      <DependentUpon>Log.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Log.aspx.designer.cs">
+      <DependentUpon>Log.aspx</DependentUpon>
+		<SubType>ASPXCodeBehind</SubType>
+	</Compile>
     <Compile Include="Indicadores\EvidenciaIndicadores.aspx.cs">
       <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -247,6 +266,7 @@
     <Compile Include="MasterPage.Master.designer.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
     </Compile>
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="Paramentros.aspx.cs">
       <DependentUpon>Paramentros.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -258,7 +278,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage.Master" />
-
     <Content Include="bin\IndicadoresFreyman.dll.config" />
     <Content Include="bin\roslyn\csc.exe.config" />
     <Content Include="bin\roslyn\csc.rsp" />
@@ -272,7 +291,6 @@
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <Content Include="css\.vs\slnx.sqlite" />
     <Content Include="css\.vs\VSWorkspaceState.json" />
-
     <Content Include="css\fonts\bootstrap-icons.woff" />
     <Content Include="css\fonts\bootstrap-icons.woff2" />
     <None Include="packages.config" />
@@ -285,7 +303,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+
+    <Folder Include="Imagenes\" />
+
     <Folder Include="css\.vs\css\v17\" />
+
     <Folder Include="Models\" />
     <Folder Include="NewFolder1\" />
   </ItemGroup>
