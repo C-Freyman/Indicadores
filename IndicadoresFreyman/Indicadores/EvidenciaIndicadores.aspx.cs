@@ -61,7 +61,7 @@ namespace IndicadoresFreyman.Indicadores
 
         private void ValidacionIndicadoresCerrado()
         {
-            string query = "select top 1  isnull(cast(fechaCerrado as varchar(10)),'1') as fechaCerrado from resultadoIndicador ri left join Indicador i on ri.indicadorId=i.IndicadorId where mes=1 and empleadoId=" + Session["empleadoId"];
+            string query = "select top 1  isnull(cast(fechaCerrado as varchar(10)),'1') as fechaCerrado from resultadoIndicador ri left join Indicador i on ri.indicadorId=i.IndicadorId where mes=6 and empleadoId=" + Session["empleadoId"];
             string cerrado = "";
             using (SqlConnection con = new SqlConnection(conn))
             {
@@ -75,7 +75,7 @@ namespace IndicadoresFreyman.Indicadores
                     }
                 }
             }
-            if (cerrado != "1" || cerrado !="")
+            if (cerrado != "1")
             {
                 (gridEvidencias.MasterTableView.GetColumn("resultado") as GridBoundColumn).ReadOnly = true;
                 gridEvidencias.MasterTableView.GetColumn("resultado").ItemStyle.BackColor = ColorTranslator.FromHtml("#74C99B");
@@ -206,7 +206,7 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     command.Connection = con;
                     command.CommandText = "select pli.esAscendente, pli.TipoId,i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli" +
-                        " left join Indicador i on pli.pIndicadorId=i.pIndicadorId where pli.pIndicadorId=" + id + ";";
+                        " left join Indicador i on pli.pIndicadorId=i.pIndicadorId where pli.pIndicadorId=" + id + " and empleadoId=3246;";
                     command.CommandType = CommandType.Text;
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -241,7 +241,7 @@ namespace IndicadoresFreyman.Indicadores
                     {
                         command.Connection = con;
                         command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
-                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " ) and mes=1 and año=2024 and fechaCerrado is null";
+                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " and empleadoId=3246) and mes=6 and año=2024 and fechaCerrado is null";
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }   
@@ -262,7 +262,7 @@ namespace IndicadoresFreyman.Indicadores
                     {
                         command.Connection = con;
                         command.CommandText = "update resultadoIndicador set fechaCerrado=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
-                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " ) and mes=1 and año=2024";
+                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " and empleadoId=3246 ) and mes=1 and año=2024";
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }
