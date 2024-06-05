@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<ArrayOfRadControlState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <RadControlState>
+    <ControlSettings />
+    <UniqueId>Telerik.Web.UI_PersistanceManager_CustomSettings</UniqueId>
+  </RadControlState>
+  <RadControlState>
+    <ControlSettings>
+      <ControlSetting>
+        <Name>CurrentPageIndex</Name>
+        <Value Type="System.Int32">
+          <int>0</int>
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>EditIndexes</Name>
+        <Value Type="Telerik.Web.UI.GridIndexCollection">
+          <GridIndexCollection>
+            <Data />
+          </GridIndexCollection>
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>PageSize</Name>
+        <Value Type="System.Int32">
+          <int>50</int>
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>SelectedCellIndexes</Name>
+        <Value Type="Telerik.Web.UI.GridIndexCollection">
+          <GridIndexCollection>
+            <Data />
+          </GridIndexCollection>
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>SelectedIndexes</Name>
+        <Value Type="Telerik.Web.UI.GridIndexCollection">
+          <GridIndexCollection>
+            <Data />
+          </GridIndexCollection>
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>Width</Name>
+        <Value Type="System.Web.UI.WebControls.Unit">
+          <Unit>75%</Unit>
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>MasterTableView.Width</Name>
+        <Value Type="System.Web.UI.WebControls.Unit">
+          <Unit />
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>MasterTableView.FilterExpression</Name>
+        <Value Type="System.String">
+          <string />
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>MasterTableView.PageSize</Name>
+        <Value Type="System.Int32">
+          <int>50</int>
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>MasterTableView.ColumnSettings</Name>
+        <Value Type="System.Collections.Generic.List`1[[Telerik.Web.UI.GridTableView+PersistableColumnSetting, Telerik.Web.UI, Version=2022.1.302.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4]]">
+          <ArrayOfPersistableColumnSetting>
+            <PersistableColumnSetting>
+              <UniqueName>ExpandColumn</UniqueName>
+              <Visible>false</Visible>
+              <Display>true</Display>
+              <SortExpression />
+              <GroupByExpression />
+              <OrderIndex>-1</OrderIndex>
+              <CurrentFilterFunction>NoFilter</CurrentFilterFunction>
+              <CurrentFilterValue />
+              <AndCurrentFilterFunction>NoFilter</AndCurrentFilterFunction>
+              <AndCurrentFilterValue />
+              <Width>36px</Width>
+              <Aggregate>None</Aggregate>
+            </PersistableColumnSetting>
+            <PersistableColumnSetting>
+              <UniqueName>RowIndicator</UniqueName>
+              <Visible>false</Visible>
+              <Display>true</Display>
+              <SortExpression />
+              <GroupByExpression />
+              <OrderIndex>-1</OrderIndex>
+              <CurrentFilterFunction>NoFilter</CurrentFilterFunction>
+              <CurrentFilterValue />
+              <AndCurrentFilterFunction>NoFilter</AndCurrentFilterFunction>
+              <AndCurrentFilterValue />
+              <Width>20px</Width>
+              <Aggregate>None</Aggregate>
+            </PersistableColumnSetting>
+            <PersistableColumnSetting>
+              <UniqueName>descripcionIndicador</UniqueName>
+              <Visible>true</Visible>
+              <Display>true</Display>
+              <SortExpression>descripcionIndicador</SortExpression>
+              <GroupByExpression />
+              <OrderIndex>2</OrderIndex>
+              <CurrentFilterFunction>NoFilter</CurrentFilterFunction>
+              <CurrentFilterValue />
+              <AndCurrentFilterFunction>NoFilter</AndCurrentFilterFunction>
+              <AndCurrentFilterValue />
+              <Width>410px</Width>
+              <Aggregate>None</Aggregate>
+            </PersistableColumnSetting>
+            <PersistableColumnSetting>
+              <UniqueName>Ponderacion</UniqueName>
+              <Visible>true</Visible>
+              <Display>true</Display>
+              <SortExpression>Ponderacion</SortExpression>
+              <GroupByExpression />
+              <OrderIndex>3</OrderIndex>
+              <CurrentFilterFunction>NoFilter</CurrentFilterFunction>
+              <CurrentFilterValue />
+              <AndCurrentFilterFunction>NoFilter</AndCurrentFilterFunction>
+              <AndCurrentFilterValue />
+              <Width>150px</Width>
+              <Aggregate>None</Aggregate>
+            </PersistableColumnSetting>
+            <PersistableColumnSetting>
+              <UniqueName>indicadorMinimo</UniqueName>
+              <Visible>true</Visible>
+              <Display>true</Display>
+              <SortExpression>indicadorMinimo</SortExpression>
+              <GroupByExpression />
+              <OrderIndex>4</OrderIndex>
+              <CurrentFilterFunction>NoFilter</CurrentFilterFunction>
+              <CurrentFilterValue />
+              <AndCurrentFilterFunction>NoFilter</AndCurrentFilterFunction>
+              <AndCurrentFilterValue />
+              <Width>150px</Width>
+              <Aggregate>None</Aggregate>
+            </PersistableColumnSetting>
+            <PersistableColumnSetting>
+              <UniqueName>indicadorDeseable</UniqueName>
+              <Visible>true</Visible>
+              <Display>true</Display>
+              <SortExpression>indicadorDeseable</SortExpression>
+              <GroupByExpression />
+              <OrderIndex>5</OrderIndex>
+              <CurrentFilterFunction>NoFilter</CurrentFilterFunction>
+              <CurrentFilterValue />
+              <AndCurrentFilterFunction>NoFilter</AndCurrentFilterFunction>
+              <AndCurrentFilterValue />
+              <Width>150px</Width>
+              <Aggregate>None</Aggregate>
+            </PersistableColumnSetting>
+            <PersistableColumnSetting>
+              <UniqueName>activo</UniqueName>
+              <Visible>true</Visible>
+              <Display>true</Display>
+              <SortExpression />
+              <GroupByExpression />
+              <OrderIndex>6</OrderIndex>
+              <CurrentFilterFunction>NoFilter</CurrentFilterFunction>
+              <CurrentFilterValue />
+              <AndCurrentFilterFunction>NoFilter</AndCurrentFilterFunction>
+              <AndCurrentFilterValue />
+              <Width>150px</Width>
+              <Aggregate>None</Aggregate>
+            </PersistableColumnSetting>
+          </ArrayOfPersistableColumnSetting>
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>MasterTableView.SortExpressions</Name>
+        <Value Type="Telerik.Web.UI.GridSortExpressionCollection">
+          <ArrayOfGridSortExpression>
+            <GridSortExpression>
+              <FieldName>pIndicadorId</FieldName>
+              <SortOrder>Descending</SortOrder>
+            </GridSortExpression>
+          </ArrayOfGridSortExpression>
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>MasterTableView.GroupByExpressions</Name>
+        <Value Type="Telerik.Web.UI.GridGroupByExpressionCollection">
+          <ArrayOfGridGroupByExpression />
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>MasterTableView.CurrentPageIndex</Name>
+        <Value Type="System.Int32">
+          <int>0</int>
+        </Value>
+      </ControlSetting>
+      <ControlSetting>
+        <Name>MasterTableView.IsItemInserted</Name>
+        <Value Type="System.Boolean">
+          <boolean>false</boolean>
+        </Value>
+      </ControlSetting>
+    </ControlSettings>
+    <UniqueId>ctl00$ContentPlaceHolder1$radIndicador</UniqueId>
+    <UniqueKey />
+  </RadControlState>
+</ArrayOfRadControlState>

@@ -53,10 +53,10 @@
             <telerik:RadGrid RenderMode="Lightweight" ID="radGridEmpleados" GridLines="None" runat="server" AllowAutomaticDeletes="True"
                 PageSize="20"
                 AllowPaging="True"
-                AutoGenerateColumns="False" DataSourceID="SqlEmpleados" Culture="bg-BG" 
+                AutoGenerateColumns="False" Culture="bg-BG"  OnNeedDataSource ="radGridEmpleados_NeedDataSource"
                 Style="margin: 0px auto" Width="50%" OnSelectedIndexChanged="radGridEmpleados_SelectedIndexChanged"  OnItemDataBound ="radGridEmpleados_ItemDataBound"> 
                 <MasterTableView AutoGenerateColumns="false" AllowFilteringByColumn="False" ShowFooter="False"
-                    DataSourceID="SqlEmpleados" HorizontalAlign="NotSet">
+                   HorizontalAlign="NotSet">
                     <%-- <BatchEditingSettings EditType="Cell" SaveAllHierarchyLevels="true" HighlightDeletedRows="true" OpenEditingEvent="DblClick" />--%>
                     <SortExpressions>
                         <telerik:GridSortExpression FieldName="nombre" SortOrder="Ascending" />
@@ -114,7 +114,7 @@
 
 
 
-            <asp:SqlDataSource ID="SqlEmpleados" runat="server" ConnectionString="<%$ ConnectionStrings:IndicadorConnectionString %>"
+           <%-- <asp:SqlDataSource ID="SqlEmpleados" runat="server" ConnectionString="<%$ ConnectionStrings:IndicadorConnectionString %>"
                 SelectCommand="select IdEmpleado,nombre, DeptoId, Departamento ,isnull(sum(i.ponderacion),0) ponderacion from Vacaciones.dbo.AdministrativosNomiChecador as e 
                                 left join  Indicador  as i on  e.IdEmpleado = i.empleadoId and activo = 1 
                                 where DeptoId  = @DeptoId
@@ -122,7 +122,7 @@
                 <SelectParameters>
                     <asp:ControlParameter Name="DeptoId" ControlID="hdnArea" PropertyName="Value" />
                 </SelectParameters>
-            </asp:SqlDataSource>
+            </asp:SqlDataSource>--%>
 
 
 
@@ -130,17 +130,21 @@
 
 
         </div>
+       
         <div class="right-pane">
+           
             <telerik:RadGrid RenderMode="Lightweight" ID="radIndicador" GridLines="None" runat="server" AllowAutomaticDeletes="True"
                 AllowAutomaticInserts="True" PageSize="50" Culture="bg-BG"
                 OnItemUpdated="radIndicador_ItemUpdated" OnPreRender="radIndicador_PreRender" AllowAutomaticUpdates="True" AllowPaging="True"
                 AutoGenerateColumns="False" OnBatchEditCommand="radIndicador_BatchEditCommand" DataSourceID="SqlIndicador" OnItemDataBound="radIndicador_ItemDataBound"
-                Width="75%" Style="margin: 0px auto;">
+                Width="75%" Style="margin: 0px auto;" OnCustomAggregate="radIndicador_CustomAggregate">
+               
                 <MasterTableView CommandItemDisplay="TopAndBottom" DataKeyNames="pIndicadorId" TableLayout="Fixed"
                     DataSourceID="SqlIndicador" HorizontalAlign="NotSet" EditMode="Batch" AutoGenerateColumns="False" ShowFooter="true">
                     <%-- <BatchEditingSettings EditType="Cell"   SaveAllHierarchyLevels="true" HighlightDeletedRows="true" OpenEditingEvent="DblClick"  /> --%>
-                    <BatchEditingSettings EditType="Cell" HighlightDeletedRows="true" />
+                    <BatchEditingSettings EditType="Cell" HighlightDeletedRows="true"  OpenEditingEvent="MouseDown"/>
                     <CommandItemSettings ShowAddNewRecordButton="false" />
+                    
                     <SortExpressions>
                         <telerik:GridSortExpression FieldName="pIndicadorId" SortOrder="Descending" />
                     </SortExpressions>
@@ -174,7 +178,7 @@
                         </telerik:GridBoundColumn>
 
                         <telerik:GridBoundColumn DataField="ponderacion" HeaderStyle-Width="80px" HeaderText="Ponderación" SortExpression="Ponderacion" ColumnGroupName="Editables"
-                            UniqueName="Ponderacion" DataFormatString="{0:N0}">
+                            UniqueName="Ponderacion" DataFormatString="{0:N0}"  Aggregate ="Custom" >
                             <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                 <RequiredFieldValidator ForeColor="Red" Text="*Indicador ponderación" Display="Dynamic">
                                 </RequiredFieldValidator>
@@ -205,18 +209,23 @@
                             <ItemStyle Width="150px" />
                         </telerik:GridBoundColumn>
 
-                        <%-- <telerik:GridCheckBoxColumn DataField="activo" HeaderStyle-Width="80px" HeaderText="Activo" SortExpression="activo" HeaderStyle-HorizontalAlign="Center"
+                         <telerik:GridCheckBoxColumn DataField="activo" HeaderStyle-Width="80px" HeaderText="Activo" SortExpression="activo" HeaderStyle-HorizontalAlign="Center"
                             UniqueName="activo">
-                        </telerik:GridCheckBoxColumn>--%>
+                        </telerik:GridCheckBoxColumn>
 
 
-                        <telerik:GridTemplateColumn HeaderText="Asignado" HeaderStyle-Width="150px" UniqueName="activo" DataField="activo">
+                        <%--<telerik:GridTemplateColumn HeaderText="Asignado" HeaderStyle-Width="150px" UniqueName="activo" DataField="activo"  >
                             <HeaderStyle Width="150px" />
                             <ItemTemplate>
                                 <asp:CheckBox ID="chkAsignado" runat="server" AutoPostBack="true" OnCheckedChanged="chkAsignado_CheckedChanged" Checked='<%# Eval("activo") %>' />
                             </ItemTemplate>
-                        </telerik:GridTemplateColumn>
+                            <EditItemTemplate>
+                                    <asp:CheckBox ID="chkAsignadoEdit" runat="server" Checked='<%# Bind("activo") %>' OnCheckedChanged="chkAsignado_CheckedChanged" />
+                            </EditItemTemplate>
+                        </telerik:GridTemplateColumn>--%>
 
+
+                      
 
                         <%--  <telerik:GridButtonColumn HeaderText="Eliminar" CommandName="Delete" Text="Delete" UniqueName="column" ConfirmText="Deseas borrar el proyecto?" ConfirmDialogType="RadWindow" >
                                 <ItemStyle Width="80px" />
@@ -245,6 +254,7 @@
             <asp:ControlParameter Name="DeptoId" ControlID="hdnArea" PropertyName="Value" />
             <asp:ControlParameter Name="empleadoId" ControlID="hdnEmpleado" PropertyName="Value" />
             <asp:Parameter Name="activo" Type="Boolean"></asp:Parameter>
+            
         </UpdateParameters>
 
         <DeleteParameters>

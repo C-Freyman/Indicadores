@@ -69,15 +69,6 @@ namespace IndicadoresFreyman
         protected global::Telerik.Web.UI.RadGrid radGridEmpleados;
 
         /// <summary>
-        /// Control SqlEmpleados.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SqlEmpleados;
-
-        /// <summary>
         /// Control radIndicador.
         /// </summary>
         /// <remarks>
