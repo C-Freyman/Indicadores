@@ -75,7 +75,7 @@ namespace IndicadoresFreyman.Indicadores
                     }
                 }
             }
-            if (cerrado != "1")
+            if (cerrado != "1" || cerrado !="")
             {
                 (gridEvidencias.MasterTableView.GetColumn("resultado") as GridBoundColumn).ReadOnly = true;
                 gridEvidencias.MasterTableView.GetColumn("resultado").ItemStyle.BackColor = ColorTranslator.FromHtml("#74C99B");
