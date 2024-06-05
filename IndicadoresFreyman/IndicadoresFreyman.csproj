@@ -230,6 +230,8 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+		<SubType>ASPXCodeBehind</SubType>
+	</Compile>
 
     <Compile Include="crearIndicadores.aspx.cs">
       <DependentUpon>crearIndicadores.aspx</DependentUpon>
@@ -249,7 +251,8 @@
     </Compile>
     <Compile Include="Log.aspx.designer.cs">
       <DependentUpon>Log.aspx</DependentUpon>
-
+		<SubType>ASPXCodeBehind</SubType>
+	</Compile>
     <Compile Include="Indicadores\EvidenciaIndicadores.aspx.cs">
       <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
