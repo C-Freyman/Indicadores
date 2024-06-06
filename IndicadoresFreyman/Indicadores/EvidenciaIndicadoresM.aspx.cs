@@ -38,6 +38,7 @@ namespace IndicadoresFreyman.Indicadores
                 SqlDataSource1.SelectParameters["mes"].DefaultValue = DateTime.Now.Month.ToString();
                 ValidacionIndicadoresCerrado();
             }
+
         }
 
         public string CargarEstilosCumplimiento(decimal valor)//Estilos en columna Cumplimiento del Objetivo
