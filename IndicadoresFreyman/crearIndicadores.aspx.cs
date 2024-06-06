@@ -123,5 +123,10 @@ namespace IndicadoresFreyman
         {
             hdnProyecto.Value = "1";//item.GetDataKeyValue("pIndicadorId").ToString();
         }
+
+        protected void txtindicadorDeseable_TextChanged(object sender, EventArgs e)
+        {
+            int minimo = 0;
+        }
     }
 }

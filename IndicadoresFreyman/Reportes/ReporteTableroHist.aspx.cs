@@ -21,13 +21,17 @@ namespace IndicadoresFreyman.Reportes
                 ObtenerInfo();
             }
         }
-        protected void ObtenerInfo()
+        protected DataTable ObtenerInfo()
         {
             DataTable dt = con.getDatatable("exec Indicadores .dbo.TableroHistorico 1,6,1 ");
-            RadGridHistorico.DataSource = dt;
-            RadGridHistorico.Rebind();
-            DataTable dtgrafica = con.getDatatable("exec Indicadores .dbo.TableroHistorico 1,6,0 ");
-            GenerarPtosGrafica(dtgrafica);
+            if (dt != null){ 
+
+              RadGridHistorico.DataSource = dt;
+              RadGridHistorico.Rebind();
+              DataTable dtgrafica = con.getDatatable("exec Indicadores .dbo.TableroHistorico 1,6,0 ");
+              GenerarPtosGrafica(dtgrafica);
+            }
+            return dt;
         }
         private void GenerarPtosGrafica(DataTable dt)
         {
@@ -62,19 +66,51 @@ namespace IndicadoresFreyman.Reportes
             if (e.Item is GridDataItem)
             {
                 GridDataItem item = e.Item as GridDataItem;
+
+                item["ponderacion"].BackColor = System.Drawing.ColorTranslator.FromHtml("#D8E8E5");
+                item["indicadorMinimo"].BackColor = System.Drawing.ColorTranslator.FromHtml("#D8E8E5");
+                item["indicadorDeseable"].BackColor = System.Drawing.ColorTranslator.FromHtml("#D8E8E5");
+
+                item["ponderacion"].Font.Bold = true; 
+                item["indicadorMinimo"].Font.Bold = true;
+                item["indicadorDeseable"].Font.Bold = true;
+
+
                 //for (int i = 0; i < item.OwnerTableView.Columns.Count; i++)
                 for (int i = 0; i < item.OwnerTableView.Columns.Count; i++)
                 {
                     string columnName = item.OwnerTableView.Columns[i].UniqueName;
                     string cellText = item[columnName].Text;
 
+                    int idex = i+2;
+                    //if (i == 2 || i==1) {
+                    //    item[columnName].Width = 150;
+                    //}
+                    if ((i>=4 && i<=6)|| i==2) {
+                        item[columnName].HorizontalAlign = HorizontalAlign.Center;
+                    }
                     // Si el índice de la columna coincide con las que deseas formatear
-                    if (i > 7)
+                    if (i > 6)
                     {
+                        item[columnName].HorizontalAlign = HorizontalAlign.Center;
                         double cellValue;
                         if (double.TryParse(cellText, out cellValue))
                         {
-                            e.Item.Cells[i].Text = (cellValue * 100).ToString().Split('.')[0] + " %";
+                            
+                            if (cellValue>=80 && cellValue <=90)
+                            {
+                                e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBCEC0");//rojo
+                            }
+                            if (cellValue >90 && cellValue <=95 )
+                            {
+                                e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBF8C0");//amarillo
+                            }
+                            if (cellValue > 95)
+                            {
+                                e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#C0FBEF");//azul
+                            }
+                            //e.Item.Cells[i].Text = e.Item.Cells[i].Text + " %";
+
                         }
                     }
                 }
@@ -91,6 +127,54 @@ namespace IndicadoresFreyman.Reportes
             ObtenerInfo();
         }
 
+        protected void RadGridHistorico_PreRender(object sender, EventArgs e)
+        {
+            // Add columns dynamically in PreRender if necessary
+            if (RadGridHistorico.MasterTableView.Columns.Count == 0)
+            {
+                DataTable dt = ObtenerInfo();
+                int i = 0;
+                foreach (DataColumn column in dt.Columns)
+                {
+                    string columnName = column.ColumnName;
+                    GridBoundColumn itemCol = new GridBoundColumn();
+                    itemCol.DataField = columnName;
+                    itemCol.UniqueName = columnName ;
+                    itemCol.HeaderText = columnName;
+                    itemCol.HeaderStyle.Width = 50;
+                    itemCol.SortExpression = columnName;
+
+                    itemCol.CurrentFilterFunction = GridKnownFunction.EqualTo;
+                    itemCol.ShowFilterIcon = false;
+                    itemCol.AutoPostBackOnFilter = true;
+                    itemCol.AllowFiltering = true;
+
+                    itemCol.AllowSorting = true;
+                    //switch (columnName)
+                    //{
+                    //    case = "ponderacion":
+                    //        Console.WriteLine($"Measured value is {measurement}; too low.");
+                    //        break;
+
+                    //    case > 15.0:
+                    //        Console.WriteLine($"Measured value is {measurement}; too high.");
+                    //        break;
+
+                    //    case double.NaN:
+                    //        Console.WriteLine("Failed measurement.");
+                    //        break;
+                    //}
+                    //item["ponderacion"].BackColor = System.Drawing.ColorTranslator.FromHtml("#b39c82");
+                    //item["indicadorMinimo"].BackColor = System.Drawing.ColorTranslator.FromHtml("#b8c99d");
+                    //item["indicadorDeseable"].BackColor = System.Drawing.ColorTranslator.FromHtml("#f0d399");
+
+                    RadGridHistorico.MasterTableView.Columns.Add(itemCol);
+                    i = i + 1;
+                }
+                RadGridHistorico.Rebind();
+            }
+        }
+
         private List<int> columnsToHide = new List<int> { 2 };// {2,3,4,5,6}; // Índices de las columnas que desea ocultar
         private int columnIndexCounter = 0;
         protected void RadGridHistorico_ColumnCreated(object sender, Telerik.Web.UI.GridColumnCreatedEventArgs e)
@@ -102,13 +186,15 @@ namespace IndicadoresFreyman.Reportes
 
             if (columnIndexCounter > 2)
             {
-                (e.Column as GridBoundColumn).DataField = e.Column.UniqueName;
+                // (e.Column as GridBoundColumn).DataField = e.Column.UniqueName;
+
                 e.Column.CurrentFilterFunction = GridKnownFunction.EqualTo;
                 e.Column.ShowFilterIcon = false;
                 e.Column.AutoPostBackOnFilter = true;
                 e.Column.HeaderStyle.Width = 50;
                 //columnNames.Add(e.Column.UniqueName);
-                e.Column.HeaderText = e.Column.UniqueName;
+                // e.Column.HeaderText = e.Column.UniqueName;
+
                 if (columnIndexCounter > 7)
                 {
                     //(e.Column as GridBoundColumn).Aggregate = GridAggregateFunction.Sum;
@@ -126,5 +212,6 @@ namespace IndicadoresFreyman.Reportes
 
             columnIndexCounter++;
         }
+
     }
 }

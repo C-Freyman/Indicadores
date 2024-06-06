@@ -4,7 +4,21 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <table>
-    <tr style="background-color: dimgray; color: white; font-weight: bold; text-align :center ">
+    <%--<tr style="background-color: dimgray; color: white; font-weight: bold; text-align :center ">
+        <td></td>
+        <td id="Td1" runat ="server" visible ="false">Gráfico</td>
+    </tr>--%>
+    <tr>
+        <td style="width:70%">
+            <telerik:RadGrid RenderMode="Lightweight" ID="RadGridHistorico" runat="server" CellSpacing="0" CellPadding="0" Font-Size="Smaller" Style="padding: 0; margin: 0 auto"
+                GridLines="None" AllowSorting="true" shownosorticons="true" AllowFilteringByColumn="True" EnableHeaderContextFilterMenu="true" OnColumnCreated ="RadGridHistorico_ColumnCreated"
+                showfiltericon="false" OnItemDataBound="RadGridHistorico_ItemDataBound" OnSortCommand="RadGridHistorico_SortCommand" AllowPaging="True" OnItemCommand="RadGridHistorico_ItemCommand" OnPreRender ="RadGridHistorico_PreRender"
+                PageSize="50" AllowAutomaticDeletes="False" AllowAutomaticInserts="False"  AllowAutomaticUpdates="False" Culture="es-ES">
+                <ClientSettings>
+                    <Animation AllowColumnReorderAnimation="true" />
+                    <Scrolling AllowScroll="True" UseStaticHeaders="true" ScrollHeight="500" />
+                  <%-- Codigo comentado por conflicto de github--%>
+    <%--<tr style="background-color: dimgray; color: white; font-weight: bold; text-align :center ">
         <td>Detalle</td>
         <td>Gráfico</td>
     </tr>
@@ -16,12 +30,13 @@
                 PageSize="50" AllowAutomaticDeletes="False" AllowAutomaticInserts="False" OnColumnCreated="RadGridHistorico_ColumnCreated" AllowAutomaticUpdates="False" Culture="es-ES">
                 <ClientSettings>
                     <Animation AllowColumnReorderAnimation="true" />
-                    <Scrolling AllowScroll="True" UseStaticHeaders="true" ScrollHeight="370" />
+                    <Scrolling AllowScroll="True" UseStaticHeaders="true" ScrollHeight="370" />--%>
+
                     <Resizing AllowColumnResize="true" ResizeGridOnColumnResize="true" AllowResizeToFit="true" />
                 </ClientSettings>
                 <GroupingSettings CaseSensitive="false"></GroupingSettings>
                 <HeaderStyle HorizontalAlign="Center" />
-                <MasterTableView AutoGenerateColumns="true" ShowFooter="true" AllowFilteringByColumn="true"  CellPadding="0" CellSpacing="0">
+                <MasterTableView AutoGenerateColumns="false" ShowFooter="true" AllowFilteringByColumn="true"  CellPadding="0" CellSpacing="0">
                     <Columns>
                        <%-- <telerik:GridBoundColumn FilterControlWidth="80%" HeaderStyle-Width='150' SortExpression='Nombre' DataField='Nombre' HeaderText='Nombre' ItemStyle-HorizontalAlign="Left" AllowFiltering="true" ShowFilterIcon="false" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains"></telerik:GridBoundColumn>
                         <telerik:GridBoundColumn FilterControlWidth="80%" HeaderStyle-Width='180' SortExpression='descripcionIndicador' DataField='descripcionIndicador' HeaderText='Indicador' ItemStyle-HorizontalAlign="Left" AllowFiltering="true" ShowFilterIcon="false" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains"></telerik:GridBoundColumn>
@@ -32,7 +47,8 @@
                 </MasterTableView>
 
             </telerik:RadGrid></td>
-        <td>
+        <td id="x" runat ="server" visible ="false">
+
             <telerik:RadHtmlChart runat="server" ID="RadHtmlChartIndicadores" Width="100%"   Transitions="true" >
                 <Appearance>
                     <FillStyle BackgroundColor="Transparent"></FillStyle>

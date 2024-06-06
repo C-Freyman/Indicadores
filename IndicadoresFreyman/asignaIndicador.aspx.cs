@@ -27,7 +27,6 @@ namespace IndicadoresFreyman
                 radIndicador.MasterTableView.CommandItemSettings.RefreshText = "Refrescar";
                 radIndicador.MasterTableView.CommandItemSettings.SaveChangesText = "Guardar";
                 radIndicador.MasterTableView.CommandItemSettings.CancelChangesText = "Cancelar";
-                radIndicador.MasterTableView.BatchEditingSettings.EditType = GridBatchEditingType.Row;
             }
         }
 
@@ -58,6 +57,8 @@ namespace IndicadoresFreyman
             else
             {
                 DisplayMessage(false, "Guardado exitosamente");
+                radGridEmpleados.DataSource = consulta();
+                radGridEmpleados.Rebind();
 
             }
 
@@ -98,8 +99,8 @@ namespace IndicadoresFreyman
         protected void radIndicador_BatchEditCommand(object sender, GridBatchEditingEventArgs e)
         {
             //int totalPonderacion = 0, totalItem = 0;
-            //Dictionary<string,int> ponderaciones = new Dictionary<string,int>();
-            //var grid = sender as RadGrid;
+            //Dictionary<string, int> ponderaciones = new Dictionary<string, int>();
+            //var grid = sender as Telerik.Web.UI.RadGrid;
             ////Obten los numeros de columna por el nombre del campo
             //var numColumnaPonderacion = grid.Columns.FindByDataField("ponderacion").OrderIndex;
             //var numColumnaActivo = grid.Columns.FindByDataField("activo").OrderIndex;
@@ -110,12 +111,12 @@ namespace IndicadoresFreyman
             //foreach (GridItem item in items)
             //{
 
-            //    if ( item.Cells[numColumnaActivo].Controls.Count ==0) 
+            //    if (item.Cells[numColumnaActivo].Controls.Count == 0)
             //        break;
             //    CheckBox chkActivo = item.Cells[numColumnaActivo].Controls[0] as CheckBox;
             //    if (!chkActivo.Checked)
             //        break;
-                
+
             //    if (int.TryParse(item.Cells[numColumnaPonderacion].Text, out int ponderacion))
             //        ponderaciones[item.Cells[numColumnaDescripcion].Text] = ponderacion;
             //}
@@ -126,7 +127,7 @@ namespace IndicadoresFreyman
             //    if (command.Type == GridBatchEditingCommandType.Update)
             //    {
             //        Hashtable newValues = command.NewValues;
-                    
+
 
             //        if (newValues.ContainsKey("ponderacion"))
             //        {
@@ -142,7 +143,7 @@ namespace IndicadoresFreyman
 
             //totalPonderacion = ponderaciones.Sum(p => p.Value);
 
-       
+
 
             //// Validar que la suma de ponderación sea igual a 100
             //if (totalPonderacion != 100)
@@ -151,7 +152,8 @@ namespace IndicadoresFreyman
             //    e.Canceled = true;
             //    //radIndicador.MasterTableView.ClearEditItems();
             //    //radIndicador.MasterTableView.Rebind();
-            //    ShowErrorMessage("La suma de las ponderaciones debe ser igual a 100." + totalPonderacion);
+            //    // ShowErrorMessage("La suma de las ponderaciones debe ser igual a 100." + totalPonderacion);
+            //    lblSumPonderacion.Text = totalPonderacion.ToString();
             //}
 
         }
@@ -168,42 +170,42 @@ namespace IndicadoresFreyman
         {
 
 
-            //if (e.CommandName == RadGrid.UpdateCommandName)
-            //{
-            //    //    // Obtener la suma del campo "Value"
-            //    int total = 0;
-            //    total = int.Parse(htntotal.Value);
+            if (e.CommandName == Telerik.Web.UI.RadGrid.UpdateEditedCommandName)
+            {
+                //    // Obtener la suma del campo "Value"
+                int total = 0;
+               
 
 
-              
 
 
-            //        if (e.Item is GridDataItem)
-            //        {
-            //        //foreach (GridDataItem dataItem in radIndicador.Items)
-            //        foreach (GridDataItem dataItem in radIndicador.MasterTableView.Items)
-            //        {
-            //                string indicador = dataItem["descripcionIndicador"].Text;
-            //                int value = int.Parse(dataItem["ponderacion"].Text);
-            //                // Encontrar el control CheckBox dentro de la celda
-            //                CheckBox chkBox = (CheckBox)dataItem["Activo"].Controls[0];
-            //                if (chkBox != null && chkBox.Checked)
-            //                {
-            //                    total += value;
-            //                }
-            //            }
-            //        }
 
-            //            //            // Validar si la suma es igual a 100
-            //    if (total != 100)
-            //    {
-            //        // Cancelar la operación y mostrar un mensaje de error
-            //        e.Canceled = true;
-            //        radIndicador.Controls.Add(new LiteralControl("<div class='alert alert-danger'>La suma de la ponderación debe ser igual a 100. La suma actual es " + total + ".</div>"));
-            //    }
+                if (e.Item is GridDataItem)
+                {
+                    //foreach (GridDataItem dataItem in radIndicador.Items)
+                    foreach (GridDataItem dataItem in radIndicador.MasterTableView.Items)
+                    {
+                        string indicador = dataItem["descripcionIndicador"].Text;
+                        int value = int.Parse(dataItem["ponderacion"].Text);
+                        // Encontrar el control CheckBox dentro de la celda
+                        CheckBox chkBox = (CheckBox)dataItem["Activo"].Controls[0];
+                        if (chkBox != null && chkBox.Checked)
+                        {
+                            total += value;
+                        }
+                    }
+                }
 
-            //}
-           
+                //            // Validar si la suma es igual a 100
+                if (total != 100)
+                {
+                    // Cancelar la operación y mostrar un mensaje de error
+                    e.Canceled = true;
+                    radIndicador.Controls.Add(new LiteralControl("<div class='alert alert-danger'>La suma de la ponderación debe ser igual a 100. La suma actual es " + total + ".</div>"));
+                }
+
+            }
+
 
         }
 
@@ -211,8 +213,7 @@ namespace IndicadoresFreyman
         {
 
             CalculateSumPonderacion();
-            //radGridEmpleados.DataSource = consulta();
-            //radGridEmpleados.Rebind();
+           
             //if (e.Item is GridDataItem)
             //{
             //    GridDataItem dataItem = (GridDataItem)e.Item;
@@ -333,11 +334,12 @@ namespace IndicadoresFreyman
 
         protected void chkAsignado_CheckedChanged(object sender, EventArgs e)
         {
-            //CheckBox chk = (CheckBox)sender;
-            //GridDataItem item = (GridDataItem)chk.NamingContainer;
+            
 
             //// Recalcular la suma de las ponderaciones
             CalculateSumPonderacion();
+            CheckBox chk = (CheckBox)sender;
+            GridDataItem item = (GridDataItem)chk.NamingContainer;
         }
 
 
@@ -347,7 +349,7 @@ namespace IndicadoresFreyman
 
             foreach (GridDataItem item in radIndicador.MasterTableView.Items)
             {
-                CheckBox chkAsignado = (CheckBox)item.FindControl("chkAsignado");               
+                CheckBox chkAsignado = (CheckBox)item.FindControl("chkAsignado");
                 if (chkAsignado != null && chkAsignado.Checked)
                 {
                     double ponderacion;
@@ -358,27 +360,29 @@ namespace IndicadoresFreyman
                 }
             }
 
-            lblSumPonderacion.Text = "Total Ponderación: " + totalPonderacion.ToString();
+            //lblSumPonderacion.Text = "Total Ponderación: " + totalPonderacion.ToString();
         }
 
       
 
         protected void radGridEmpleados_ItemDataBound(object sender, GridItemEventArgs e)
         {
-            if (e.Item is GridDataItem)
+            try
             {
-                GridDataItem item = (GridDataItem)e.Item;
-                string nombre = item["nombre"].Text;
-                int ponderacion = int.Parse(item["ponderacion"].Text);
-                //if (ponderacionStr != "")
-                //{
+                if (e.Item is GridDataItem)
+                {
+                    GridDataItem item = (GridDataItem)e.Item;
+                    string nombre = item["nombre"].Text;
+                    int ponderacion = int.Parse(item["ponderacion"].Text);
+                    //if (ponderacionStr != "")
+                    //{
                     //int ponderacion = int.Parse(ponderacionStr);
                     HtmlGenericControl statusIcon = (HtmlGenericControl)item["IconColumn"].FindControl("StatusIcon");
 
                     if (ponderacion == 100)
                     {
 
-                        statusIcon.Attributes["class"] = "bi bi-check-circle-fill Heading text-primary"; // Icono para "Active"                    
+                        statusIcon.Attributes["class"] = "bi bi-check-circle-fill Heading text-success"; // Icono para "Active"                    
                         statusIcon.Attributes["title"] = "Ponderacion";
                     }
 
@@ -387,8 +391,13 @@ namespace IndicadoresFreyman
                         statusIcon.Attributes["class"] = "bi bi-check-circle-fill text-warning"; // Icono para "Active"
                         statusIcon.Attributes["title"] = "Ponderacion";
                     }
-                //}
+                    //}
 
+                }
+            }
+            catch(Exception ex)
+            {
+                string error = ex.Message;
             }
         }
 
@@ -405,6 +414,38 @@ namespace IndicadoresFreyman
             return dt;
         }
 
-        
+        protected void radGridEmpleados_NeedDataSource(object sender, GridNeedDataSourceEventArgs e)
+        {
+            radGridEmpleados.DataSource = consulta();
+        }
+
+        protected void btnGuardar_Click(object sender, EventArgs e)
+        {
+            foreach (GridDataItem fila in radGridEmpleados.MasterTableView.Items)
+            {
+                bool isChecked = ((CheckBox)fila.FindControl("chkAsignado")).Checked;
+                if (isChecked)
+                {
+
+                    string descripciondescripcionIndicador = fila["descripcionIndicador"].Text;
+                    string ponderacion = ((TextBox)fila.FindControl("txt")).Text;
+                  
+                }
+            }
+        }
+
+        protected void radIndicador_CustomAggregate(object sender, GridCustomAggregateEventArgs e)
+        {
+
+            if (e.Column.UniqueName == "Ponderacion")
+            {
+                int totalPonderacion = 0;
+                foreach (GridDataItem item in radIndicador.MasterTableView.Items)
+                {
+                    totalPonderacion += (item["activo"].Controls[0] as CheckBox).Checked ? int.Parse(item["ponderacion"].Text) : 0;
+                }
+                e.Result = totalPonderacion;
+            }
+        }
     }
 }
