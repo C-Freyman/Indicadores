@@ -113,14 +113,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="asignaIndicador.aspx" />
     <Content Include="bin\EnvDTE.dll" />
-    <Content Include="bin\EnvDTE.xml" />
     <Content Include="bin\IndicadoresFreyman.dll" />
     <Content Include="bin\IndicadoresFreyman.pdb" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
     <Content Include="bin\Newtonsoft.Json.dll" />
-    <Content Include="bin\Newtonsoft.Json.xml" />
     <Content Include="bin\roslyn\csc.exe" />
     <Content Include="bin\roslyn\csi.exe" />
     <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
@@ -162,38 +161,50 @@
     <Content Include="bin\roslyn\VBCSCompiler.exe" />
     <Content Include="bin\stdole.dll" />
     <Content Include="bin\Telerik.Web.Design.dll" />
+    <Content Include="bin\Telerik.Web.Device.Detection.dll" />
+    <Content Include="bin\Telerik.Web.Spreadsheet.dll" />
+    <Content Include="bin\Telerik.Web.Spreadsheet.xml" />
     <Content Include="bin\Telerik.Web.UI.dll" />
     <Content Include="bin\Telerik.Web.UI.Skins.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Core.dll" />
+    <Content Include="bin\Telerik.Windows.Documents.Core.xml" />
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll" />
+    <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.xml" />
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.xml" />
     <Content Include="bin\Telerik.Windows.Zip.dll" />
+    <Content Include="bin\Telerik.Windows.Zip.Extensions.dll" />
+    <Content Include="bin\Telerik.Windows.Zip.Extensions.xml" />
+    <Content Include="bin\Telerik.Windows.Zip.xml" />
     <Content Include="crearIndicador.aspx" />
-    <Content Include="asignaIndicador.aspx" />
-    <Content Include="crearIndicador.aspx" />
-    <Content Include="Global.asax" />
-    <Content Include="Reportes\ReporteTableroHist.aspx" />
-    <Content Include="Reportes\ReporteTableroHistorico.aspx" />
     <Content Include="crearIndicadores.aspx" />
     <Content Include="css\bootstrap-icons.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\pantallaDivida.css" />
+    <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="js\bootstrap.bundle.js" />
-    <Content Include="js\bootstrap.min.js" />
-    <Content Include="js\jquery-1.8.2.min.js" />
-    <Content Include="js\jquery-1.8.3.min.js" />
-    <Content Include="js\scripts.js" />
-    <Content Include="Paramentros.aspx" />
+    <Content Include="Imagenes\LogF.png" />
+    <Content Include="Imagenes\LogF_.png" />
     <Content Include="Indicadores\EvidenciaIndicadores.aspx" />
+    <Content Include="Indicadores\EvidenciaIndicadoresM.aspx" />
     <Content Include="Indicadores\HistoricoIndicadores.aspx" />
+    <Content Include="Indicadores\HistoricoIndicadoresM.aspx" />
     <Content Include="js\bootstrap.bundle.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery-1.8.2.min.js" />
     <Content Include="js\jquery-1.8.3.min.js" />
     <Content Include="js\scripts.js" />
+    <Content Include="Log.aspx" />
+    <Content Include="obj\Debug\IndicadoresFreyman.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\IndicadoresFreyman.dll" />
+    <Content Include="obj\Debug\indicadoresfreyman.dll.licenses" />
+    <Content Include="obj\Debug\IndicadoresFreyman.pdb" />
+    <Content Include="Paramentros.aspx" />
+    <Content Include="Reportes\ReporteRRHH.aspx" />
+    <Content Include="Reportes\ReporteTableroHist.aspx" />
+    <Content Include="Reportes\ReporteTableroHistorico.aspx" />
+    <Content Include="usuario.png" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +230,13 @@
     <Compile Include="crearIndicadores.aspx.designer.cs">
       <DependentUpon>crearIndicadores.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -229,12 +247,33 @@
     <Compile Include="Indicadores\EvidenciaIndicadores.aspx.designer.cs">
       <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Indicadores\EvidenciaIndicadoresM.aspx.cs">
+      <DependentUpon>EvidenciaIndicadoresM.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Indicadores\EvidenciaIndicadoresM.aspx.designer.cs">
+      <DependentUpon>EvidenciaIndicadoresM.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Indicadores\HistoricoIndicadores.aspx.cs">
       <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Indicadores\HistoricoIndicadores.aspx.designer.cs">
       <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Indicadores\HistoricoIndicadoresM.aspx.cs">
+      <DependentUpon>HistoricoIndicadoresM.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Indicadores\HistoricoIndicadoresM.aspx.designer.cs">
+      <DependentUpon>HistoricoIndicadoresM.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Log.aspx.cs">
+      <DependentUpon>Log.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Log.aspx.designer.cs">
+      <DependentUpon>Log.aspx</DependentUpon>
     </Compile>
     <Compile Include="MasterPage.Master.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
@@ -243,7 +282,6 @@
     <Compile Include="MasterPage.Master.designer.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
     </Compile>
-    <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="Paramentros.aspx.cs">
       <DependentUpon>Paramentros.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -252,6 +290,27 @@
       <DependentUpon>Paramentros.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes\ReporteRRHH.aspx.cs">
+      <DependentUpon>ReporteRRHH.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteRRHH.aspx.designer.cs">
+      <DependentUpon>ReporteRRHH.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteTableroHist.aspx.cs">
+      <DependentUpon>ReporteTableroHist.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteTableroHist.aspx.designer.cs">
+      <DependentUpon>ReporteTableroHist.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteTableroHistorico.aspx.cs">
+      <DependentUpon>ReporteTableroHistorico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteTableroHistorico.aspx.designer.cs">
+      <DependentUpon>ReporteTableroHistorico.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage.Master" />
@@ -266,10 +325,64 @@
     <Content Include="bin\roslyn\vbc.exe.config" />
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
-    <Content Include="css\.vs\slnx.sqlite" />
-    <Content Include="css\.vs\VSWorkspaceState.json" />
     <Content Include="css\fonts\bootstrap-icons.woff" />
     <Content Include="css\fonts\bootstrap-icons.woff2" />
+    <Content Include="css\.vs\slnx.sqlite" />
+    <Content Include="css\.vs\VSWorkspaceState.json" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="obj\Debug\Indicado.5176FAF1.Up2Date" />
+    <Content Include="obj\Debug\IndicadoresFreyman.csproj.AssemblyReference.cache" />
+    <Content Include="obj\Debug\IndicadoresFreyman.csproj.CopyComplete" />
+    <Content Include="obj\Debug\IndicadoresFreyman.csproj.CoreCompileInputs.cache" />
+    <Content Include="App_Data\RadUploadTemp\1717011864969fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717011908482fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717016632660fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717016639455footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717017897046fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717018387187fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717018394231footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717018498367footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717022079700footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717022642996fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717022790226fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717022849653fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717022966100Detalle 2-2024.json.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717023734300Detalle 2-2024.json.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717024967786footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717025009276fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717025155400footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717025294596footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717082076932fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717112810024footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717167779082footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717168665096fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717169345077fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717169423779fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717170623648footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717170772125footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717170834448footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717171222997fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717171335745fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717173205350footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717173238647Historico 7780.xlsx.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717173680540footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717173803997Historico 7780.xlsx.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717174167288footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717174170591fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717174199648fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717174202511footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717174665837fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717176067684Historico 7780.xlsx.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717176092705FreyTime Oficinas.zip.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717176168723footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717432551519FingerPrints.json.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717435640997Historico 7780.xlsx.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717447197738fondo.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717515045892footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717515086366footer.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\1717607752162usuario %281%29.png.tmp" />
+    <Content Include="App_Data\RadUploadTemp\RadUploadTestFile" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -279,11 +392,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="css\.vs\css\v17\" />
-    <Folder Include="Imagenes\" />
     <Folder Include="Models\" />
-    <Folder Include="NewFolder1\" />
+    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />

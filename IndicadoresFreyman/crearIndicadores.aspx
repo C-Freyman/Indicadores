@@ -1,7 +1,26 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="crearIndicadores.aspx.cs" Inherits="IndicadoresFreyman.crearIndicadores" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script type="text/javascript">
+
+        function soloNumeros(e) {
+            var key = window.Event ? e.which : e.keyCode
+            return (key >= 48 && key <= 57)
+        }
+    </script>
+    <style type="text/css">
+        .custom-edit-form {
+            width: 600px;
+            height: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+    </style>
+
 </asp:Content>
+
+
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <p id="divMsgs" runat="server">
@@ -9,10 +28,10 @@
         <asp:Label ID="Label2" runat="server" EnableViewState="False" Font-Bold="True" ForeColor="#00C000"> </asp:Label>
     </p>
 
-     <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" EnableShadow="true"  Localization-OK ="Si" Localization-Cancel ="No"> 
+    <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" EnableShadow="true" Localization-OK="Si" Localization-Cancel="No">
     </telerik:RadWindowManager>
 
-    <telerik:RadGrid RenderMode="Lightweight" ID="radGridIndicador" runat="server" CssClass="RadGrid"  AllowPaging="true" PageSize="200"
+    <telerik:RadGrid RenderMode="Lightweight" ID="radGridIndicador" runat="server" CssClass="RadGrid" AllowPaging="true" PageSize="200"
         AllowSorting="True" AutoGenerateColumns="False" AllowFilteringByColumn="True"
         EnableHeaderContextFilterMenu="true"
         FilterDelay="4000" ShowFilterIcon="false"
@@ -24,13 +43,13 @@
         <ExportSettings IgnorePaging="true" ExportOnlyData="true" FileName="Proyectos desarollo">
             <Excel Format="Xlsx" WorksheetName="Proyectos desarollo" DefaultCellAlignment="Left" />
         </ExportSettings>
-        <GroupingSettings CaseSensitive="false"></GroupingSettings>       
+        <GroupingSettings CaseSensitive="false"></GroupingSettings>
         <MasterTableView EditMode="PopUp" CommandItemDisplay="Top" DataSourceID="SqlIndicador" DataKeyNames="pIndicadorId" AllowFilteringByColumn="True">
             <CommandItemSettings ShowExportToWordButton="false" ShowExportToCsvButton="false" ShowAddNewRecordButton="true" ShowRefreshButton="true" ShowExportToExcelButton="true" />
             <RowIndicatorColumn ShowNoSortIcon="false"></RowIndicatorColumn>
-             <SortExpressions>
-                    <telerik:GridSortExpression FieldName="pIndicadorId" SortOrder="Descending" />
-                </SortExpressions>
+            <SortExpressions>
+                <telerik:GridSortExpression FieldName="pIndicadorId" SortOrder="Descending" />
+            </SortExpressions>
             <Columns>
 
                 <telerik:GridEditCommandColumn>
@@ -50,36 +69,36 @@
                     <HeaderStyle Width="200px" Font-Bold="true" HorizontalAlign="Center" />
                 </telerik:GridBoundColumn>
                 <telerik:GridBoundColumn UniqueName="ponderacion" HeaderText="Ponderación" DataField="ponderacion" SortExpression="ponderacion"
-                    FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString ="{0:N0}">
-                    <ItemStyle Width="70px"   HorizontalAlign = "Center"/>
+                    FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N0}">
+                    <ItemStyle Width="70px" HorizontalAlign="Center" />
                     <HeaderStyle Width="70px" Font-Bold="true" HorizontalAlign="Center" />
                 </telerik:GridBoundColumn>
                 <telerik:GridBoundColumn UniqueName="indicadorMinimo" HeaderText="Indicador Minimo" DataField="indicadorMinimo" SortExpression="indicadorMinimo"
-                    FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString ="{0:N0}">
-                    <ItemStyle Width="70px"  HorizontalAlign = "Center"/>
+                    FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N0}">
+                    <ItemStyle Width="70px" HorizontalAlign="Center" />
                     <HeaderStyle Width="70px" Font-Bold="true" HorizontalAlign="Center" />
                 </telerik:GridBoundColumn>
                 <telerik:GridBoundColumn UniqueName="indicadorDeseable" HeaderText="Indicador Deseable" DataField="indicadorDeseable" SortExpression="indicadorDeseable"
-                    FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString ="{0:N0}">
-                    <ItemStyle Width="70px"  HorizontalAlign = "Center" />
+                    FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N0}">
+                    <ItemStyle Width="70px" HorizontalAlign="Center" />
                     <HeaderStyle Width="70px" Font-Bold="true" HorizontalAlign="Center" />
                 </telerik:GridBoundColumn>
 
 
-                  <telerik:GridButtonColumn HeaderText="Eliminar" CommandName="Delete" Text="Delete" UniqueName="column" ConfirmText="Deseas borrar el proyecto?" ConfirmDialogType="RadWindow">
-                        <ItemStyle Width="80px" />
-                        <HeaderStyle Width="80px" />
-                    </telerik:GridButtonColumn>
+                <telerik:GridButtonColumn HeaderText="Eliminar" CommandName="Delete" Text="Delete" UniqueName="column" ConfirmText="Deseas borrar el proyecto?" ConfirmDialogType="RadWindow">
+                    <ItemStyle Width="80px" />
+                    <HeaderStyle Width="80px" />
+                </telerik:GridButtonColumn>
 
             </Columns>
-            <EditFormSettings EditFormType="Template">
+            <EditFormSettings EditFormType="Template" PopUpSettings-Modal ="true" PopUpSettings-Width="1070px" >
                 <EditColumn ShowNoSortIcon="False" UniqueName="EditCommandColumn1" FilterControlAltText="Filter EditCommandColumn1 column"></EditColumn>
                 <FormTemplate>
                     <table id="Table2" cellspacing="2" cellpadding="1" border="0" rules="none"
                         style="border-collapse: collapse;">
                         <tr class="EditFormHeader">
-                            <td colspan="2">
-                                <b>Indicador</b>
+                            <td colspan="2" style ="font-size:larger; text-align: center">
+                                <b>Crear indicador</b>
                             </td>
                         </tr>
                         <tr>
@@ -108,8 +127,8 @@
                                     <tr>
                                         <td>Indicador:
                                         </td>
-                                        <td>
-                                            <asp:TextBox ID="txtdescripcionIndicador" runat="server" Text='<%# Bind("descripcionIndicador") %>' TabIndex="2" Width="250px" TextMode="MultiLine">                                             
+                                        <td >
+                                            <asp:TextBox ID="txtdescripcionIndicador" runat="server" Text='<%# Bind("descripcionIndicador") %>' TabIndex="2" Width="250px" TextMode="MultiLine" style ="width: 900px; height:60px"  >                                             
                                             </asp:TextBox>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Proyecto requerido" ControlToValidate="txtdescripcionIndicador" ForeColor="Red"></asp:RequiredFieldValidator>
 
@@ -133,7 +152,7 @@
                                         <td>
                                             <asp:TextBox ID="txtindicadorMinimo" runat="server" Text='<%# Bind("indicadorMinimo") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)">
                                             </asp:TextBox>
-                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" ErrorMessage="indicador Minimo requerido" ControlToValidate="txtindicadorMinimo" ForeColor="Red"></asp:RequiredFieldValidator>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" ErrorMessage="indicador Minimo requerido" ControlToValidate="txtindicadorMinimo"  ForeColor="Red"></asp:RequiredFieldValidator>
 
                                         </td>
                                     </tr>
@@ -141,12 +160,26 @@
                                         <td>indicador Deseable:
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="txtindicadorDeseable" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)">
+                                            <asp:TextBox ID="txtindicadorDeseable" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)" OnTextChanged ="txtindicadorDeseable_TextChanged">
                                             </asp:TextBox>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="indicador Deseable requerido" ControlToValidate="txtindicadorDeseable" ForeColor="Red"></asp:RequiredFieldValidator>
 
                                         </td>
                                     </tr>
+
+                                    <%-- <tr>
+                                        <td>Ascendente:
+                                        </td>
+                                        <td>
+
+
+                                            <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList1" runat="server" DefaultMessage="Selecciona tipo"
+                                                DropDownHeight="80px" SelectedValue='<%# Bind("tipoId") %>' DataValueField="tipoId"
+                                                DataTextField="tipo" TabIndex="7" DataSourceID="SqlTipo" Width="250px">
+                                            </telerik:RadDropDownList>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Tipo requerido" ControlToValidate="ddltipo" ForeColor="Red"></asp:RequiredFieldValidator>
+                                        </td>
+                                    </tr>--%>
 
 
                                 </table>
@@ -193,7 +226,7 @@
 
     <asp:SqlDataSource ID="SqlIndicador" runat="server" ConnectionString="<%$ ConnectionStrings:IndicadorConnectionString %>"
         SelectCommand="SELECT pIndicadorId,  descripcionIndicador, ponderacion, indicadorMinimo,indicadorDeseable, t.TipoId,tipo,area FROM [PlantillaIndicador] as i inner join TipoIndicador as t on t.tipoId = i.tipoId  where area = @area and estatus = 1"
-        InsertCommand="insertPlantllaIndicador" InsertCommandType="StoredProcedure" OnInserting ="SqlIndicador_Inserting"
+        InsertCommand="insertPlantllaIndicador" InsertCommandType="StoredProcedure" OnInserting="SqlIndicador_Inserting"
         UpdateCommand="updatePlantllaIndicador" UpdateCommandType="StoredProcedure" OnUpdating="SqlIndicador_Updating"
         DeleteCommand="update PlantillaIndicador set estatus = 0  where pIndicadorId = @pIndicadorId " DeleteCommandType="Text">
         <InsertParameters>
@@ -202,7 +235,7 @@
             <asp:Parameter Name="indicadorMinimo" Type="Decimal"></asp:Parameter>
             <asp:Parameter Name="indicadorDeseable" Type="Decimal"></asp:Parameter>
             <asp:Parameter Name="Tipoid" Type="Int16"></asp:Parameter>
-           <asp:ControlParameter Name="area" ControlID="hdnArea" PropertyName="Value" />   
+            <asp:ControlParameter Name="area" ControlID="hdnArea" PropertyName="Value" />
         </InsertParameters>
 
         <UpdateParameters>
@@ -212,7 +245,7 @@
             <asp:Parameter Name="indicadorDeseable" Type="Decimal"></asp:Parameter>
             <asp:Parameter Name="Tipoid" Type="Int16"></asp:Parameter>
             <asp:Parameter Name="pIndicadorId" Type="Int32"></asp:Parameter>
-            
+
         </UpdateParameters>
 
         <DeleteParameters>
@@ -221,7 +254,7 @@
 
 
         <SelectParameters>
-               <asp:ControlParameter Name="area" ControlID="hdnArea" PropertyName="Value" />   
+            <asp:ControlParameter Name="area" ControlID="hdnArea" PropertyName="Value" />
         </SelectParameters>
 
 

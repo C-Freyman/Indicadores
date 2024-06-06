@@ -151,7 +151,7 @@
                             isnull(cumplimientoOBjetivo,0)as cumplimientoObjetivo, isnull(evaluacionPonderada,0)as evaluacionPonderada from Indicador i 
                             left join PlantillaIndicador pli on pli.pIndicadorId=i.pIndicadorId
                             left join resultadoIndicador e on i.IndicadorId=e.indicadorId 
-                            where empleadoId=@empleadoId and  mes=6;">
+                            where empleadoId=@empleadoId and  mes=1;">
             <SelectParameters>
                     <asp:SessionParameter Name="empleadoId" SessionField="empleadoId" Type="Int32" />
                     <asp:Parameter Name="mes" Type="Int32" />
