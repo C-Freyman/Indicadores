@@ -25,10 +25,11 @@ namespace IndicadoresFreyman.Reportes
         {
             DataTable dt = con.getDatatable("exec Indicadores .dbo.TableroHistorico 1,6,1 ");
             if (dt != null){ 
-            RadGridHistorico.DataSource = dt;
-            RadGridHistorico.Rebind();
-            DataTable dtgrafica = con.getDatatable("exec Indicadores .dbo.TableroHistorico 1,6,0 ");
-            GenerarPtosGrafica(dtgrafica);
+
+              RadGridHistorico.DataSource = dt;
+              RadGridHistorico.Rebind();
+              DataTable dtgrafica = con.getDatatable("exec Indicadores .dbo.TableroHistorico 1,6,0 ");
+              GenerarPtosGrafica(dtgrafica);
             }
             return dt;
         }
@@ -65,6 +66,7 @@ namespace IndicadoresFreyman.Reportes
             if (e.Item is GridDataItem)
             {
                 GridDataItem item = e.Item as GridDataItem;
+
                 item["ponderacion"].BackColor = System.Drawing.ColorTranslator.FromHtml("#D8E8E5");
                 item["indicadorMinimo"].BackColor = System.Drawing.ColorTranslator.FromHtml("#D8E8E5");
                 item["indicadorDeseable"].BackColor = System.Drawing.ColorTranslator.FromHtml("#D8E8E5");
@@ -73,11 +75,13 @@ namespace IndicadoresFreyman.Reportes
                 item["indicadorMinimo"].Font.Bold = true;
                 item["indicadorDeseable"].Font.Bold = true;
 
+
                 //for (int i = 0; i < item.OwnerTableView.Columns.Count; i++)
                 for (int i = 0; i < item.OwnerTableView.Columns.Count; i++)
                 {
                     string columnName = item.OwnerTableView.Columns[i].UniqueName;
                     string cellText = item[columnName].Text;
+
                     int idex = i+2;
                     //if (i == 2 || i==1) {
                     //    item[columnName].Width = 150;
@@ -108,7 +112,6 @@ namespace IndicadoresFreyman.Reportes
                             //e.Item.Cells[i].Text = e.Item.Cells[i].Text + " %";
 
                         }
-
                     }
                 }
             }
@@ -123,6 +126,7 @@ namespace IndicadoresFreyman.Reportes
         {
             ObtenerInfo();
         }
+
         protected void RadGridHistorico_PreRender(object sender, EventArgs e)
         {
             // Add columns dynamically in PreRender if necessary
@@ -183,12 +187,14 @@ namespace IndicadoresFreyman.Reportes
             if (columnIndexCounter > 2)
             {
                 // (e.Column as GridBoundColumn).DataField = e.Column.UniqueName;
+
                 e.Column.CurrentFilterFunction = GridKnownFunction.EqualTo;
                 e.Column.ShowFilterIcon = false;
                 e.Column.AutoPostBackOnFilter = true;
                 e.Column.HeaderStyle.Width = 50;
                 //columnNames.Add(e.Column.UniqueName);
                 // e.Column.HeaderText = e.Column.UniqueName;
+
                 if (columnIndexCounter > 7)
                 {
                     //(e.Column as GridBoundColumn).Aggregate = GridAggregateFunction.Sum;
@@ -207,6 +213,5 @@ namespace IndicadoresFreyman.Reportes
             columnIndexCounter++;
         }
 
-     
     }
 }
