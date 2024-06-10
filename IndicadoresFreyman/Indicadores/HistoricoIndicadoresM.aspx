@@ -3,7 +3,6 @@
     <style>
 
     .demo-container {
-        float: left;
         margin-right: 50px;
         font: 400 14px / 1.4 Arial, Helvetica, sans-serif;
         font-style: normal;
@@ -19,20 +18,33 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="demo-container" style="margin:5px">
-    <h3>Mes</h3>
-    <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList1" runat="server" Width="300" Height="200px" DropDownHeight="200px"
-        DataTextField="" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList1_SelectedIndexChanged">
-    </telerik:RadDropDownList>
-</div>
-<div class="demo">
     
+<div class="demo" style="margin-left:20px; margin-right:20px;">
+
+    <div style="display: inline-block; margin-right: 20px;">
+        <h3>Mes</h3>
+        <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList1" runat="server" Width="300" Height="200px" DropDownHeight="200px"
+            DataTextField="" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList1_SelectedIndexChanged">
+        </telerik:RadDropDownList>
+    </div>
+
+    <div id="divColaboradores" style="display: none">
+        <h3>Colaborador</h3>
+        <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList2" runat="server" Width="300" Height="200px" DropDownHeight="200px"
+            DataTextField="" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList2_SelectedIndexChanged">
+        </telerik:RadDropDownList>
+    </div>
+    <asp:Literal ID="Literal1" runat="server"></asp:Literal>
+
+    <div style="text-align: right; margin-bottom: 10px;">
+        <asp:TextBox ID="txtFilter" Width="200px" runat="server" AutoPostBack="True" OnTextChanged="txtFilter_TextChanged" placeholder="Buscar en la tabla..."></asp:TextBox>
+    </div>
     <telerik:RadAjaxLoadingPanel runat="server" ID="RadAjaxLoadingPanel1"></telerik:RadAjaxLoadingPanel>
     <telerik:RadFormDecorator RenderMode="Lightweight" ID="RadFormDecorator1" runat="server" DecorationZoneID="demo" DecoratedControls="All" EnableRoundedCorners="false" />
     <telerik:RadGrid RenderMode="Lightweight" ID="gridHistorico" GridLines="None" runat="server" OnItemDataBound="gridHistorico_ItemDataBound"
         CellSpacing="0" CellPadding="0" Font-Size="Smaller" Style="padding: 0; margin: 0 auto" OnItemCreated="gridHistorico_ItemCreated"
-        AllowAutomaticInserts="True" PageSize="10" AllowAutomaticUpdates="True" AllowPaging="True" 
-        AutoGenerateColumns="False" ShowFooter="true">
+        AllowAutomaticInserts="True" PageSize="10" AllowAutomaticUpdates="True" AllowPaging="True"
+        AutoGenerateColumns="False" ShowFooter="true" >
 
         <MasterTableView  CommandItemDisplay="Top" AutoGenerateColumns="False" CellPadding="0" CellSpacing="0">
             <CommandItemSettings ShowAddNewRecordButton="false" ShowCancelChangesButton="false" ShowSaveChangesButton="false" ShowRefreshButton="false"/>
@@ -42,31 +54,32 @@
             </CommandItemTemplate>
 
             <Columns>
-                <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='5%' HeaderStyle-Font-Bold="true" UniqueName="indicadorId" DataField='indicadorId' SortExpression="indicadorId" HeaderText='ID' 
-                    ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='30%' HeaderStyle-Font-Bold="true" UniqueName="descripcionIndicador" DataField='descripcionIndicador' SortExpression="descripcionIndicador" 
-                    HeaderText='Descripción' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                <telerik:GridBoundColumn FilterControlWidth="80%" HeaderStyle-Width='5%' HeaderStyle-Font-Bold="true" UniqueName="ponderacion" DataField='ponderacion' SortExpression="ponderacion" HeaderText='Ponderación' 
-                    ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='6%' HeaderStyle-Font-Bold="true" UniqueName="indicadorMinimo" DataField='indicadorMinimo' SortExpression="indicadorMinimo" HeaderText='Indicador Minimo (50 Pts.)' 
-                    ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='7%' HeaderStyle-Font-Bold="true" UniqueName="indicadorDeseable" DataField='indicadorDeseable' SortExpression="indicadorDeseable" 
-                    HeaderText='Indicador Deseable (100 Pts.)' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='5%' HeaderStyle-Font-Bold="true" UniqueName="resultado" DataField='resultado' SortExpression="resultado" HeaderText='Resultado' 
-                    ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" ItemStyle-BackColor="#BFBBBB"></telerik:GridBoundColumn>
-                <telerik:GridTemplateColumn FilterControlWidth='80%' HeaderStyle-Width='8%' HeaderStyle-Font-Bold="true" UniqueName="cumplimientoObjetivo" DataField='cumplimientoObjetivo' SortExpression="cumplimientoObjetivo" 
-                    HeaderText='Cumplimiento Objetivo (0-100 Pts.)' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="false" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center">
+                <telerik:GridBoundColumn HeaderStyle-Width='3%' HeaderStyle-Font-Bold="true" UniqueName="indicadorId" DataField='indicadorId' SortExpression="indicadorId" HeaderText='ID' 
+                    ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
+                <telerik:GridBoundColumn HeaderStyle-Width='7%' HeaderStyle-Font-Bold="true" UniqueName="Nombre_" DataField='Nombre_' SortExpression="Nombre_" HeaderText='Colaborador' 
+                    ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" Visible="false"></telerik:GridBoundColumn>
+                <telerik:GridBoundColumn HeaderStyle-Width='30%' HeaderStyle-Font-Bold="true" UniqueName="descripcionIndicador" DataField='descripcionIndicador' SortExpression="descripcionIndicador" 
+                    HeaderText='Descripción' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true"  ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
+                <telerik:GridBoundColumn HeaderStyle-Width='5%' HeaderStyle-Font-Bold="true" UniqueName="ponderacion" DataField='ponderacion' SortExpression="ponderacion" HeaderText='Ponderación' 
+                    ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
+                <telerik:GridBoundColumn HeaderStyle-Width='6%' HeaderStyle-Font-Bold="true" UniqueName="indicadorMinimo" DataField='indicadorMinimo' SortExpression="indicadorMinimo" HeaderText='Indicador Minimo (50 Pts.)' 
+                    ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
+                <telerik:GridBoundColumn HeaderStyle-Width='7%' HeaderStyle-Font-Bold="true" UniqueName="indicadorDeseable" DataField='indicadorDeseable' SortExpression="indicadorDeseable" 
+                    HeaderText='Indicador Deseable (100 Pts.)' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
+                <telerik:GridBoundColumn HeaderStyle-Width='5%' HeaderStyle-Font-Bold="true" UniqueName="resultado" DataField='resultado' SortExpression="resultado" HeaderText='Resultado' 
+                    ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" ItemStyle-BackColor="#BFBBBB"></telerik:GridBoundColumn>
+                <telerik:GridTemplateColumn HeaderStyle-Width='8%' HeaderStyle-Font-Bold="true" UniqueName="cumplimientoObjetivo" DataField='cumplimientoObjetivo' SortExpression="cumplimientoObjetivo" 
+                    HeaderText='Cumplimiento Objetivo (0-100 Pts.)' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="false" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center">
                         <ItemTemplate>
                             <span style="font-size:13px" class='<%# CargarEstilosCumplimiento(Convert.ToDecimal(Eval("cumplimientoObjetivo")))%>'>  <%# Eval("cumplimientoObjetivo") %></span>
                         </ItemTemplate>
                 </telerik:GridTemplateColumn>
-                <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='10%' HeaderStyle-Font-Bold="true" UniqueName="evaluacionPonderada" DataField='evaluacionPonderada' SortExpression="evaluacionPonderada"
-                    HeaderText='Evaluacion Ponderada' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false'  HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
+                <telerik:GridBoundColumn HeaderStyle-Width='10%' HeaderStyle-Font-Bold="true" UniqueName="evaluacionPonderada" DataField='evaluacionPonderada' SortExpression="evaluacionPonderada"
+                    HeaderText='Evaluacion Ponderada' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false'  HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
             </Columns>
             <FooterStyle Height="30px" HorizontalAlign="Center" Font-Size="Medium" Font-Bold="true"/>
         </MasterTableView>
         <ClientSettings AllowKeyboardNavigation="true">
-            <ClientEvents OnBatchEditCellValueChanged="BatchEditCellValueChanged"/>
         </ClientSettings>
     </telerik:RadGrid>
     <asp:Label ID="HiddenLabel" runat="server" Visible="false"></asp:Label>
