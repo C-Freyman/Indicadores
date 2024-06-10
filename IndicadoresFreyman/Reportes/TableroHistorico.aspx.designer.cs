@@ -11,7 +11,7 @@ namespace IndicadoresFreyman.Reportes
 {
 
 
-    public partial class ReporteRRHH
+    public partial class TableroHistorico
     {
 
         /// <summary>
@@ -24,6 +24,15 @@ namespace IndicadoresFreyman.Reportes
         protected global::Telerik.Web.UI.RadMonthYearPicker RadMonthYearPicker1;
 
         /// <summary>
+        /// Control RadMonthYearPicker2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadMonthYearPicker RadMonthYearPicker2;
+
+        /// <summary>
         /// Control btnActualizar.
         /// </summary>
         /// <remarks>
@@ -33,12 +42,21 @@ namespace IndicadoresFreyman.Reportes
         protected global::System.Web.UI.WebControls.ImageButton btnActualizar;
 
         /// <summary>
-        /// Control RadGridRRHH.
+        /// Control RadGridHistorico.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadGrid RadGridRRHH;
+        protected global::Telerik.Web.UI.RadGrid RadGridHistorico;
+
+        /// <summary>
+        /// Control PlaceHolder1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolder1;
     }
 }
