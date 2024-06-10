@@ -179,6 +179,7 @@
     <Content Include="crearIndicador.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Imagenes\Actualizar.png" />
     <Content Include="Log.aspx" />
     <Content Include="Reportes\ReporteTableroHist.aspx" />
     <Content Include="Reportes\ReporteTableroHistorico.aspx" />
@@ -207,6 +208,7 @@
     <Content Include="Reportes\ReporteRRHH.aspx" />
     <Content Include="Reportes\ReporteTableroHist.aspx" />
     <Content Include="Reportes\ReporteTableroHistorico.aspx" />
+    <Content Include="Reportes\TableroHistorico.aspx" />
     <Content Include="usuario.png" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -314,6 +316,13 @@
     </Compile>
     <Compile Include="Reportes\ReporteTableroHistorico.aspx.designer.cs">
       <DependentUpon>ReporteTableroHistorico.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\TableroHistorico.aspx.cs">
+      <DependentUpon>TableroHistorico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\TableroHistorico.aspx.designer.cs">
+      <DependentUpon>TableroHistorico.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

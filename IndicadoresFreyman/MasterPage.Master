@@ -49,7 +49,7 @@
                      <telerik:RadMenuItem Text="REPORTES">
                          <GroupSettings Width="250px" />
                          <Items>
-                             <telerik:RadMenuItem Text="Tablero Indicadores" NavigateUrl="/Reportes/ReporteTableroHist.aspx" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
+                             <telerik:RadMenuItem Text="Tablero Indicadores" NavigateUrl="/Reportes/TableroHistorico.aspx" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
                              <telerik:RadMenuItem Text="RRHH" NavigateUrl="/Reportes/ReporteRRHH.aspx" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
                              <telerik:RadMenuItem Text="Gráficas" NavigateUrl="" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
                          </Items>
