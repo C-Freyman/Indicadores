@@ -19,6 +19,7 @@ using Telerik.Web.UI.Chat;
 using System.Runtime.InteropServices.ComTypes;
 using Telerik.Web.UI.PivotGrid.Queryable.Groups;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 
 namespace IndicadoresFreyman.Indicadores
 {
@@ -195,7 +196,8 @@ namespace IndicadoresFreyman.Indicadores
         public static object SaveRowValues(string filaHTML, string valorEditado)
         {
             string id = filaHTML.Substring(0, filaHTML.IndexOf('\t'));
-
+            var obj= new EvidenciaIndicadores();
+            
             bool esAscendente = false;
             int ponderacion = 0, indicadorMinimo = 0, indicadorDeseable = 0;
 
@@ -205,8 +207,8 @@ namespace IndicadoresFreyman.Indicadores
                 using (var command = new SqlCommand())
                 {
                     command.Connection = con;
-                    command.CommandText = "select pli.esAscendente, pli.TipoId,i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli" +
-                        " left join Indicador i on pli.pIndicadorId=i.pIndicadorId where pli.pIndicadorId=" + id + ";";
+                    command.CommandText = "select pli.esAscendente, pli.TipoId,i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli " +
+                        " left join Indicador i on i.pIndicadorId=pli.pIndicadorId where i.pIndicadorId=" + id + " and i.activo=1 and pli.estatus=1 and empleadoId=" + obj.Session["empleadoId"] + ";";
                     command.CommandType = CommandType.Text;
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -219,7 +221,6 @@ namespace IndicadoresFreyman.Indicadores
                 }
             }
             double cumplimientoObjetivo, evaluacionPonderada;
-            var obj = new EvidenciaIndicadores();
             obj.calcularResultados(esAscendente,Convert.ToDouble( valorEditado),indicadorMinimo,indicadorDeseable,ponderacion,out cumplimientoObjetivo, out evaluacionPonderada);
             return new
             {
@@ -241,7 +242,7 @@ namespace IndicadoresFreyman.Indicadores
                     {
                         command.Connection = con;
                         command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
-                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " and empleadoId=3246) and mes=6 and año=2024 and fechaCerrado is null";
+                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " and empleadoId=3246 and activo=1) and mes=6 and año=2024 and fechaCerrado is null";
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }   
@@ -262,7 +263,7 @@ namespace IndicadoresFreyman.Indicadores
                     {
                         command.Connection = con;
                         command.CommandText = "update resultadoIndicador set fechaCerrado=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
-                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " and empleadoId=3246) and mes=6 and año=2024";
+                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " and empleadoId=3246 and activo=1) and mes=6 and año=2024";
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }

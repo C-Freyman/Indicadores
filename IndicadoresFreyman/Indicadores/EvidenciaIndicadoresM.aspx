@@ -97,7 +97,7 @@
         // Enviar los valores de la fila al servidor usando AJAX
         $.ajax({
             type: "POST",
-            url: "EvidenciaIndicadores.aspx/SaveRowValues",
+            url: "EvidenciaIndicadoresM.aspx/SaveRowValues",
             data: JSON.stringify({ filaHTML: filaHTML, valorEditado: valorEditado }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -150,7 +150,7 @@
 
         $.ajax({
             type: "POST",
-            url: "EvidenciaIndicadores.aspx/GuardarBorrador",
+            url: "EvidenciaIndicadoresM.aspx/GuardarBorrador",
             data: JSON.stringify({ tableData: tableData }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -195,7 +195,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "EvidenciaIndicadores.aspx/CerrarCambios",
+                url: "EvidenciaIndicadoresM.aspx/CerrarCambios",
                 data: JSON.stringify({ tableData: tableData }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -299,9 +299,9 @@
   <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Server=187.174.147.102; User ID=sa; password=similares*3; DataBase=Indicadores;"
       SelectCommand="select pli.pIndicadorId as indicadorId, pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, 
                       isnull(cumplimientoOBjetivo,0)as cumplimientoObjetivo, isnull(evaluacionPonderada,0)as evaluacionPonderada from Indicador i 
-                      left join PlantillaIndicador pli on pli.pIndicadorId=i.pIndicadorId
-                      left join resultadoIndicador e on i.IndicadorId=e.indicadorId 
-                      where empleadoId=@empleadoId and mes=6">
+                      inner join PlantillaIndicador pli on pli.pIndicadorId=i.pIndicadorId
+                      inner join resultadoIndicador e on i.IndicadorId=e.indicadorId 
+                      where empleadoId=@empleadoId and mes=@mes">
       <SelectParameters>
               <asp:SessionParameter Name="empleadoId" SessionField="empleadoId" Type="Int32" />
               <asp:Parameter Name="mes" Type="Int32" />
