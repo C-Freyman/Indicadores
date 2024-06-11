@@ -191,9 +191,7 @@
     <Content Include="Global.asax" />
     <Content Include="Imagenes\LogF.png" />
     <Content Include="Imagenes\LogF_.png" />
-    <Content Include="Indicadores\EvidenciaIndicadores.aspx" />
     <Content Include="Indicadores\EvidenciaIndicadoresM.aspx" />
-    <Content Include="Indicadores\HistoricoIndicadores.aspx" />
     <Content Include="Indicadores\HistoricoIndicadoresM.aspx" />
     <Content Include="js\bootstrap.bundle.js" />
     <Content Include="js\bootstrap.min.js" />
@@ -253,26 +251,12 @@
       <DependentUpon>Log.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Indicadores\EvidenciaIndicadores.aspx.cs">
-      <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Indicadores\EvidenciaIndicadores.aspx.designer.cs">
-      <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Indicadores\EvidenciaIndicadoresM.aspx.cs">
       <DependentUpon>EvidenciaIndicadoresM.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Indicadores\EvidenciaIndicadoresM.aspx.designer.cs">
       <DependentUpon>EvidenciaIndicadoresM.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Indicadores\HistoricoIndicadores.aspx.cs">
-      <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Indicadores\HistoricoIndicadores.aspx.designer.cs">
-      <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
     </Compile>
     <Compile Include="Indicadores\HistoricoIndicadoresM.aspx.cs">
       <DependentUpon>HistoricoIndicadoresM.aspx</DependentUpon>

@@ -87,7 +87,7 @@ namespace IndicadoresFreyman.Indicadores
 
         private void ValidacionIndicadoresCerrado()
         {
-            string query = "select top 1  isnull(cast(fechaCerrado as varchar(10)),'1') as fechaCerrado from resultadoIndicador ri left join Indicador i on ri.indicadorId=i.IndicadorId where mes=" + DateTime.Now.AddMonths(-1).Month.ToString() + " and empleadoId=" + Session["empleadoId"];
+            string query = "select top 1  isnull(cast(fechaCerrado as varchar(10)),'1') as fechaCerrado from resultadoIndicador ri left join Indicador i on ri.indicadorId=i.IndicadorId where mes=" + DateTime.Now.AddMonths(-1).Month.ToString() + " and activo=1 and empleadoId=" + Session["empleadoId"];
             string cerrado = "";
             using (SqlConnection con = new SqlConnection(conn))
             {
