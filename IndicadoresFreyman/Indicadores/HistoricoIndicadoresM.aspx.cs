@@ -22,7 +22,7 @@ namespace IndicadoresFreyman.Indicadores
         {
             if (!IsPostBack)
             {
-                Session["empleadoId"] = "3246";//;// ;"3246""42""1935"
+                Session["empleadoId"] = "42";//;// ;"3246""42""1935"
                 ValidarPuesto();
 
                 // Obtener el mes anterior
@@ -394,6 +394,24 @@ namespace IndicadoresFreyman.Indicadores
                 footerItem["cumplimientoObjetivo"].Text = "<div style='text-align: right;'>Evaluación Mensual: </div>";
                 footerItem["evaluacionPonderada"].Text = resultado;
             }
+
+            //if (e.Item is GridDataItem)
+            //{
+            //    GridDataItem dataItem = (GridDataItem)e.Item;
+            //    int currentRowIndex = dataItem.ItemIndex;
+
+            //    if (currentRowIndex > 0)
+            //    {
+            //        GridDataItem previousDataItem = (GridDataItem)gridHistorico.Items[currentRowIndex - 1];
+
+            //        if (dataItem["Nombre_"].Text == previousDataItem["Nombre_"].Text)
+            //        {
+            //            dataItem["Nombre_"].Visible = false;
+            //            dataItem["Evidencia"].RowSpan = previousDataItem["Evidencia"].RowSpan + 1;
+            //            previousDataItem["Evidencia"].RowSpan += 1;
+            //        }
+            //    }
+            //}
         }
 
         protected void gridHistorico_ItemCreated(object sender, GridItemEventArgs e)
@@ -419,35 +437,57 @@ namespace IndicadoresFreyman.Indicadores
             string filterText = txtFilter.Text.Trim();
             if (!string.IsNullOrEmpty(filterText))
             {
-
+                string filterExpression;
                 DataTable dt = new DataTable();
                 // Filtrar datos en el grid basado en el texto del TextBox
                 if (Session["puesto"] as string == "2")//Contralor
                 {
                     dt = ObtenerDatosContralor(Convert.ToInt32(RadDropDownList1.SelectedValue), RadDropDownList3.SelectedValue.ToString(), RadDropDownList2.SelectedValue.ToString());
+                    filterExpression = string.Format(
+                        "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(Departamento, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(Nombre_, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(descripcionIndicador, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(ponderacion, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(indicadorMinimo, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(indicadorDeseable, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(resultado, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(cumplimientoObjetivo, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(evaluacionPonderada, 'System.String') LIKE '%{0}%'",
+                        filterText);
                 }
                 else if (Session["puesto"] as string == "1")
                 {
                     dt = ObtenerDatosGerente(Convert.ToInt32(RadDropDownList1.SelectedValue), Convert.ToInt32(RadDropDownList2.SelectedValue));
+                    filterExpression = string.Format(
+                        "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(Nombre_, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(descripcionIndicador, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(ponderacion, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(indicadorMinimo, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(indicadorDeseable, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(resultado, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(cumplimientoObjetivo, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(evaluacionPonderada, 'System.String') LIKE '%{0}%'",
+                        filterText);
                 }
                 else
                 {
                     dt = ObtenerDatos(Convert.ToInt32(RadDropDownList1.SelectedValue));
+                    filterExpression = string.Format(
+                        "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(descripcionIndicador, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(ponderacion, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(indicadorMinimo, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(indicadorDeseable, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(resultado, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(cumplimientoObjetivo, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(evaluacionPonderada, 'System.String') LIKE '%{0}%'",
+                        filterText);
                 }
                 DataView dv = dt.DefaultView;
 
-                string filterExpression = string.Format(
-            "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(Departamento, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(Nombre_, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(descripcionIndicador, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(ponderacion, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(indicadorMinimo, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(indicadorDeseable, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(resultado, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(cumplimientoObjetivo, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(evaluacionPonderada, 'System.String') LIKE '%{0}%'",
-            filterText);
+                
 
                 dv.RowFilter = filterExpression;
                 gridHistorico.DataSource = dv;
@@ -491,6 +531,19 @@ namespace IndicadoresFreyman.Indicadores
                 }
             }
             CargarDatosEnGrid();
+        }
+
+        protected void gridHistorico_ItemCommand(object sender, GridCommandEventArgs e)
+        {
+            if (e.CommandName == "Evidencia")
+            {
+                string indicadorId = e.CommandArgument.ToString();
+                // Aquí puedes manejar el comando, por ejemplo, mostrar una ventana modal con la evidencia
+                // o redirigir a otra página.
+                // Response.Redirect($"Evidencia.aspx?id={indicadorId}");
+                // O mostrar un popup/modal
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", $"alert('Ver evidencia para ID: {indicadorId}');", true);
+            }
         }
     }
 }

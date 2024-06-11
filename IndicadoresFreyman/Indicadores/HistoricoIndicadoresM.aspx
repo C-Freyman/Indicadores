@@ -55,7 +55,7 @@
     <telerik:RadFormDecorator RenderMode="Lightweight" ID="RadFormDecorator1" runat="server" DecorationZoneID="demo" DecoratedControls="All" EnableRoundedCorners="false" />
     <telerik:RadGrid RenderMode="Lightweight" ID="gridHistorico" GridLines="None" runat="server" OnItemDataBound="gridHistorico_ItemDataBound"
         CellSpacing="0" CellPadding="0" Font-Size="Smaller" Style="padding: 0; margin: 0 auto" OnItemCreated="gridHistorico_ItemCreated"
-        AllowAutomaticInserts="True" PageSize="10" AllowAutomaticUpdates="True" AllowPaging="True"
+        AllowAutomaticInserts="True" PageSize="10" AllowAutomaticUpdates="True" AllowPaging="True" OnItemCommand="gridHistorico_ItemCommand"
         AutoGenerateColumns="False" ShowFooter="true" >
 
         <MasterTableView  CommandItemDisplay="Top" AutoGenerateColumns="False" CellPadding="0" CellSpacing="0">
@@ -84,12 +84,17 @@
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" ItemStyle-BackColor="#74C99B"></telerik:GridBoundColumn>
                 <telerik:GridTemplateColumn HeaderStyle-Width='8%' HeaderStyle-Font-Bold="true" UniqueName="cumplimientoObjetivo" DataField='cumplimientoObjetivo' SortExpression="cumplimientoObjetivo" 
                     HeaderText='Cumplimiento Objetivo (0-100 Pts.)' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="false" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center">
-                        <ItemTemplate>
-                            <span style="font-size:13px" class='<%# CargarEstilosCumplimiento(Convert.ToDecimal(Eval("cumplimientoObjetivo")))%>'>  <%# Eval("cumplimientoObjetivo") %></span>
-                        </ItemTemplate>
+                    <ItemTemplate>
+                        <span style="font-size:13px" class='<%# CargarEstilosCumplimiento(Convert.ToDecimal(Eval("cumplimientoObjetivo")))%>'>  <%# Eval("cumplimientoObjetivo") %></span>
+                    </ItemTemplate>
                 </telerik:GridTemplateColumn>
                 <telerik:GridBoundColumn HeaderStyle-Width='10%' HeaderStyle-Font-Bold="true" UniqueName="evaluacionPonderada" DataField='evaluacionPonderada' SortExpression="evaluacionPonderada"
                     HeaderText='Evaluacion Ponderada' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false'  HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
+                <telerik:GridTemplateColumn HeaderStyle-Width='10%' HeaderStyle-Font-Bold="true" UniqueName="Evidencia" HeaderText='Evidencia'>
+                    <ItemTemplate>
+                        <asp:Button ID="btnEvidencia" runat="server" Text="Ver Evidencia" CommandName="Evidencia" CommandArgument='<%# Eval("indicadorId") %>' />
+                    </ItemTemplate>
+                </telerik:GridTemplateColumn>
             </Columns>
             <FooterStyle Height="30px" HorizontalAlign="Center" Font-Size="Medium" Font-Bold="true"/>
         </MasterTableView>
