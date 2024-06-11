@@ -41,26 +41,31 @@ namespace IndicadoresFreyman
 
         protected void radIndicador_ItemUpdated(object sender, GridUpdatedEventArgs e)
         {
-            GridEditableItem item = (GridEditableItem)e.Item;
-            string id = item.GetDataKeyValue("pIndicadorId").ToString();
-            string descripcionIndicador = item["descripcionIndicador"].Text;
+
+          
+                GridEditableItem item = (GridEditableItem)e.Item;
+                string id = item.GetDataKeyValue("pIndicadorId").ToString();
+                string descripcionIndicador = item["descripcionIndicador"].Text;
 
 
-            if (e.Exception != null)
-            {
-                e.KeepInEditMode = true;
-                e.ExceptionHandled = true;
-                string error = e.Exception.Message;
-                DisplayMessage(true, "Indicador " + descripcionIndicador + " no pudo ser asignado. Debido: " + e.Exception.Message);
+                if (e.Exception != null)
+                {
+                    e.KeepInEditMode = true;
+                    e.ExceptionHandled = true;
+                   
+                //DisplayMessage(true, "Indicador " + descripcionIndicador + " no pudo ser asignado. Debido: " + e.Exception.Message);
+                RadWindowManager1.RadAlert($"Indicador no puedo eliminar Debido:: {e.Exception.Message}", 0, 0, "", null);
                 //NotifyUser("Product with ID " + id + " cannot be updated. Reason: " + e.Exception.Message);
             }
-            else
-            {
-                DisplayMessage(false, "Guardado exitosamente");
+                else
+                {
+                //DisplayMessage(false, "Guardado exitosamente");
+                RadWindowManager1.RadAlert($"Guardado exitosamente", 0, 0, "", null);
                 radGridEmpleados.DataSource = consulta();
-                radGridEmpleados.Rebind();
+                    radGridEmpleados.Rebind();
 
-            }
+                }
+          
 
         }
 
@@ -212,118 +217,125 @@ namespace IndicadoresFreyman
         protected void radIndicador_ItemDataBound(object sender, GridItemEventArgs e)
         {
 
-            CalculateSumPonderacion();
-           
+            //CalculateSumPonderacion();
+            if (e.Item is GridDataItem)
+            {
+                GridDataItem dataItem = (GridDataItem)e.Item;
+                DataRowView fila = dataItem.DataItem as DataRowView;
+                bool estaSeleccionado = bool.Parse(fila["activo"].ToString());
+                dataItem.Selected = estaSeleccionado;
+
+            }
             //if (e.Item is GridDataItem)
-            //{
-            //    GridDataItem dataItem = (GridDataItem)e.Item;
+                //{
+                //    GridDataItem dataItem = (GridDataItem)e.Item;
 
-            //    // Obtener el CheckBox en la columna
-            //    CheckBox checkBox = (CheckBox)dataItem["activo"].Controls[0];
+                //    // Obtener el CheckBox en la columna
+                //    CheckBox checkBox = (CheckBox)dataItem["activo"].Controls[0];
 
-            //    // Verificar si está checado
-            //    bool isChecked = checkBox.Checked;
+                //    // Verificar si está checado
+                //    bool isChecked = checkBox.Checked;
 
-            //    // Hacer algo con el valor checado
-            //    if (isChecked)
-            //    {
-            //        // Lógica si el CheckBox está checado
-            //        dataItem.BackColor = System.Drawing.Color.LightGreen;
-            //    }
-            //    else
-            //    {
-            //        // Lógica si el CheckBox no está checado
-            //        dataItem.BackColor = System.Drawing.Color.LightCoral;
-            //    }
-            //}
+                //    // Hacer algo con el valor checado
+                //    if (isChecked)
+                //    {
+                //        // Lógica si el CheckBox está checado
+                //        dataItem.BackColor = System.Drawing.Color.LightGreen;
+                //    }
+                //    else
+                //    {
+                //        // Lógica si el CheckBox no está checado
+                //        dataItem.BackColor = System.Drawing.Color.LightCoral;
+                //    }
+                //}
 
-            // Obtener la suma del campo "Value"
-            //int total = 0;
-
-
-
-            //try
-            //{
-
-            //    if (e.Item is GridDataItem)
-            //    { 
-            //        foreach (GridDataItem itemE in radIndicador.MasterTableView.Items)
-            //        {
-            //            string indicador = itemE["descripcionIndicador"].Text;
-            //            int value = int.Parse(itemE["ponderacion"].Text);
-            //            // Encontrar el control CheckBox dentro de la celda
-            //            CheckBox chkBox = (CheckBox)itemE["Activo"].Controls[0];
-            //            if (chkBox != null && chkBox.Checked)
-            //            {
-            //                total = int.Parse(htntotal.Value);
-            //                total += value;
-            //                htntotal.Value = total.ToString();
-
-            //            }
-            //        }
-            //  }
-
-
-            //if (e.Item is GridDataItem)
-            //{
-            //    // Cast the item to a GridDataItem
-            //    GridDataItem dataItem = (GridDataItem)e.Item;
-
-            //    string indicador = dataItem["descripcionIndicador"].Text;
-            //    int value = int.Parse(dataItem["ponderacion"].Text);
-            //    // Encontrar el control CheckBox dentro de la celda
-            //    CheckBox chkBox = (CheckBox)dataItem["Activo"].Controls[0];
-            //    if (chkBox != null && chkBox.Checked)
-            //    {
-            //        total = int.Parse(htntotal.Value);
-            //        total += value;
-            //        htntotal.Value = total.ToString();
-
-            //    }
-            //}
+                // Obtener la suma del campo "Value"
+                //int total = 0;
 
 
 
-            //if (e.Item is GridDataItem)
-            //{
-            //    foreach (GridDataItem dataItem in radIndicador.Items)
-            //    {
-            //        string indicador = dataItem["descripcionIndicador"].Text;
-            //        int value = int.Parse(dataItem["ponderacion"].Text);
-            //        // Encontrar el control CheckBox dentro de la celda
-            //        CheckBox chkBox = (CheckBox)dataItem["Activo"].Controls[0];
-            //        if (chkBox != null && chkBox.Checked)
-            //        {
-            //            total += value;
-            //            htntotal.Value = total.ToString();
+                //try
+                //{
 
-            //        }
+                //    if (e.Item is GridDataItem)
+                //    { 
+                //        foreach (GridDataItem itemE in radIndicador.MasterTableView.Items)
+                //        {
+                //            string indicador = itemE["descripcionIndicador"].Text;
+                //            int value = int.Parse(itemE["ponderacion"].Text);
+                //            // Encontrar el control CheckBox dentro de la celda
+                //            CheckBox chkBox = (CheckBox)itemE["Activo"].Controls[0];
+                //            if (chkBox != null && chkBox.Checked)
+                //            {
+                //                total = int.Parse(htntotal.Value);
+                //                total += value;
+                //                htntotal.Value = total.ToString();
 
-            //    }
-            //}
-
-            //Validar si la suma es igual a 100
-            //if (total != 100)
-            //{
-
-            //    // Cancelar la operación y mostrar un mensaje de error
-            //    //e.Canceled = true;
-            //    //radIndicador.Controls.Add(new LiteralControl("<div class='alert alert-danger'>La suma de la ponderación debe ser igual a 100. La suma actual es " + total + ".</div>"));
-            //}
+                //            }
+                //        }
+                //  }
 
 
+                //if (e.Item is GridDataItem)
+                //{
+                //    // Cast the item to a GridDataItem
+                //    GridDataItem dataItem = (GridDataItem)e.Item;
+
+                //    string indicador = dataItem["descripcionIndicador"].Text;
+                //    int value = int.Parse(dataItem["ponderacion"].Text);
+                //    // Encontrar el control CheckBox dentro de la celda
+                //    CheckBox chkBox = (CheckBox)dataItem["Activo"].Controls[0];
+                //    if (chkBox != null && chkBox.Checked)
+                //    {
+                //        total = int.Parse(htntotal.Value);
+                //        total += value;
+                //        htntotal.Value = total.ToString();
+
+                //    }
+                //}
 
 
-            //}
-            //}
 
-            //catch (Exception ex)
-            //{
-            //    string error = ex.Message;
-            //}
+                //if (e.Item is GridDataItem)
+                //{
+                //    foreach (GridDataItem dataItem in radIndicador.Items)
+                //    {
+                //        string indicador = dataItem["descripcionIndicador"].Text;
+                //        int value = int.Parse(dataItem["ponderacion"].Text);
+                //        // Encontrar el control CheckBox dentro de la celda
+                //        CheckBox chkBox = (CheckBox)dataItem["Activo"].Controls[0];
+                //        if (chkBox != null && chkBox.Checked)
+                //        {
+                //            total += value;
+                //            htntotal.Value = total.ToString();
+
+                //        }
+
+                //    }
+                //}
+
+                //Validar si la suma es igual a 100
+                //if (total != 100)
+                //{
+
+                //    // Cancelar la operación y mostrar un mensaje de error
+                //    //e.Canceled = true;
+                //    //radIndicador.Controls.Add(new LiteralControl("<div class='alert alert-danger'>La suma de la ponderación debe ser igual a 100. La suma actual es " + total + ".</div>"));
+                //}
 
 
-        }
+
+
+                //}
+                //}
+
+                //catch (Exception ex)
+                //{
+                //    string error = ex.Message;
+                //}
+
+
+            }
 
         protected void SqlIndicador_Updating(object sender, SqlDataSourceCommandEventArgs e)
         {
@@ -360,27 +372,29 @@ namespace IndicadoresFreyman
                 }
             }
 
-            lblSumPonderacion.Text = "Total Ponderación: " + totalPonderacion.ToString();
+            //lblSumPonderacion.Text = "Total Ponderación: " + totalPonderacion.ToString();
         }
 
       
 
         protected void radGridEmpleados_ItemDataBound(object sender, GridItemEventArgs e)
         {
-            if (e.Item is GridDataItem)
+            try
             {
-                GridDataItem item = (GridDataItem)e.Item;
-                string nombre = item["nombre"].Text;
-                int ponderacion = int.Parse(item["ponderacion"].Text);
-                //if (ponderacionStr != "")
-                //{
+                if (e.Item is GridDataItem)
+                {
+                    GridDataItem item = (GridDataItem)e.Item;
+                    string nombre = item["nombre"].Text;
+                    int ponderacion = int.Parse(item["ponderacion"].Text);
+                    //if (ponderacionStr != "")
+                    //{
                     //int ponderacion = int.Parse(ponderacionStr);
                     HtmlGenericControl statusIcon = (HtmlGenericControl)item["IconColumn"].FindControl("StatusIcon");
 
                     if (ponderacion == 100)
                     {
 
-                        statusIcon.Attributes["class"] = "bi bi-check-circle-fill Heading text-primary"; // Icono para "Active"                    
+                        statusIcon.Attributes["class"] = "bi bi-check-circle-fill Heading text-success"; // Icono para "Active"                    
                         statusIcon.Attributes["title"] = "Ponderacion";
                     }
 
@@ -389,8 +403,13 @@ namespace IndicadoresFreyman
                         statusIcon.Attributes["class"] = "bi bi-check-circle-fill text-warning"; // Icono para "Active"
                         statusIcon.Attributes["title"] = "Ponderacion";
                     }
-                //}
+                    //}
 
+                }
+            }
+            catch(Exception ex)
+            {
+                string error = ex.Message;
             }
         }
 
@@ -412,20 +431,7 @@ namespace IndicadoresFreyman
             radGridEmpleados.DataSource = consulta();
         }
 
-        protected void btnGuardar_Click(object sender, EventArgs e)
-        {
-            foreach (GridDataItem fila in radGridEmpleados.MasterTableView.Items)
-            {
-                bool isChecked = ((CheckBox)fila.FindControl("chkAsignado")).Checked;
-                if (isChecked)
-                {
-
-                    string descripciondescripcionIndicador = fila["descripcionIndicador"].Text;
-                    //string ponderacion = ((TextBox)fila.FindControl("txtcomentario")).Text;
-                  
-                }
-            }
-        }
+        
 
         protected void radIndicador_CustomAggregate(object sender, GridCustomAggregateEventArgs e)
         {

@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="asignaIndicador.aspx" />
+    <Content Include="asignaIndicadores.aspx" />
     <Content Include="crearIndicador.aspx" />
     <Content Include="crearIndicadores.aspx" />
     <Content Include="css\bootstrap-icons.css" />
@@ -121,17 +122,14 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\pantallaDivida.css" />
     <Content Include="Global.asax" />
-
     <Content Include="js\bootstrap.bundle.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery-1.8.2.min.js" />
     <Content Include="js\jquery-1.8.3.min.js" />
     <Content Include="js\scripts.js" />
     <Content Include="Paramentros.aspx" />
-
     <Content Include="Indicadores\EvidenciaIndicadores.aspx" />
     <Content Include="Indicadores\HistoricoIndicadores.aspx" />
-
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +139,13 @@
     </Compile>
     <Compile Include="asignaIndicador.aspx.designer.cs">
       <DependentUpon>asignaIndicador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="asignaIndicadores.aspx.cs">
+      <DependentUpon>asignaIndicadores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="asignaIndicadores.aspx.designer.cs">
+      <DependentUpon>asignaIndicadores.aspx</DependentUpon>
     </Compile>
     <Compile Include="Conexion.cs" />
     <Compile Include="crearIndicador.aspx.cs">

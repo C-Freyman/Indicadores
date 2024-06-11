@@ -66,11 +66,7 @@
   
 
     <telerik:RadSkinManager ID="RadSkinManager1" runat="server" ShowChooser="true" />
-    <%--<telerik:MessageBox ID="InformationBox1" runat="server" Type="Info" Icon="Info">
-        <p>
-            Click on a cell/row to place it in edit mode. Use the Save changes or Cancel changes buttons to process/discard all changes at once.
-        </p>
-    </telerik:MessageBox>--%>
+    
 
     <p id="divMsgs" runat="server">
         <asp:Label ID="Label1" runat="server" EnableViewState="False" Font-Bold="True" ForeColor="#FF8080"> </asp:Label>
