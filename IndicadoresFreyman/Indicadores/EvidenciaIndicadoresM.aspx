@@ -303,7 +303,7 @@
                       inner join resultadoIndicador e on i.IndicadorId=e.indicadorId 
                       where empleadoId=@empleadoId and mes=@mes">
       <SelectParameters>
-              <asp:SessionParameter Name="empleadoId" SessionField="empleadoId" Type="Int32" />
+              <asp:SessionParameter Name="empleadoId" SessionField="Log" Type="Int32" />
               <asp:Parameter Name="mes" Type="Int32" />
       </SelectParameters>
   </asp:SqlDataSource>

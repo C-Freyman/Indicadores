@@ -32,7 +32,7 @@ namespace IndicadoresFreyman.Indicadores
 
             if (!IsPostBack)
             {
-                Session["Log"] = "3246";
+               // Session["Log"] = "3246";
                 ValidarTablaBD();
                 BindRepeater();
                 LoadDataFromDatabase();

@@ -34,16 +34,16 @@
                      <telerik:RadMenuItem Text="ADMINISTRAR">
                          <GroupSettings Width="250px" />
                          <Items>
-                             <telerik:RadMenuItem Text="Crear Indicadores" NavigateUrl="crearIndicadores.aspx" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
-                             <telerik:RadMenuItem Text="Asignar Indicadores" NavigateUrl="asignaIndicador.aspx" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
+                             <telerik:RadMenuItem Text="Crear" NavigateUrl="crearIndicadores.aspx" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
+                             <telerik:RadMenuItem Text="Asignar" NavigateUrl="asignaIndicador.aspx" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
                          </Items>
                      </telerik:RadMenuItem>
                      <%--<telerik:RadMenuItem Text="SOLICITAR VACACIONES" NavigateUrl="/VacacionesAD/Solicitud_M.aspx" EnableImageSprite="true" />--%>
                      <telerik:RadMenuItem Text="INDICADORES">
                          <GroupSettings Width="250px" />
                          <Items>
-                             <telerik:RadMenuItem Text="Subir Indicadores" NavigateUrl="/Indicadores/EvidenciaIndicadoresM.aspx" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
-                             <telerik:RadMenuItem Text="Histórico Indicadores" NavigateUrl="/Indicadores/HistoricoIndicadoresM.aspx" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
+                             <telerik:RadMenuItem Text="Subir" NavigateUrl="/Indicadores/EvidenciaIndicadoresM.aspx" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
+                             <telerik:RadMenuItem Text="Histórico" NavigateUrl="/Indicadores/HistoricoIndicadoresM.aspx" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
                          </Items>
                      </telerik:RadMenuItem>
                      <telerik:RadMenuItem Text="REPORTES">

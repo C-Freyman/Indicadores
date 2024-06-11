@@ -15,7 +15,7 @@ namespace IndicadoresFreyman
         {
             if (!Page.IsPostBack)
             {
-                hdnArea.Value = "1";
+                hdnArea.Value = "8";
                 radGridIndicador.MasterTableView.CommandItemSettings.AddNewRecordText = "Agregar indicador";
                 radGridIndicador.MasterTableView.CommandItemSettings.RefreshText = "Refrescar";
 

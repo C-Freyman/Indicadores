@@ -22,7 +22,7 @@ namespace IndicadoresFreyman.Indicadores
         {
             if (!IsPostBack)
             {
-                Session["Log"] = "42";//;// ;"3246""42""1935"
+                //Session["Log"] = "42";//;// ;"3246""42""1935"
                 ValidarPuesto();
 
                 // Obtener el mes anterior
