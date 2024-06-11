@@ -15,6 +15,15 @@ namespace IndicadoresFreyman.Reportes
     {
 
         /// <summary>
+        /// Control HidTipoTablero.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HidTipoTablero;
+
+        /// <summary>
         /// Control RadMonthYearPicker1.
         /// </summary>
         /// <remarks>
@@ -40,15 +49,6 @@ namespace IndicadoresFreyman.Reportes
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton btnActualizar;
-
-        /// <summary>
-        /// Control RadGridHistorico.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadGrid RadGridHistorico;
 
         /// <summary>
         /// Control PlaceHolder1.
