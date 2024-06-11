@@ -17,13 +17,13 @@ namespace IndicadoresFreyman
         }
         protected void BtnIngresar_Click(object sender, EventArgs e)
         {
-            string q = string.Format("select *from Vacaciones .dbo.AdministrativosNomiChecador where IdEmpleado =28", txtUsuario.Value, txtContraseña.Value);
+            string q = string.Format("select *from Vacaciones .dbo.AdministrativosNomiChecador where  usuario='{0}' and contraseña='{1}'", txtUsuario.Value, txtContraseña.Value);
             DataTable dtusuario = con.getDatatable  (q);
 
             if (dtusuario.Rows.Count > 0)
             {
                
-                Session["log"] = dtusuario.Rows[0]["IdEmpleado"];
+                Session["Log"] = dtusuario.Rows[0]["IdEmpleado"];
 
                 Response.Redirect("~/Default.aspx");
 

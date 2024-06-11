@@ -10,9 +10,26 @@ namespace IndicadoresFreyman
 {
     public partial class MasterPage : System.Web.UI.MasterPage
     {
+        Conexion con =new Conexion();
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            try
+            {
+                if (Session["Log"] == null)
+                {
+                    Response.Redirect("~/Log.aspx");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción si es necesario
+            }
+            //Session["Log"] = 1356;// 5273;
+            var dtJefe = con.getDatatable ("select * from Vacaciones.dbo.AdministrativosNomiChecador where Departamento ='RECURSOS HUMANOS' and idempleado=" + Session["Log"] );
+            if (dtJefe.Rows.Count == 0)//solo si es de RRHH
+            {
+                RadMenu1.Items[2].Items[2].Visible = false;
+            }
         }
         protected override void OnInit(EventArgs e)
         {
