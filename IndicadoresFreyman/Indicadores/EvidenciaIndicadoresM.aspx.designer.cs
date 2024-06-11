@@ -7,92 +7,101 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace IndicadoresFreyman
+namespace IndicadoresFreyman.Indicadores
 {
 
 
-    public partial class MasterPage
+    public partial class EvidenciaIndicadoresM
     {
 
         /// <summary>
-        /// Control head.
+        /// Control RadAjaxLoadingPanel1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::Telerik.Web.UI.RadAjaxLoadingPanel RadAjaxLoadingPanel1;
 
         /// <summary>
-        /// Control form1.
+        /// Control RadFormDecorator1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::Telerik.Web.UI.RadFormDecorator RadFormDecorator1;
 
         /// <summary>
-        /// Control ScriptManager1.
+        /// Control gridEvidencias.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::Telerik.Web.UI.RadGrid gridEvidencias;
 
         /// <summary>
-        /// Control RadSkinManager1.
+        /// Control HiddenLabel.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadSkinManager RadSkinManager1;
+        protected global::System.Web.UI.WebControls.Label HiddenLabel;
 
         /// <summary>
-        /// Control RadMenu1.
+        /// Control SqlDataSource1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadMenu RadMenu1;
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
 
         /// <summary>
-        /// Control btnDeslog.
+        /// Control FormDecorator1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnDeslog;
+        protected global::Telerik.Web.UI.RadFormDecorator FormDecorator1;
 
         /// <summary>
-        /// Control btnSalir.
+        /// Control ltrNoResults.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSalir;
+        protected global::System.Web.UI.WebControls.Literal ltrNoResults;
 
         /// <summary>
-        /// Control Content.
+        /// Control Repeater1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder Content;
+        protected global::System.Web.UI.WebControls.Repeater Repeater1;
 
         /// <summary>
-        /// Control ContentPlaceHolder1.
+        /// Control RadAsyncUpload1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::Telerik.Web.UI.RadAsyncUpload RadAsyncUpload1;
+
+        /// <summary>
+        /// Control button1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button button1;
     }
 }

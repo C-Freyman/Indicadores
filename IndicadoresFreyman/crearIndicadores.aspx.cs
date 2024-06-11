@@ -281,6 +281,7 @@ namespace IndicadoresFreyman
             //TextBox txtIndicadorMinimo = (TextBox)editItem.FindControl("txtindicadorMinimo");
             //TextBox txtIndicadorDeseable = (TextBox)editItem.FindControl("txtindicadorDeseable");
 
+
         }
     }
 }

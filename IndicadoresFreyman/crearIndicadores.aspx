@@ -9,6 +9,7 @@
         }
 
 
+
         function calculaTipo() {
             var minimo = parseInt(document.getElementById('txtindicadorMinimo').value) || 0;
             var deseable = parseInt(document.getElementById('txtindicadorDeseable').value) || 0;
@@ -22,6 +23,7 @@
 
        
     </script>
+
 
 
 
@@ -41,6 +43,7 @@
 
     <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" EnableShadow="true" Localization-OK="Si" Localization-Cancel="No">
     </telerik:RadWindowManager>
+
 
 
 
@@ -99,18 +102,21 @@
 
 
                 <telerik:GridButtonColumn HeaderText="Eliminar" CommandName="Delete" Text="Delete" UniqueName="column" ConfirmText="Deseas borrar el indicador?" ConfirmDialogType="RadWindow">
+
                     <ItemStyle Width="80px" />
                     <HeaderStyle Width="80px" />
                 </telerik:GridButtonColumn>
 
             </Columns>
             <EditFormSettings EditFormType="Template" PopUpSettings-Width="1070px" PopUpSettings-Modal="true">
+
                 <EditColumn ShowNoSortIcon="False" UniqueName="EditCommandColumn1" FilterControlAltText="Filter EditCommandColumn1 column"></EditColumn>
                 <FormTemplate>
                     <table id="Table2" cellspacing="2" cellpadding="1" border="0" rules="none"
                         style="border-collapse: collapse;">
                         <tr class="EditFormHeader">
                             <td colspan="2" style="font-size: larger; text-align: center">
+
                                 <b>Crear indicador</b>
                             </td>
                         </tr>
@@ -206,6 +212,7 @@
                                 <%--   <tr>
                                         <td>Ordenamiento:
                                         </td>
+<!--<<<<<< devAngeles-->
                                         <td>
 
 
@@ -215,8 +222,66 @@
                                             </telerik:RadDropDownList>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Ascendente requerido" ControlToValidate="ddlascendente" ForeColor="Red"></asp:RequiredFieldValidator>
                                         </td>--%>
-                        </tr>
+                       </tr>
                   
+<%--=======--%>
+                                       <%-- <td >
+                                            <asp:TextBox ID="txtdescripcionIndicador" runat="server" Text='<%# Bind("descripcionIndicador") %>' TabIndex="2" Width="250px" TextMode="MultiLine" style ="width: 900px; height:60px"  >                                             
+                                            </asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Proyecto requerido" ControlToValidate="txtdescripcionIndicador" ForeColor="Red"></asp:RequiredFieldValidator>
+
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>Ponderacion:
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="txtponderacion" runat="server" Text='<%# Bind("ponderacion") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)">
+                                            </asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" ErrorMessage="Objectivo requerido" ControlToValidate="txtponderacion" ForeColor="Red"></asp:RequiredFieldValidator>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>indicador Minimo:
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="txtindicadorMinimo" runat="server" Text='<%# Bind("indicadorMinimo") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)">
+                                            </asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" ErrorMessage="indicador Minimo requerido" ControlToValidate="txtindicadorMinimo"  ForeColor="Red"></asp:RequiredFieldValidator>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>indicador Deseable:
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="txtindicadorDeseable" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)" OnTextChanged ="txtindicadorDeseable_TextChanged">
+                                            </asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="indicador Deseable requerido" ControlToValidate="txtindicadorDeseable" ForeColor="Red"></asp:RequiredFieldValidator>
+
+                                        </td>
+                                    </tr>
+
+                                    <%-- <tr>
+                                        <td>Ascendente:
+                                        </td>
+                                        <td>
+
+
+                                            <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList1" runat="server" DefaultMessage="Selecciona tipo"
+                                                DropDownHeight="80px" SelectedValue='<%# Bind("tipoId") %>' DataValueField="tipoId"
+                                                DataTextField="tipo" TabIndex="7" DataSourceID="SqlTipo" Width="250px">
+                                            </telerik:RadDropDownList>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Tipo requerido" ControlToValidate="ddltipo" ForeColor="Red"></asp:RequiredFieldValidator>
+                                        </td>
+                                    </tr>--%>
+
+
+                                <%--</table>--%>
+<%-->>>>>>> main--%>
 
                     </td>
                         </tr>

@@ -7,11 +7,11 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace IndicadoresFreyman.Indicadores
+namespace IndicadoresFreyman.Reportes
 {
 
 
-    public partial class HistoricoIndicadores
+    public partial class ReporteTableroHistorico
     {
 
         /// <summary>
@@ -24,57 +24,30 @@ namespace IndicadoresFreyman.Indicadores
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// Control RadScriptManager1.
+        /// Control ScriptManager1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadScriptManager RadScriptManager1;
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
 
         /// <summary>
-        /// Control RadDropDownList1.
+        /// Control RadGridHistorico.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadDropDownList RadDropDownList1;
+        protected global::Telerik.Web.UI.RadGrid RadGridHistorico;
 
         /// <summary>
-        /// Control RadAjaxLoadingPanel1.
+        /// Control RadHtmlChartIndicadores.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadAjaxLoadingPanel RadAjaxLoadingPanel1;
-
-        /// <summary>
-        /// Control RadFormDecorator1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadFormDecorator RadFormDecorator1;
-
-        /// <summary>
-        /// Control gridHistorico.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadGrid gridHistorico;
-
-        /// <summary>
-        /// Control HiddenLabel.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label HiddenLabel;
+        protected global::Telerik.Web.UI.RadHtmlChart RadHtmlChartIndicadores;
     }
 }

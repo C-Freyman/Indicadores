@@ -64,6 +64,7 @@ namespace IndicadoresFreyman
                 radGridEmpleados.DataSource = consulta();
                     radGridEmpleados.Rebind();
 
+
                 }
           
 
@@ -217,6 +218,7 @@ namespace IndicadoresFreyman
         protected void radIndicador_ItemDataBound(object sender, GridItemEventArgs e)
         {
 
+
             //CalculateSumPonderacion();
             if (e.Item is GridDataItem)
             {
@@ -224,6 +226,7 @@ namespace IndicadoresFreyman
                 DataRowView fila = dataItem.DataItem as DataRowView;
                 bool estaSeleccionado = bool.Parse(fila["activo"].ToString());
                 dataItem.Selected = estaSeleccionado;
+
 
             }
             //if (e.Item is GridDataItem)
@@ -431,7 +434,22 @@ namespace IndicadoresFreyman
             radGridEmpleados.DataSource = consulta();
         }
 
-        
+
+        //protected void btnGuardar_Click(object sender, EventArgs e)
+        //{
+        //    foreach (GridDataItem fila in radGridEmpleados.MasterTableView.Items)
+        //    {
+        //        bool isChecked = ((CheckBox)fila.FindControl("chkAsignado")).Checked;
+        //        if (isChecked)
+        //        {
+
+        //            string descripciondescripcionIndicador = fila["descripcionIndicador"].Text;
+        //            string ponderacion = ((TextBox)fila.FindControl("txt")).Text;
+                  
+        //        }
+        //    }
+        //}
+
 
         protected void radIndicador_CustomAggregate(object sender, GridCustomAggregateEventArgs e)
         {

@@ -7,11 +7,11 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace IndicadoresFreyman.Indicadores
+namespace IndicadoresFreyman
 {
 
 
-    public partial class HistoricoIndicadores
+    public partial class Log
     {
 
         /// <summary>
@@ -24,57 +24,39 @@ namespace IndicadoresFreyman.Indicadores
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// Control RadScriptManager1.
+        /// Control img.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadScriptManager RadScriptManager1;
+        protected global::System.Web.UI.WebControls.Image img;
 
         /// <summary>
-        /// Control RadDropDownList1.
+        /// Control txtUsuario.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadDropDownList RadDropDownList1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtUsuario;
 
         /// <summary>
-        /// Control RadAjaxLoadingPanel1.
+        /// Control txtContraseña.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadAjaxLoadingPanel RadAjaxLoadingPanel1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputPassword txtContraseña;
 
         /// <summary>
-        /// Control RadFormDecorator1.
+        /// Control BtnIngresar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadFormDecorator RadFormDecorator1;
-
-        /// <summary>
-        /// Control gridHistorico.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadGrid gridHistorico;
-
-        /// <summary>
-        /// Control HiddenLabel.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label HiddenLabel;
+        protected global::System.Web.UI.WebControls.Button BtnIngresar;
     }
 }

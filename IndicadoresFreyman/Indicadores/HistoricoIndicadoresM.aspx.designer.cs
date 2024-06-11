@@ -7,92 +7,92 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace IndicadoresFreyman
+namespace IndicadoresFreyman.Indicadores
 {
 
 
-    public partial class MasterPage
+    public partial class HistoricoIndicadoresM
     {
 
         /// <summary>
-        /// Control head.
+        /// Control RadDropDownList1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::Telerik.Web.UI.RadDropDownList RadDropDownList1;
 
         /// <summary>
-        /// Control form1.
+        /// Control Literal1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Literal Literal1;
 
         /// <summary>
-        /// Control ScriptManager1.
+        /// Control RadDropDownList3.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::Telerik.Web.UI.RadDropDownList RadDropDownList3;
 
         /// <summary>
-        /// Control RadSkinManager1.
+        /// Control RadDropDownList2.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadSkinManager RadSkinManager1;
+        protected global::Telerik.Web.UI.RadDropDownList RadDropDownList2;
 
         /// <summary>
-        /// Control RadMenu1.
+        /// Control txtFilter.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadMenu RadMenu1;
+        protected global::System.Web.UI.WebControls.TextBox txtFilter;
 
         /// <summary>
-        /// Control btnDeslog.
+        /// Control RadAjaxLoadingPanel1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnDeslog;
+        protected global::Telerik.Web.UI.RadAjaxLoadingPanel RadAjaxLoadingPanel1;
 
         /// <summary>
-        /// Control btnSalir.
+        /// Control RadFormDecorator1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSalir;
+        protected global::Telerik.Web.UI.RadFormDecorator RadFormDecorator1;
 
         /// <summary>
-        /// Control Content.
+        /// Control gridHistorico.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder Content;
+        protected global::Telerik.Web.UI.RadGrid gridHistorico;
 
         /// <summary>
-        /// Control ContentPlaceHolder1.
+        /// Control HiddenLabel.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.Label HiddenLabel;
     }
 }

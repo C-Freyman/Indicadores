@@ -9,6 +9,7 @@
     <link href="css/bootstrap.css" rel="stylesheet" />
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/pantallaDivida.css" rel="stylesheet" />
+
      <script>
          function RowSelected(sender, eventArgs) {
              var e = eventArgs.get_domEvent();
@@ -99,6 +100,7 @@
          }
 
 </script>
+
     
     
 </asp:Content>
@@ -108,6 +110,7 @@
                 <asp:Label ID="Label1" runat="server" EnableViewState="False" Font-Bold="True" ForeColor="#FF8080"> </asp:Label>
                 <asp:Label ID="Label2" runat="server" EnableViewState="False" Font-Bold="True" ForeColor="#00C000"> </asp:Label>
             </p>
+
 
      <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" EnableShadow="true" Localization-OK="Si" Localization-Cancel="No">
     </telerik:RadWindowManager>
@@ -213,18 +216,23 @@
         </div>
        
         <div class="right-pane">
+
            <asp:Label ID="lblsuma" runat="server" ClientIDMode="Static" Text=""></asp:Label>
+
             <telerik:RadGrid RenderMode="Lightweight" ID="radIndicador" GridLines="None" runat="server" AllowAutomaticDeletes="True"
                 AllowAutomaticInserts="True" PageSize="50" Culture="bg-BG"
                 OnItemUpdated="radIndicador_ItemUpdated" OnPreRender="radIndicador_PreRender" AllowAutomaticUpdates="True" AllowPaging="True" AllowMultiRowSelection="true" 
                 AutoGenerateColumns="False" OnBatchEditCommand="radIndicador_BatchEditCommand" DataSourceID="SqlIndicador" OnItemDataBound="radIndicador_ItemDataBound"
                 Width="75%" Style="margin: 0px auto;" >
+
                
                 <MasterTableView CommandItemDisplay="TopAndBottom" DataKeyNames="pIndicadorId" TableLayout="Fixed"
                     DataSourceID="SqlIndicador" HorizontalAlign="NotSet" EditMode="Batch" AutoGenerateColumns="False" >
                     <%-- <BatchEditingSettings EditType="Cell"   SaveAllHierarchyLevels="true" HighlightDeletedRows="true" OpenEditingEvent="DblClick"  /> --%>
                     <BatchEditingSettings EditType="Cell" HighlightDeletedRows="true"  OpenEditingEvent="MouseDown"/>
+
                     <CommandItemSettings ShowAddNewRecordButton="false"/>
+
                     
                     <SortExpressions>
                         <telerik:GridSortExpression FieldName="pIndicadorId" SortOrder="Descending" />
@@ -260,6 +268,7 @@
 
                         <telerik:GridBoundColumn DataField="ponderacion" HeaderStyle-Width="80px" HeaderText="Ponderación" SortExpression="Ponderacion" ColumnGroupName="Editables"
                             UniqueName="Ponderacion" DataFormatString="{0:N0}"  >
+
                             <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                 <RequiredFieldValidator ForeColor="Red" Text="*Indicador ponderación" Display="Dynamic">
                                 </RequiredFieldValidator>
@@ -301,6 +310,7 @@
                         </telerik:GridClientSelectColumn>
 
 
+
                         <%--<telerik:GridTemplateColumn HeaderText="Asignado" HeaderStyle-Width="150px" UniqueName="activo" DataField="activo"  >
                             <HeaderStyle Width="150px" />
                             <ItemTemplate>
@@ -311,6 +321,7 @@
                             </EditItemTemplate>
                         </telerik:GridTemplateColumn>--%>
 
+                      
 
                       
 
