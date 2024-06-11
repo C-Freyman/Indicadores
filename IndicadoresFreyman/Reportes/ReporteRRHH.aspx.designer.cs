@@ -33,6 +33,15 @@ namespace IndicadoresFreyman.Reportes
         protected global::System.Web.UI.WebControls.ImageButton btnActualizar;
 
         /// <summary>
+        /// Control RadButton3.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadButton RadButton3;
+
+        /// <summary>
         /// Control RadGridRRHH.
         /// </summary>
         /// <remarks>
