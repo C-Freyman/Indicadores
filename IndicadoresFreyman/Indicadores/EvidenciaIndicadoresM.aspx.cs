@@ -32,7 +32,7 @@ namespace IndicadoresFreyman.Indicadores
 
             if (!IsPostBack)
             {
-                Session["Log"] = "3246";
+                //Session["Log"] = "3246";
                 ValidarTablaBD();
                 BindRepeater();
                 LoadDataFromDatabase();
@@ -359,7 +359,7 @@ namespace IndicadoresFreyman.Indicadores
                     string query = "if (select top 1 fechaCerrado from resultadoIndicador where mes=" + mes + " and año=2024 and indicadorId=(select top 1 indicadorId from Indicador where empleadoId=" + Session["Log"] +" and activo=1)) is null begin " +
                                     "if not exists(select* from Evidencia where mes="+ mes + " and año=2024 and empleadoId=" + Session["Log"] + ") " +
                                         "begin " +
-                                        "insert into Evidencia values(3246," + mes + ",2024,'" + nombreArchivo + "',null,@archivo," + tamaño + ", getdate() ); " +
+                                        "insert into Evidencia values(" + Session["Log"] +"," + mes + ",2024,'" + nombreArchivo + "',null,@archivo," + tamaño + ", getdate() ); " +
                                     "end " +
                                     "else " +
                                         "begin " +
