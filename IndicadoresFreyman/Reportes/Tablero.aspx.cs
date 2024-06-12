@@ -101,14 +101,6 @@ namespace IndicadoresFreyman.Reportes
                     }
                     else
                     {
-                        //if (i == 0)
-                        //{
-                        //    campo.HeaderStyle.Width = 100;
-                        //}
-                        //if (i == 1)
-                        //{
-                        //    campo.HeaderStyle.Width = 150;
-                        //}
                         campo.ItemStyle.HorizontalAlign = HorizontalAlign.Left;
                         campo.HeaderText = c.ColumnName;
                         campo.SortExpression = c.ColumnName;
@@ -123,6 +115,7 @@ namespace IndicadoresFreyman.Reportes
                         campo.HeaderStyle.Width = 70;
 
                     }
+                  
                     else
                     {
                         campo.CurrentFilterFunction = GridKnownFunction.Contains;

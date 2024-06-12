@@ -21,7 +21,7 @@
         <telerik:RadButton runat="server" ID="RadButton3" Text="Exportar a Excel" AutoPostBack="false" OnClientClicked="exportToExcel"  />
     </div>
     <%--Skin="Metro"--%>
-    <telerik:RadGrid ID="RadGridHistorico" RenderMode="Lightweight" Width="90%" runat="server" CellPadding="0" CellSpacing="0" Font-Size="X-Small" Style="margin: 0 auto;" AutoGenerateColumns="False" OnItemDataBound="RadGridHistorico_ItemDataBound" OnItemCommand="RadGridHistorico_ItemCommand" OnSortCommand="RadGridHistorico_SortCommand">
+    <telerik:RadGrid ID="RadGridHistorico" RenderMode="Lightweight" Width="90%" runat="server" CellPadding="0" CellSpacing="0" Font-Size="Small" Style="margin: 0 auto;" AutoGenerateColumns="False" OnItemDataBound="RadGridHistorico_ItemDataBound" OnItemCommand="RadGridHistorico_ItemCommand" OnSortCommand="RadGridHistorico_SortCommand">
         <ExportSettings>
             <Excel Format="Xlsx" />
         </ExportSettings>
