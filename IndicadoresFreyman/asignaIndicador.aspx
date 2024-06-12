@@ -24,14 +24,18 @@
              var contenido = celda.firstElementChild;
              //contenido.firstElementChild.firstElementChild.prop('readOnly', false);
              if (seleccionada) {
-                 contenido.firstElementChild.firstElementChild.checked = true;
-                 contenido.firstElementChild.firstElementChild.setAttribute('checked','');
+                 contenido.firstElementChild.checked = true;
+                 contenido.firstElementChild.setAttribute('checked', '');
+                 batchManager.changeCellValue(celda, contenido.firstElementChild.checked);
              } else {
-                 contenido.firstElementChild.firstElementChild.checked = false;
-                 contenido.firstElementChild.firstElementChild.removeAttribute('checked');
+                 contenido.firstElementChild.checked = false;
+                 contenido.firstElementChild.removeAttribute('checked');
+                
+                 batchManager.changeCellValue(celda, contenido.firstElementChild.checked);
              }
+             //gridView.updateItem(Rows[index].get_element());
+             calculaTotal();
 
-              batchManager.changeCellValue(celda, contenido.firstElementChild.firstElementChild.checked);
               
              // Obtener los valores actuales del lote
              //var batchCurrent = $find(gridView.get_id())._batchEditingManager.get_batchCurrent();
@@ -254,7 +258,15 @@
                             </telerik:RadDropDownList>
                         </EditItemTemplate>
                     </telerik:GridTemplateColumn>--%>
-
+                        <telerik:GridBoundColumn DataField="pIndicadorId" HeaderStyle-Width="310px" HeaderText="Id" SortExpression="pIndicadorId" 
+                            UniqueName="pIndicadorId" ReadOnly="true">
+                            <ColumnValidationSettings EnableRequiredFieldValidation="true">
+                                <RequiredFieldValidator ForeColor="Red" Text="*Indicador requerido" Display="Dynamic">
+                                </RequiredFieldValidator>
+                            </ColumnValidationSettings>
+                            <HeaderStyle Width="0px" />
+                            <ItemStyle Width="0px" />
+                        </telerik:GridBoundColumn>
 
                         <telerik:GridBoundColumn DataField="descripcionIndicador" HeaderStyle-Width="310px" HeaderText="Inidicador" SortExpression="descripcionIndicador"
                             UniqueName="descripcionIndicador" ReadOnly="true">
@@ -299,10 +311,9 @@
                             <ItemStyle Width="150px" />
                         </telerik:GridBoundColumn>
 
-                         <telerik:GridCheckBoxColumn DataField="activo" HeaderStyle-Width="80px" HeaderText="Activo" SortExpression="activo" HeaderStyle-HorizontalAlign="Center"  AllowSorting="true" Visible ="false"
+                         <telerik:GridCheckBoxColumn DataField="activo" HeaderStyle-Width="80px" HeaderText="Activo" SortExpression="activo" HeaderStyle-HorizontalAlign="Center"  AllowSorting="true"
                             UniqueName="activo">
-                              <ItemStyle Width="0px" />
-                              <ItemStyle Width="0px" />
+                             <ItemStyle Width="0px" />
                         </telerik:GridCheckBoxColumn>
 
                         <telerik:GridClientSelectColumn UniqueName="selectColumn">
@@ -340,16 +351,17 @@
                  
             </telerik:RadGrid>
         </div>
-    </div>
+    
 
     <asp:SqlDataSource ID="SqlIndicador" runat="server" ConnectionString="<%$ ConnectionStrings:IndicadorConnectionString %>"
         SelectCommand="consultaPlantillaIndicador" SelectCommandType="StoredProcedure"
         UpdateCommand="guardaAsignacion" UpdateCommandType="StoredProcedure" OnUpdating="SqlIndicador_Updating">
-        <%-- DeleteCommand ="delete from PlantillaIndicador where pIndicadorId = @pIndicadorId "  DeleteCommandType ="Text">--%>
+        
 
         <UpdateParameters>
 
             <asp:Parameter Name="descripcionIndicador" Type="String"></asp:Parameter>
+             <asp:Parameter Name="ponderacion" Type="Decimal"></asp:Parameter>
             <asp:Parameter Name="indicadorMinimo" Type="Decimal"></asp:Parameter>
             <asp:Parameter Name="indicadorDeseable" Type="Decimal"></asp:Parameter>
             <asp:Parameter Name="Tipoid" Type="Int16"></asp:Parameter>
@@ -358,7 +370,10 @@
             <asp:ControlParameter Name="empleadoId" ControlID="hdnEmpleado" PropertyName="Value" />
             <asp:Parameter Name="activo" Type="Boolean"></asp:Parameter>
             
-        </UpdateParameters>
+
+
+            
+        </UpdateParameters> 
 
         <DeleteParameters>
             <asp:Parameter Name="pIndicadorId" Type="Int32"></asp:Parameter>

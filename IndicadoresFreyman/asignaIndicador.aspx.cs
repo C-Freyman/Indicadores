@@ -22,7 +22,9 @@ namespace IndicadoresFreyman
         {
             if (!Page.IsPostBack)
             {
-                hdnArea.Value = "8";
+                hdnEmpleado.Value = (string)Session["Log"];
+
+                hdnArea.Value = "1";
                 //radIndicador.MasterTableView.CommandItemSettings.AddNewRecordText = "Agregar indicador";
                 radIndicador.MasterTableView.CommandItemSettings.RefreshText = "Refrescar";
                 radIndicador.MasterTableView.CommandItemSettings.SaveChangesText = "Guardar";
@@ -42,6 +44,7 @@ namespace IndicadoresFreyman
         protected void radIndicador_ItemUpdated(object sender, GridUpdatedEventArgs e)
         {
 
+            
           
                 GridEditableItem item = (GridEditableItem)e.Item;
                 string id = item.GetDataKeyValue("pIndicadorId").ToString();
@@ -104,63 +107,77 @@ namespace IndicadoresFreyman
 
         protected void radIndicador_BatchEditCommand(object sender, GridBatchEditingEventArgs e)
         {
-            //int totalPonderacion = 0, totalItem = 0;
-            //Dictionary<string, int> ponderaciones = new Dictionary<string, int>();
-            //var grid = sender as Telerik.Web.UI.RadGrid;
-            ////Obten los numeros de columna por el nombre del campo
-            //var numColumnaPonderacion = grid.Columns.FindByDataField("ponderacion").OrderIndex;
-            //var numColumnaActivo = grid.Columns.FindByDataField("activo").OrderIndex;
-            //var numColumnaDescripcion = grid.Columns.FindByDataField("descripcionIndicador").OrderIndex;
-
-            //var items = grid.Items;
-            ////recorres item previamente activos
-            //foreach (GridItem item in items)
+            //int suma = int.Parse(lblsuma.Text);
+            //if (suma != 100)
             //{
+            //    e.Canceled = true;
+            //    RadWindowManager1.RadAlert($"La ponderacion es diferente a 100", 0, 0, "", null);
+            //}
+           
+            int totalPonderacion = 0, totalItem = 0;
+            Dictionary<string, int> ponderaciones = new Dictionary<string, int>();
+            var grid = sender as Telerik.Web.UI.RadGrid;
+            ////Obten los numeros de columna por el nombre del campo
+            var numColumnaPonderacion = grid.Columns.FindByDataField("ponderacion").OrderIndex;
+            var numColumnaActivo = grid.Columns.FindByDataField("activo").OrderIndex;
+            var numColumnaDescripcion = grid.Columns.FindByDataField("pIndicadorId").OrderIndex;
+
+            var items = grid.Items;
+            //////recorres item previamente activos
+            foreach (GridItem item in items)
+            {
 
             //    if (item.Cells[numColumnaActivo].Controls.Count == 0)
             //        break;
-            //    CheckBox chkActivo = item.Cells[numColumnaActivo].Controls[0] as CheckBox;
-            //    if (!chkActivo.Checked)
-            //        break;
+                CheckBox chkActivo = item.Cells[numColumnaActivo].Controls[0] as CheckBox;
+                if (!chkActivo.Checked)
+                    break;
 
-            //    if (int.TryParse(item.Cells[numColumnaPonderacion].Text, out int ponderacion))
-            //        ponderaciones[item.Cells[numColumnaDescripcion].Text] = ponderacion;
-            //}
+                if (int.TryParse(item.Cells[numColumnaPonderacion].Text, out int ponderacion))
+                    ponderaciones[item.Cells[numColumnaDescripcion].Text] = ponderacion;
+            }
 
             //// Recorrer todos los items actualizados
-            //foreach (GridBatchEditingCommand command in e.Commands)
-            //{
-            //    if (command.Type == GridBatchEditingCommandType.Update)
-            //    {
-            //        Hashtable newValues = command.NewValues;
+            foreach (GridBatchEditingCommand command in e.Commands)
+            {
+                if (command.Type == GridBatchEditingCommandType.Update)
+                {
+                    Hashtable newValues = command.NewValues;
 
+                    //Revisa si desactivo un checkbox
+                    if (newValues.ContainsKey("activo") && bool.TryParse(newValues["activo"].ToString(), out bool esActivo) && !esActivo)
+                    {
+                        ponderaciones.Remove(command.Item.Cells[numColumnaDescripcion].Text);
+                        break;
+                    }
 
-            //        if (newValues.ContainsKey("ponderacion"))
-            //        {
-            //            int ponderacion;
-            //            if (int.TryParse(newValues["ponderacion"].ToString(), out ponderacion))
-            //            {
-            //                totalPonderacion += ponderacion;
-            //                ponderaciones[command.Item.Cells[numColumnaDescripcion].Text] = ponderacion;
-            //            }
-            //        }
-            //    }
-            //}
+                    if (newValues.ContainsKey("ponderacion"))
+                    {
+                        int ponderacion;
+                        if (int.TryParse(newValues["ponderacion"].ToString(), out ponderacion))
+                        {
+                            totalPonderacion += ponderacion;
+                            ponderaciones[command.Item.Cells[numColumnaDescripcion].Text] = ponderacion;
+                        }
+                    }
+                }
+            }
 
-            //totalPonderacion = ponderaciones.Sum(p => p.Value);
+            totalPonderacion = ponderaciones.Sum(p => p.Value);
 
 
 
             //// Validar que la suma de ponderación sea igual a 100
-            //if (totalPonderacion != 100)
-            //{
-            //    // Cancelar la actualización y mostrar un mensaje de error
-            //    e.Canceled = true;
-            //    //radIndicador.MasterTableView.ClearEditItems();
-            //    //radIndicador.MasterTableView.Rebind();
-            //    // ShowErrorMessage("La suma de las ponderaciones debe ser igual a 100." + totalPonderacion);
-            //    lblSumPonderacion.Text = totalPonderacion.ToString();
-            //}
+            if (totalPonderacion != 100)
+            {
+                // Cancelar la actualización y mostrar un mensaje de error
+                e.Canceled = true;
+                //radIndicador.MasterTableView.ClearEditItems();
+                //radIndicador.MasterTableView.Rebind();
+                // ShowErrorMessage("La suma de las ponderaciones debe ser igual a 100." + totalPonderacion);
+                RadWindowManager1.RadAlert($"La suma de las ponderaciones seleccionadas es diferente a 100", 0, 0, "", null);
+                lblsuma.Text = totalPonderacion.ToString();
+            }
 
         }
 
@@ -342,7 +359,7 @@ namespace IndicadoresFreyman
 
         protected void SqlIndicador_Updating(object sender, SqlDataSourceCommandEventArgs e)
         {
-            
+            string var = "1";
         }
 
         
