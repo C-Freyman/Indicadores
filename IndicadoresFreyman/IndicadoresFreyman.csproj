@@ -216,6 +216,7 @@
     <Content Include="Reportes\ReporteRRHH.aspx" />
     <Content Include="Reportes\ReporteTableroHist.aspx" />
     <Content Include="Reportes\ReporteTableroHistorico.aspx" />
+    <Content Include="Reportes\Tablero.aspx" />
     <Content Include="Reportes\TableroHistorico.aspx" />
     <Content Include="usuario.png" />
 
@@ -318,6 +319,13 @@
     </Compile>
     <Compile Include="Reportes\ReporteTableroHistorico.aspx.designer.cs">
       <DependentUpon>ReporteTableroHistorico.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\Tablero.aspx.cs">
+      <DependentUpon>Tablero.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\Tablero.aspx.designer.cs">
+      <DependentUpon>Tablero.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reportes\TableroHistorico.aspx.cs">
       <DependentUpon>TableroHistorico.aspx</DependentUpon>

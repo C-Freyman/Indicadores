@@ -22,7 +22,7 @@ namespace IndicadoresFreyman.Indicadores
         {
             if (!IsPostBack)
             {
-                Session["empleadoId"] = "3246";//;// ;"3246""42""1935"
+                //Session["Log"] = "42";//;// ;"3246""42""1935"
                 ValidarPuesto();
 
                 // Obtener el mes anterior
@@ -50,7 +50,7 @@ namespace IndicadoresFreyman.Indicadores
         private void ValidarPuesto()
         {
             //Puestos= 0-colaborador////1-gerente/////2-Contralor
-            if (Session["empleadoId"] as string == "42")//Contralor
+            if (Session["Log"] as string == "42")//Contralor
             {
                 Session["puesto"] = "2";
                 Literal1.Text = "<script>document.getElementById('divColaboradores').style.display = 'inline-block';</script>";
@@ -75,7 +75,7 @@ namespace IndicadoresFreyman.Indicadores
             }
             else
             {
-                string query = "select IdEmpleado, Nombre_ from Vacaciones.dbo.AdministrativosNomiChecador where JefeInmediato=(select Correo from Vacaciones.dbo.AdministrativosNomiChecador where IdEmpleado=" + Session["empleadoId"] + ");";
+                string query = "select IdEmpleado, Nombre_ from Vacaciones.dbo.AdministrativosNomiChecador where JefeInmediato=(select Correo from Vacaciones.dbo.AdministrativosNomiChecador where IdEmpleado=" + Session["Log"] + ");";
                 using (SqlConnection con = new SqlConnection(conn))
                 {
                     con.Open();
@@ -109,7 +109,7 @@ namespace IndicadoresFreyman.Indicadores
 
         private void LoadDataFromDatabase()//Datos del usuario
         {
-            string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["empleadoId"] + ";";
+            string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["Log"] + ";";
 
             using (SqlConnection con = new SqlConnection(conn))
             {
@@ -252,7 +252,7 @@ namespace IndicadoresFreyman.Indicadores
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId " +
                         "left join resultadoIndicador e on i.IndicadorId = e.indicadorId left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado " +
                         "where empleadoId in(select IdEmpleado from Vacaciones.dbo.AdministrativosNomiChecador " +
-                        "where JefeInmediato = (select a.Correo from Vacaciones.dbo.AdministrativosNomiChecador a where a.IdEmpleado = " + Session["empleadoId"] + ")) and i.activo=1 and mes = " + mes+"order by anc.Nombre_";
+                        "where JefeInmediato = (select a.Correo from Vacaciones.dbo.AdministrativosNomiChecador a where a.IdEmpleado = " + Session["Log"] + ")) and i.activo=1 and mes = " + mes+"order by anc.Nombre_";
                 }
                 else //Filtrado por un colaborador en especifico
                 {
@@ -260,7 +260,7 @@ namespace IndicadoresFreyman.Indicadores
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId " +
                         "left join resultadoIndicador e on i.IndicadorId = e.indicadorId left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado " +
                         "where empleadoId in(select IdEmpleado from Vacaciones.dbo.AdministrativosNomiChecador " +
-                        "where JefeInmediato = (select a.Correo from Vacaciones.dbo.AdministrativosNomiChecador a where a.IdEmpleado = " + Session["empleadoId"] + ")) and i.activo=1 and mes = " + mes + " and empleadoId=" + empleadoId;
+                        "where JefeInmediato = (select a.Correo from Vacaciones.dbo.AdministrativosNomiChecador a where a.IdEmpleado = " + Session["Log"] + ")) and i.activo=1 and mes = " + mes + " and empleadoId=" + empleadoId;
                 }
 
 
@@ -302,7 +302,7 @@ namespace IndicadoresFreyman.Indicadores
 
                 query = "select pli.pIndicadorId as indicadorId, pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
                 "isnull(cumplimientoOBjetivo,0)as cumplimientoObjetivo, isnull(evaluacionPonderada,0)as evaluacionPonderada from Indicador i " +
-                "left join PlantillaIndicador pli on pli.pIndicadorId=i.pIndicadorId left join resultadoIndicador e on i.IndicadorId=e.indicadorId where i.activo=1 and empleadoId=" + Session["empleadoId"] + " and mes=" + mes + ";";
+                "left join PlantillaIndicador pli on pli.pIndicadorId=i.pIndicadorId left join resultadoIndicador e on i.IndicadorId=e.indicadorId where i.activo=1 and empleadoId=" + Session["Log"] + " and mes=" + mes + ";";
                 
 
                 using (SqlConnection con = new SqlConnection(conn))
@@ -337,7 +337,7 @@ namespace IndicadoresFreyman.Indicadores
         }
         private void DescargarArchivo(int mes)
         {
-            string query = "select nombreArchivo, archivo from Evidencia where empleadoId=" + Session["empleadoId"] + " and mes=" + mes + " and año=2024;";
+            string query = "select nombreArchivo, archivo from Evidencia where empleadoId=" + Session["Log"] + " and mes=" + mes + " and año=2024;";
 
             using (SqlConnection conn_ = new SqlConnection(conn))
             {
@@ -394,6 +394,24 @@ namespace IndicadoresFreyman.Indicadores
                 footerItem["cumplimientoObjetivo"].Text = "<div style='text-align: right;'>Evaluación Mensual: </div>";
                 footerItem["evaluacionPonderada"].Text = resultado;
             }
+
+            //if (e.Item is GridDataItem)
+            //{
+            //    GridDataItem dataItem = (GridDataItem)e.Item;
+            //    int currentRowIndex = dataItem.ItemIndex;
+
+            //    if (currentRowIndex > 0)
+            //    {
+            //        GridDataItem previousDataItem = (GridDataItem)gridHistorico.Items[currentRowIndex - 1];
+
+            //        if (dataItem["Nombre_"].Text == previousDataItem["Nombre_"].Text)
+            //        {
+            //            dataItem["Nombre_"].Visible = false;
+            //            dataItem["Evidencia"].RowSpan = previousDataItem["Evidencia"].RowSpan + 1;
+            //            previousDataItem["Evidencia"].RowSpan += 1;
+            //        }
+            //    }
+            //}
         }
 
         protected void gridHistorico_ItemCreated(object sender, GridItemEventArgs e)
@@ -419,35 +437,57 @@ namespace IndicadoresFreyman.Indicadores
             string filterText = txtFilter.Text.Trim();
             if (!string.IsNullOrEmpty(filterText))
             {
-
+                string filterExpression;
                 DataTable dt = new DataTable();
                 // Filtrar datos en el grid basado en el texto del TextBox
                 if (Session["puesto"] as string == "2")//Contralor
                 {
                     dt = ObtenerDatosContralor(Convert.ToInt32(RadDropDownList1.SelectedValue), RadDropDownList3.SelectedValue.ToString(), RadDropDownList2.SelectedValue.ToString());
+                    filterExpression = string.Format(
+                        "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(Departamento, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(Nombre_, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(descripcionIndicador, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(ponderacion, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(indicadorMinimo, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(indicadorDeseable, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(resultado, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(cumplimientoObjetivo, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(evaluacionPonderada, 'System.String') LIKE '%{0}%'",
+                        filterText);
                 }
                 else if (Session["puesto"] as string == "1")
                 {
                     dt = ObtenerDatosGerente(Convert.ToInt32(RadDropDownList1.SelectedValue), Convert.ToInt32(RadDropDownList2.SelectedValue));
+                    filterExpression = string.Format(
+                        "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(Nombre_, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(descripcionIndicador, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(ponderacion, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(indicadorMinimo, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(indicadorDeseable, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(resultado, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(cumplimientoObjetivo, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(evaluacionPonderada, 'System.String') LIKE '%{0}%'",
+                        filterText);
                 }
                 else
                 {
                     dt = ObtenerDatos(Convert.ToInt32(RadDropDownList1.SelectedValue));
+                    filterExpression = string.Format(
+                        "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(descripcionIndicador, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(ponderacion, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(indicadorMinimo, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(indicadorDeseable, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(resultado, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(cumplimientoObjetivo, 'System.String') LIKE '%{0}%' OR " +
+                        "Convert(evaluacionPonderada, 'System.String') LIKE '%{0}%'",
+                        filterText);
                 }
                 DataView dv = dt.DefaultView;
 
-                string filterExpression = string.Format(
-            "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(Departamento, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(Nombre_, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(descripcionIndicador, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(ponderacion, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(indicadorMinimo, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(indicadorDeseable, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(resultado, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(cumplimientoObjetivo, 'System.String') LIKE '%{0}%' OR " +
-            "Convert(evaluacionPonderada, 'System.String') LIKE '%{0}%'",
-            filterText);
+                
 
                 dv.RowFilter = filterExpression;
                 gridHistorico.DataSource = dv;
@@ -491,6 +531,19 @@ namespace IndicadoresFreyman.Indicadores
                 }
             }
             CargarDatosEnGrid();
+        }
+
+        protected void gridHistorico_ItemCommand(object sender, GridCommandEventArgs e)
+        {
+            if (e.CommandName == "Evidencia")
+            {
+                string indicadorId = e.CommandArgument.ToString();
+                // Aquí puedes manejar el comando, por ejemplo, mostrar una ventana modal con la evidencia
+                // o redirigir a otra página.
+                // Response.Redirect($"Evidencia.aspx?id={indicadorId}");
+                // O mostrar un popup/modal
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", $"alert('Ver evidencia para ID: {indicadorId}');", true);
+            }
         }
     }
 }

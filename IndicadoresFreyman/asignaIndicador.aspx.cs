@@ -22,7 +22,7 @@ namespace IndicadoresFreyman
         {
             if (!Page.IsPostBack)
             {
-                hdnArea.Value = "1";
+                hdnArea.Value = "8";
                 //radIndicador.MasterTableView.CommandItemSettings.AddNewRecordText = "Agregar indicador";
                 radIndicador.MasterTableView.CommandItemSettings.RefreshText = "Refrescar";
                 radIndicador.MasterTableView.CommandItemSettings.SaveChangesText = "Guardar";
