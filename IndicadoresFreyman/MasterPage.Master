@@ -27,7 +27,7 @@
      </div>--%>
      <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
      <div>
-         <telerik:RadSkinManager ID="RadSkinManager1" runat="server" ShowChooser="true" Visible="false" Skin="Vista" />
+         <telerik:RadSkinManager ID="RadSkinManager1" runat="server" ShowChooser="true" Visible="false" Skin="WebBlue" />
          <div class="demo-container no-bg">
              <telerik:RadMenu RenderMode="Lightweight" ID="RadMenu1" Style="float: none" CssClass="mainMenu" runat="server" ShowToggleHandle="true" EnableEmbeddedBaseStylesheet="true" EnableEmbeddedSkins="true" Flow="Horizontal">
                  <Items>

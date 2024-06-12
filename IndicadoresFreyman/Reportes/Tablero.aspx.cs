@@ -177,9 +177,9 @@ namespace IndicadoresFreyman.Reportes
                             {
 
                                 item[columnName].HorizontalAlign = HorizontalAlign.Center;
-                                double cellValue;
+                                double cellValue=0;
                                 string cellText = valor.Split('_')[1];
-                                item[columnName].ToolTip = cellText;
+                                item[columnName].ToolTip ="Resultado:" + (string)cellValue.ToString("F2") +" Cumplimiento obj: " +cellText  ;
                                 if (double.TryParse(cellText, out cellValue))
                                 {
 
