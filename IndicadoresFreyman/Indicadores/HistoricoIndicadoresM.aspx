@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="HistoricoIndicadoresM.aspx.cs" Inherits="IndicadoresFreyman.Indicadores.HistoricoIndicadoresM" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 <style>
 
