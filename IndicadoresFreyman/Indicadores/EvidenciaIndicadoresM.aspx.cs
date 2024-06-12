@@ -32,7 +32,7 @@ namespace IndicadoresFreyman.Indicadores
 
             if (!IsPostBack)
             {
-                Session["empleadoId"] = "3246";
+               // Session["Log"] = "3246";
                 ValidarTablaBD();
                 BindRepeater();
                 LoadDataFromDatabase();
@@ -52,7 +52,7 @@ namespace IndicadoresFreyman.Indicadores
                     using (var cmd = new SqlCommand("validarTablaResultado", con))
                     {
                         cmd.Connection = con;
-                        cmd.Parameters.AddWithValue("empleadoId", Session["empleadoId"]);
+                        cmd.Parameters.AddWithValue("empleadoId", Session["Log"]);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.ExecuteNonQuery();
                     }
@@ -87,7 +87,7 @@ namespace IndicadoresFreyman.Indicadores
 
         private void ValidacionIndicadoresCerrado()
         {
-            string query = "select top 1  isnull(cast(fechaCerrado as varchar(10)),'1') as fechaCerrado from resultadoIndicador ri left join Indicador i on ri.indicadorId=i.IndicadorId where mes=" + DateTime.Now.AddMonths(-1).Month.ToString() + " and activo=1 and empleadoId=" + Session["empleadoId"];
+            string query = "select top 1  isnull(cast(fechaCerrado as varchar(10)),'1') as fechaCerrado from resultadoIndicador ri left join Indicador i on ri.indicadorId=i.IndicadorId where mes=" + DateTime.Now.AddMonths(-1).Month.ToString() + " and activo=1 and empleadoId=" + Session["Log"];
             string cerrado = "";
             using (SqlConnection con = new SqlConnection(conn))
             {
@@ -112,7 +112,7 @@ namespace IndicadoresFreyman.Indicadores
 
         private void LoadDataFromDatabase()//Datos del usuario
         {
-            string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["empleadoId"] + ";";
+            string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["Log"] + ";";
 
             using (SqlConnection con = new SqlConnection(conn))
             {
@@ -149,7 +149,7 @@ namespace IndicadoresFreyman.Indicadores
         private DataTable GetUploadedFiles(int mes, int año)
         {
             DataTable dt = new DataTable();
-            string query = "SELECT nombreArchivo as FileName, tamaño as ContentLength FROM Evidencia WHERE empleadoId =  " + Session["empleadoId"] + " AND mes = " + mes + " AND año =" + año;
+            string query = "SELECT nombreArchivo as FileName, tamaño as ContentLength FROM Evidencia WHERE empleadoId =  " + Session["Log"] + " AND mes = " + mes + " AND año =" + año;
 
             using (SqlConnection con = new SqlConnection(conn))
             {
@@ -233,7 +233,7 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     command.Connection = con;
                     command.CommandText = "select pli.esAscendente, pli.TipoId,i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli" +
-                        " left join Indicador i on i.pIndicadorId=pli.pIndicadorId where i.pIndicadorId=" + id + " and i.activo=1 and pli.estatus=1 and empleadoId=" + obj.Session["empleadoId"] + ";";
+                        " left join Indicador i on i.pIndicadorId=pli.pIndicadorId where i.pIndicadorId=" + id + " and i.activo=1 and pli.estatus=1 and empleadoId=" + obj.Session["Log"] + ";";
                     command.CommandType = CommandType.Text;
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -268,7 +268,7 @@ namespace IndicadoresFreyman.Indicadores
                     {
                         command.Connection = con;
                         command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
-                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + "and activo=1 and empleadoId=" + obj.Session["empleadoId"] + " ) and mes=" + DateTime.Now.AddMonths(-1).Month.ToString() + " and año=2024 and fechaCerrado is null";
+                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + "and activo=1 and empleadoId=" + obj.Session["Log"] + " ) and mes=" + DateTime.Now.AddMonths(-1).Month.ToString() + " and año=2024 and fechaCerrado is null";
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }
@@ -289,7 +289,7 @@ namespace IndicadoresFreyman.Indicadores
                     {
                         command.Connection = con;
                         command.CommandText = "update resultadoIndicador set fechaCerrado=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
-                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " and empleadoId=" + obj.Session["empleadoId"] + " and activo=1 ) and mes=" + DateTime.Now.AddMonths(-1).Month.ToString() + " and año=2024";
+                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " and empleadoId=" + obj.Session["Log"] + " and activo=1 ) and mes=" + DateTime.Now.AddMonths(-1).Month.ToString() + " and año=2024";
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }
@@ -356,14 +356,14 @@ namespace IndicadoresFreyman.Indicadores
                     string nombreArchivo = e.File.FileName;
                     long tamaño = e.File.ContentLength;
                     int mes = DateTime.Now.AddMonths(-1).Month;
-                    string query = "if (select top 1 fechaCerrado from resultadoIndicador where mes=" + mes + " and año=2024 and indicadorId=(select top 1 indicadorId from Indicador where empleadoId=" + Session["empleadoId"] +" and activo=1)) is null begin " +
-                                    "if not exists(select* from Evidencia where mes="+ mes + " and año=2024 and empleadoId=" + Session["empleadoId"] + ") " +
+                    string query = "if (select top 1 fechaCerrado from resultadoIndicador where mes=" + mes + " and año=2024 and indicadorId=(select top 1 indicadorId from Indicador where empleadoId=" + Session["Log"] +" and activo=1)) is null begin " +
+                                    "if not exists(select* from Evidencia where mes="+ mes + " and año=2024 and empleadoId=" + Session["Log"] + ") " +
                                         "begin " +
-                                        "insert into Evidencia values(3246," + mes + ",2024,'" + nombreArchivo + "',null,@archivo," + tamaño + ", getdate() ); " +
+                                        "insert into Evidencia values(" + Session["Log"] +"," + mes + ",2024,'" + nombreArchivo + "',null,@archivo," + tamaño + ", getdate() ); " +
                                     "end " +
                                     "else " +
                                         "begin " +
-                                        "update Evidencia set nombreArchivo='" + nombreArchivo + "', archivo=@archivo, tamaño=" + tamaño + " where empleadoId=" + Session["empleadoId"] + " and mes=" + mes + " and año=2024 " +
+                                        "update Evidencia set nombreArchivo='" + nombreArchivo + "', archivo=@archivo, tamaño=" + tamaño + " where empleadoId=" + Session["Log"] + " and mes=" + mes + " and año=2024 " +
                                     "end end";
 
                     using (SqlConnection connection = new SqlConnection(conn))
