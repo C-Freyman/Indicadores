@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 using Telerik.Web.UI;
 using Telerik.Web.UI.Skins;
 using System.Data;
-using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
+//using Telerik.Windows.Documents.Spreadsheet.Expressions.Functions;
 
 namespace IndicadoresFreyman
 {
@@ -22,13 +22,14 @@ namespace IndicadoresFreyman
         {
             if (!Page.IsPostBack)
             {
-                hdnEmpleado.Value = (string)Session["Log"];
-
-                hdnArea.Value = "1";
+                hdnEmpleado.Value = Convert.ToString((int)Session["Log"]);
+                hdnArea.Value = Convert.ToString((int)Session["Depto"]);
+                hdnCorreo.Value = (string)Session["Correo"];
                 //radIndicador.MasterTableView.CommandItemSettings.AddNewRecordText = "Agregar indicador";
                 radIndicador.MasterTableView.CommandItemSettings.RefreshText = "Refrescar";
                 radIndicador.MasterTableView.CommandItemSettings.SaveChangesText = "Guardar";
                 radIndicador.MasterTableView.CommandItemSettings.CancelChangesText = "Cancelar";
+               
             }
         }
 
@@ -439,9 +440,9 @@ namespace IndicadoresFreyman
         {
             DataTable dt;
             string strsql = String.Format("select IdEmpleado,nombre, DeptoId, Departamento ,isnull(sum(i.ponderacion),0) ponderacion from Vacaciones.dbo.AdministrativosNomiChecador as e " +
-                                "left join  Indicador as i on e.IdEmpleado = i.empleadoId and activo = 1" +
-                                "where DeptoId = {0}" + 
-                                "group by IdEmpleado,nombre, DeptoId, Departamento", hdnArea.Value);
+                                "left join  Indicador as i on e.IdEmpleado = i.empleadoId  " +
+                                "where jefeinmediato = '{0}'" + 
+                                "group by IdEmpleado,nombre, DeptoId, Departamento", hdnCorreo.Value);
             dt = con.getDatatable(strsql);
             return dt;
         }

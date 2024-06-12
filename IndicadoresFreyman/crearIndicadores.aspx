@@ -42,7 +42,7 @@
 
 
 
-    <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" EnableShadow="true" Localization-OK="Si" Localization-Cancel="No">
+    <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" EnableShadow="true" Localization-OK="Aceptar" Localization-Cancel="No">
     </telerik:RadWindowManager>
 
 
@@ -379,6 +379,7 @@
     <asp:HiddenField ID="hdnProyecto" runat="server" />
     <asp:HiddenField ID="hdnminimo" runat="server" />
     <asp:HiddenField ID="hdndeseable" runat="server" />
+    <asp:HiddenField ID="hdnCorreo" runat="server" />
 
 
 </asp:Content>

@@ -120,7 +120,7 @@
     </telerik:RadWindowManager>
 
 
-     <asp:Label ID="ErrorMessageLabel" runat="server" Text="Label"></asp:Label>
+     <asp:Label ID="ErrorMessageLabel" runat="server" Text="Label" Visible ="false"></asp:Label>
 
     <div class="split-screen">
 
@@ -221,7 +221,7 @@
        
         <div class="right-pane">
 
-           <asp:Label ID="lblsuma" runat="server" ClientIDMode="Static" Text=""></asp:Label>
+           <asp:Label ID="lblsuma" runat="server" ClientIDMode="Static" Text="" Font-Bold ="true" Font-Size ="Larger" ForeColor ="Green"></asp:Label>
 
             <telerik:RadGrid RenderMode="Lightweight" ID="radIndicador" GridLines="None" runat="server" AllowAutomaticDeletes="True"
                 AllowAutomaticInserts="True" PageSize="50" Culture="bg-BG"
@@ -352,6 +352,7 @@
             </telerik:RadGrid>
         </div>
     
+    </div>
 
     <asp:SqlDataSource ID="SqlIndicador" runat="server" ConnectionString="<%$ ConnectionStrings:IndicadorConnectionString %>"
         SelectCommand="consultaPlantillaIndicador" SelectCommandType="StoredProcedure"
@@ -359,7 +360,6 @@
         
 
         <UpdateParameters>
-
             <asp:Parameter Name="descripcionIndicador" Type="String"></asp:Parameter>
              <asp:Parameter Name="ponderacion" Type="Decimal"></asp:Parameter>
             <asp:Parameter Name="indicadorMinimo" Type="Decimal"></asp:Parameter>
@@ -369,10 +369,6 @@
             <asp:ControlParameter Name="DeptoId" ControlID="hdnArea" PropertyName="Value" />
             <asp:ControlParameter Name="empleadoId" ControlID="hdnEmpleado" PropertyName="Value" />
             <asp:Parameter Name="activo" Type="Boolean"></asp:Parameter>
-            
-
-
-            
         </UpdateParameters> 
 
         <DeleteParameters>
@@ -390,11 +386,10 @@
 
 
     <asp:SqlDataSource ID="SqlTipo" runat="server" ConnectionString="<%$ ConnectionStrings:IndicadorConnectionString %>"
-        SelectCommand="select * from TipoIndicador  order by tipo  "></asp:SqlDataSource>
-
+    SelectCommand="select * from TipoIndicador  order by tipo  "></asp:SqlDataSource>
     <asp:HiddenField ID="htntotal" runat="server" Value="0" />
     <asp:HiddenField ID="hdneditar" runat="server" Value="0" />
     <asp:HiddenField ID="hdnArea" runat="server" />
     <asp:HiddenField ID="hdnEmpleado" runat="server" />
-
+    <asp:HiddenField ID="hdnCorreo" runat="server" />
 </asp:Content>
