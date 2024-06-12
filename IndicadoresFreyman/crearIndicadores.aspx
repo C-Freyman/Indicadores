@@ -5,7 +5,10 @@
 
         function soloNumeros(e) {
             var key = window.Event ? e.which : e.keyCode
-            return (key >= 48 && key <= 57)
+            
+            var valido = (key >= 48 && key <= 57);
+            calculaTipo();
+            return valido;
         }
 
 
@@ -15,11 +18,9 @@
             var deseable = parseInt(document.getElementById('txtindicadorDeseable').value) || 0;
 
             var mensaje = (minimo < deseable) ? 'Indicador Ascendente' : 'Indicador Descendente';
-            mensaje = (minimo == 0 || deseable == 0) ? '' : mensaje;
+            mensaje = (minimo == 0 || deseable == 0) ? '  ' : mensaje;
             document.getElementById('lblTipoIndicador').innerText = mensaje;
         }
-
-
 
        
     </script>
@@ -41,7 +42,7 @@
 
 
 
-    <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" EnableShadow="true" Localization-OK="Si" Localization-Cancel="No">
+    <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" EnableShadow="true" Localization-OK="Aceptar" Localization-Cancel="No">
     </telerik:RadWindowManager>
 
 
@@ -161,7 +162,7 @@
                                     <td scolspan="2" style="width: 50px">Ponderacion:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtponderacion" runat="server" Text='<%# Bind("ponderacion") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)">
+                                        <asp:TextBox ID="txtponderacion" runat="server" Text='<%# Bind("ponderacion") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)" onChange="calculaTipo()">
                                         </asp:TextBox>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" ErrorMessage="Ponderación requerido" ControlToValidate="txtponderacion" ForeColor="Red"></asp:RequiredFieldValidator>
 
@@ -170,7 +171,7 @@
                                     <td style="width: 50px">Indicador Minimo:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtindicadorMinimo" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorMinimo") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event), calculaTipo()" onBlur="calculaTipo()">
+                                        <asp:TextBox ID="txtindicadorMinimo" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorMinimo") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)" onChange="calculaTipo()">
                                         </asp:TextBox>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" ErrorMessage="indicador Minimo requerido" ControlToValidate="txtindicadorMinimo" ForeColor="Red"></asp:RequiredFieldValidator>
 
@@ -186,7 +187,7 @@
                                     <td>Indicador Deseable:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtindicadorDeseable" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event),  calculaTipo()" onBlur="calculaTipo()">
+                                        <asp:TextBox ID="txtindicadorDeseable" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)" onBlur="calculaTipo()">
                                         </asp:TextBox>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="indicador Deseable requerido" ControlToValidate="txtindicadorDeseable" ForeColor="Red"></asp:RequiredFieldValidator>
 
@@ -196,8 +197,9 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td colspan="2">&nbsp;</td>
                                     <td colspan="2">
-                                        <asp:Label ID="lblTipoIndicador" ClientIDMode="Static" runat="server" Text="" ForeColor="DarkBlue"></asp:Label>
+                                        <asp:Label ID="lblTipoIndicador" ClientIDMode="Static" runat="server" Text="   " ForeColor="DarkBlue"></asp:Label>
                                     </td>
 
                                     <%-- <td>
@@ -377,6 +379,7 @@
     <asp:HiddenField ID="hdnProyecto" runat="server" />
     <asp:HiddenField ID="hdnminimo" runat="server" />
     <asp:HiddenField ID="hdndeseable" runat="server" />
+    <asp:HiddenField ID="hdnCorreo" runat="server" />
 
 
 </asp:Content>

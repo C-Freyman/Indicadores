@@ -4,22 +4,33 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Telerik.Web;
 using Telerik.Web.UI;
 using static Telerik.Web.UI.OrgChartStyles;
+using System.Data;
 
 namespace IndicadoresFreyman
 {
     public partial class crearIndicadores : System.Web.UI.Page
     {
+        Conexion con = new Conexion();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
-                hdnArea.Value = "8";
+                //.Value = (string)Session["Log"];
+                hdnArea.Value = Convert.ToString((int)Session["Depto"]);
+                hdnCorreo.Value = (string)Session["Correo"];
+                int empleado = (int)Session["Log"];
                 radGridIndicador.MasterTableView.CommandItemSettings.AddNewRecordText = "Agregar indicador";
                 radGridIndicador.MasterTableView.CommandItemSettings.RefreshText = "Refrescar";
-
-               
+                DataTable dt;
+                string strsql = String.Format("select IdEmpleado,nombre, DeptoId, Departamento from  Vacaciones.dbo.AdministrativosNomiChecador where JefeInmediato = (select correo from Vacaciones.dbo.AdministrativosNomiChecador where IdEmpleado = {0})", empleado);
+                dt = con.getDatatable(strsql);
+                if (dt.Rows.Count == 0)
+                {
+                    Response.Redirect("~/Default.aspx");
+                }
 
             }
         }
@@ -44,7 +55,8 @@ namespace IndicadoresFreyman
                 // DisplayMessage(true, "Indicador guardado");
                 //NotifyUser("Indicador guardado");
                 error = e.ToString();
-                RadWindowManager1.RadAlert($"Indicador guardado exitosamente", 0, 0, "", null);
+                RadWindowManager1.RadAlert($"Indicador guardado exitosamente", 0, 0, "Mensaje", null);
+               
             }
         }
 
