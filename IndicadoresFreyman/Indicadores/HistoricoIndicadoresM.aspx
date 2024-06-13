@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="HistoricoIndicadoresM.aspx.cs" Inherits="IndicadoresFreyman.Indicadores.HistoricoIndicadoresM" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 <style>
 
@@ -18,7 +19,8 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    
+
+    <h1>Histórico</h1>
 <div class="demo" style="margin-left:20px; margin-right:20px;">
 
     <div style="display: inline-block; margin-right: 20px;">

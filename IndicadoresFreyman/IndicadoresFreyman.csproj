@@ -1,5 +1,4 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -43,6 +42,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -108,16 +111,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="asignaIndicador.aspx" />
 
     <Content Include="asignaIndicadores.aspx" />
 
     <Content Include="bin\EnvDTE.dll" />
+    <Content Include="bin\EnvDTE.xml" />
     <Content Include="bin\IndicadoresFreyman.dll" />
     <Content Include="bin\IndicadoresFreyman.pdb" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
@@ -135,6 +134,7 @@
     <Content Include="bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll" />
     <Content Include="bin\roslyn\Microsoft.Win32.Primitives.dll" />
     <Content Include="bin\roslyn\System.AppContext.dll" />
+    <Content Include="bin\roslyn\System.Buffers.dll" />
     <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
     <Content Include="bin\roslyn\System.Console.dll" />
     <Content Include="bin\roslyn\System.Diagnostics.DiagnosticSource.dll" />
@@ -145,9 +145,12 @@
     <Content Include="bin\roslyn\System.IO.Compression.ZipFile.dll" />
     <Content Include="bin\roslyn\System.IO.FileSystem.dll" />
     <Content Include="bin\roslyn\System.IO.FileSystem.Primitives.dll" />
+    <Content Include="bin\roslyn\System.Memory.dll" />
     <Content Include="bin\roslyn\System.Net.Http.dll" />
     <Content Include="bin\roslyn\System.Net.Sockets.dll" />
+    <Content Include="bin\roslyn\System.Numerics.Vectors.dll" />
     <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="bin\roslyn\System.Runtime.CompilerServices.Unsafe.dll" />
     <Content Include="bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll" />
     <Content Include="bin\roslyn\System.Security.Cryptography.Algorithms.dll" />
     <Content Include="bin\roslyn\System.Security.Cryptography.Encoding.dll" />
@@ -163,6 +166,7 @@
     <Content Include="bin\roslyn\vbc.exe" />
     <Content Include="bin\roslyn\VBCSCompiler.exe" />
     <Content Include="bin\stdole.dll" />
+    <Content Include="bin\Telerik.Documents.SpreadsheetStreaming.dll" />
     <Content Include="bin\Telerik.Web.Design.dll" />
     <Content Include="bin\Telerik.Web.Device.Detection.dll" />
     <Content Include="bin\Telerik.Web.Spreadsheet.dll" />
@@ -171,6 +175,8 @@
     <Content Include="bin\Telerik.Web.UI.Skins.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Core.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Core.xml" />
+    <Content Include="bin\Telerik.Windows.Documents.Flow.dll" />
+    <Content Include="bin\Telerik.Windows.Documents.Flow.FormatProviders.Doc.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.xml" />
@@ -406,6 +412,7 @@
     <Content Include="App_Data\RadUploadTemp\1717515086366footer.png.tmp" />
     <Content Include="App_Data\RadUploadTemp\1717607752162usuario %281%29.png.tmp" />
     <Content Include="App_Data\RadUploadTemp\RadUploadTestFile" />
+    <Content Include="bin\roslyn\Microsoft.Managed.Core.CurrentVersions.targets" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -447,11 +454,12 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
