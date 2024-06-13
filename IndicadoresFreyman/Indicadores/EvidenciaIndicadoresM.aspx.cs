@@ -2,24 +2,16 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using Telerik.Web.UI;
-using Telerik.Web.UI.Skins;
-using System.Collections;
 using System.Diagnostics;
 using System.Web.Services;
-using Telerik.Web;
 using System.IO;
-using System.Web.UI.HtmlControls;
-using Newtonsoft.Json;
-using Telerik.Web.UI.Chat;
-using System.Runtime.InteropServices.ComTypes;
-using Telerik.Web.UI.PivotGrid.Queryable.Groups;
 using System.Drawing;
-
+using Telerik.Web.UI.PdfViewer;
+using Telerik.Web.UI.Skins;
+using System.Runtime.CompilerServices;
+using System.Web;
 
 namespace IndicadoresFreyman.Indicadores
 {
@@ -36,10 +28,27 @@ namespace IndicadoresFreyman.Indicadores
                 ValidarTablaBD();
                 BindRepeater();
                 LoadDataFromDatabase();
-                SqlDataSource1.SelectParameters["mes"].DefaultValue = DateTime.Now.AddMonths(-1).Month.ToString();
+
                 
+                SqlDataSource1.SelectParameters["mes"].DefaultValue = DateTime.Now.AddMonths(-1).Month.ToString();
+                SqlDataSource1.SelectParameters["año"].DefaultValue = DateTime.Now.Year.ToString();
+            }
+            // Verificar si se ha almacenado la fecha seleccionada en la sesión
+            if (Session["SelectedMonth"] != null && Session["SelectedYear"] != null)
+            {
+                int selectedMonth = (int)Session["SelectedMonth"];
+                int selectedYear = (int)Session["SelectedYear"];
+
+                // Actualizar el SqlDataSource con los nuevos parámetros
+                SqlDataSource1.SelectParameters.Clear();
+                SqlDataSource1.SelectParameters.Add("mes", selectedMonth.ToString());
+                SqlDataSource1.SelectParameters.Add("ano", selectedYear.ToString());
+
+                // Rebind el RadGrid para reflejar los nuevos datos
+                gridEvidencias.Rebind();
             }
             ValidacionIndicadoresCerrado();
+
         }
 
         private void ValidarTablaBD()
@@ -297,6 +306,13 @@ namespace IndicadoresFreyman.Indicadores
             }
         }
 
+        [WebMethod]
+        public static void fechaRadMonthYearPicker(int mes, int año)
+        {
+            HttpContext.Current.Session["mes"] = mes.ToString();
+            HttpContext.Current.Session["año"] = año.ToString();
+
+        }
 
         protected void gridEvidencias_ItemDataBound(object sender, GridItemEventArgs e)
         {
@@ -415,13 +431,18 @@ namespace IndicadoresFreyman.Indicadores
                     labelNombre.Text = "Nombre del Colaborador: " + HiddenLabel.Text;
                 }
 
-                Label mes = (Label)e.Item.FindControl("mes");
-                if (mes != null)
+
+                //Proceso para asignar la fecha del mes anterior al control radMonthyearpicker
+                GridCommandItem commandItem = (GridCommandItem)e.Item;
+                Telerik.Web.UI.RadMonthYearPicker radMonthYearPicker = (Telerik.Web.UI.RadMonthYearPicker)commandItem.FindControl("RadMonthYearPicker1");
+
+                if (radMonthYearPicker != null)
                 {
-                    mes.Text = DateTime.Now.AddMonths(-1).ToString("MMMM-yyyy", new System.Globalization.CultureInfo("es-ES"));
+                    radMonthYearPicker.SelectedDate = DateTime.Now.AddMonths(-1);
                 }
             }
         }
+
     }
 }
     // Clase del modelo de datos
