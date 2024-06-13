@@ -37,9 +37,9 @@ namespace IndicadoresFreyman.Indicadores
                 BindRepeater();
                 LoadDataFromDatabase();
                 SqlDataSource1.SelectParameters["mes"].DefaultValue = DateTime.Now.AddMonths(-1).Month.ToString();
-                ValidacionIndicadoresCerrado();
+                
             }
-
+            ValidacionIndicadoresCerrado();
         }
 
         private void ValidarTablaBD()
@@ -418,7 +418,7 @@ namespace IndicadoresFreyman.Indicadores
                 Label mes = (Label)e.Item.FindControl("mes");
                 if (mes != null)
                 {
-                    mes.Text = DateTime.Now.ToString("MMMM-yyyy", new System.Globalization.CultureInfo("es-ES"));
+                    mes.Text = DateTime.Now.AddMonths(-1).ToString("MMMM-yyyy", new System.Globalization.CultureInfo("es-ES"));
                 }
             }
         }

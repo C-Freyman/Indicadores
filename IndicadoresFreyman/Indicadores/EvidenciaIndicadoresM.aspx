@@ -200,7 +200,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    location.reload();
+                    masterTableView.rebind();
                 },
                 error: function (response) {
                     alert("Error al guardar los datos: " + response.responseText);
@@ -244,10 +244,11 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <h1>Subir Indicadores</h1>
       <telerik:RadAjaxLoadingPanel runat="server" ID="RadAjaxLoadingPanel1"></telerik:RadAjaxLoadingPanel>
   <telerik:RadFormDecorator RenderMode="Lightweight" ID="RadFormDecorator1" runat="server" DecorationZoneID="demo" DecoratedControls="All" EnableRoundedCorners="false" />
   
-  <div id="demo">
+  <div id="demo" style="margin-top:20px">
       <%--<telerik:RadListBox RenderMode="Lightweight" runat="server" ID="SavedChangesList" Width="600px" Height="200px" Visible="false"></telerik:RadListBox>--%>
       <telerik:RadGrid RenderMode="Lightweight" ID="gridEvidencias" GridLines="None" runat="server"
           CellSpacing="0" CellPadding="0" Font-Size="Smaller" Style="padding: 0; margin: 0 auto"
@@ -257,8 +258,8 @@
           <MasterTableView  CommandItemDisplay="Top"  EditMode="Batch" AutoGenerateColumns="False" CellPadding="0" CellSpacing="0">
               <CommandItemSettings ShowAddNewRecordButton="false"  />
               <CommandItemTemplate>                        
-                  <asp:Button ID="SaveChangesButton" runat="server" OnClientClick="return cerrarCambios();" Text="Cerrar Indicadores" />
-                  <asp:Button ID="CancelChangesButton" runat="server" CommandName="BatchCancel" Text="Cancelar Cambios" />
+                  <asp:Button ID="SaveChangesButton" runat="server" OnClientClick="return cerrarCambios();" Text="Enviar Indicadores" />
+                  <%--<asp:Button ID="CancelChangesButton" runat="server" CommandName="BatchCancel" Text="Cancelar Cambios" />--%>
                   <asp:Button ID="GuardarBorradorButton" OnClientClick="return guardarBorrador();" runat="server" Text="Guardar Borrador" />
 
                   <asp:Label ID="nombreColaborador" CssClass="label1" runat="server" Text="Texto"></asp:Label>
@@ -269,7 +270,7 @@
                   <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='20' HeaderStyle-Font-Bold="true" UniqueName="indicadorId" DataField='indicadorId' SortExpression="indicadorId" HeaderText='ID' 
                       ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
                   <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='50' HeaderStyle-Font-Bold="true" UniqueName="descripcionIndicador" DataField='descripcionIndicador' SortExpression="descripcionIndicador" 
-                      HeaderText='Descripción' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
+                      HeaderText='Descripción' ItemStyle-HorizontalAlign="Left" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
                   <telerik:GridBoundColumn FilterControlWidth="80%" HeaderStyle-Width='10' HeaderStyle-Font-Bold="true" UniqueName="ponderacion" DataField='ponderacion' SortExpression="ponderacion" HeaderText='Ponderación' 
                       ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
                   <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='12' HeaderStyle-Font-Bold="true" UniqueName="indicadorMinimo" DataField='indicadorMinimo' SortExpression="indicadorMinimo" HeaderText='Indicador Minimo (50 Pts.)' 
