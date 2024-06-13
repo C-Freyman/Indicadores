@@ -40,11 +40,11 @@ namespace IndicadoresFreyman.Reportes
             DataTable dt = null;
             if (HidTipoTablero.Value == "I")
             {
-                dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico2 {0},{1},{2},{3},1 ", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
+                dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico2 {0},{1},{2},{3},'I','MA'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
             }
             if (HidTipoTablero.Value == "E")
             {
-                dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico2 {0},{1},{2},{3},0 ", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
+                dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico2 {0},{1},{2},{3},'E','MA' ", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
             }
             try
             {
@@ -101,14 +101,6 @@ namespace IndicadoresFreyman.Reportes
                     }
                     else
                     {
-                        //if (i == 0)
-                        //{
-                        //    campo.HeaderStyle.Width = 100;
-                        //}
-                        //if (i == 1)
-                        //{
-                        //    campo.HeaderStyle.Width = 150;
-                        //}
                         campo.ItemStyle.HorizontalAlign = HorizontalAlign.Left;
                         campo.HeaderText = c.ColumnName;
                         campo.SortExpression = c.ColumnName;
@@ -120,9 +112,10 @@ namespace IndicadoresFreyman.Reportes
                     if (columnsNumero.Contains(i))
                     {
                         campo.CurrentFilterFunction = GridKnownFunction.EqualTo;
-                        campo.HeaderStyle.Width = 70;
+                        campo.HeaderStyle.Width = 80;
 
                     }
+                  
                     else
                     {
                         campo.CurrentFilterFunction = GridKnownFunction.Contains;
@@ -148,13 +141,13 @@ namespace IndicadoresFreyman.Reportes
                 GridDataItem item = e.Item as GridDataItem;
                 if (HidTipoTablero.Value == "I")
                 {
-                    item["ponderacion"].BackColor = System.Drawing.ColorTranslator.FromHtml("#D8E8E5");
-                    item["indicadorMinimo"].BackColor = System.Drawing.ColorTranslator.FromHtml("#D8E8E5");
-                    item["indicadorDeseable"].BackColor = System.Drawing.ColorTranslator.FromHtml("#D8E8E5");
+                    item["Ponderación"].BackColor = System.Drawing.ColorTranslator.FromHtml("#D8E8E5");
+                    item["Indicador Mínimo"].BackColor = System.Drawing.ColorTranslator.FromHtml("#D8E8E5");
+                    item["Indicador Deseable"].BackColor = System.Drawing.ColorTranslator.FromHtml("#D8E8E5");
 
-                    item["ponderacion"].Font.Bold = true;
-                    item["indicadorMinimo"].Font.Bold = true;
-                    item["indicadorDeseable"].Font.Bold = true;
+                    item["Ponderación"].Font.Bold = true;
+                    item["Indicador Mínimo"].Font.Bold = true;
+                    item["Indicador Deseable"].Font.Bold = true;
 
                     //for (int i = 0; i < item.OwnerTableView.Columns.Count; i++)
                     for (int i = 0; i < item.OwnerTableView.Columns.Count; i++)
@@ -177,9 +170,9 @@ namespace IndicadoresFreyman.Reportes
                             {
 
                                 item[columnName].HorizontalAlign = HorizontalAlign.Center;
-                                double cellValue;
+                                double cellValue=0;
                                 string cellText = valor.Split('_')[1];
-                                item[columnName].ToolTip = cellText;
+                                item[columnName].ToolTip ="Resultado:" + (string)cellValue.ToString("F2") +" Cumplimiento obj: " +cellText  ;
                                 if (double.TryParse(cellText, out cellValue))
                                 {
 
@@ -191,8 +184,11 @@ namespace IndicadoresFreyman.Reportes
                                     {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBF8C0");//amarillo
                                     }
-                                    if (cellValue > 90)
+                                    if (cellValue > 90 && cellValue <=100)
                                     {
+                                        e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#CCF7C3");//verde
+                                    }//
+                                    if (cellValue >100) {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#C0FBEF");//azul
                                     }
                                     //e.Item.Cells[i].Text = e.Item.Cells[i].Text + " %";
@@ -215,15 +211,15 @@ namespace IndicadoresFreyman.Reportes
                         double cellValue;
                         if (double.TryParse(cellText, out cellValue))
                         {
-                            if (cellValue >= 0 && cellValue <= 80)
+                            if (cellValue >= 0 && cellValue < 80)
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBCEC0");//rojo
                             }
-                            if (cellValue > 80 && cellValue <= 90)
+                            if (cellValue >= 80 && cellValue < 90)
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBF8C0");//amarillo
                             }
-                            if (cellValue > 90)
+                            if (cellValue >= 90)
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#C0FBEF");//azul
                             }
