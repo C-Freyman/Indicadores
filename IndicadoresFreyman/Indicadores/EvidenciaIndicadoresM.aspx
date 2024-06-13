@@ -196,7 +196,7 @@
             $.ajax({
                 type: "POST",
                 url: "EvidenciaIndicadoresM.aspx/CerrarCambios",
-                data: JSON.stringify({ tableData: tableData }),
+                data: JSON.stringify({ tableData: tableData}),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
@@ -239,6 +239,7 @@
             alert("Solo un archivo puede ser seleccionado.");
         }
     }
+
     function OnDateSelected(sender, e) {
         debugger;
         // Obtener la fecha seleccionada del objeto sender
@@ -260,6 +261,7 @@
             success: function (response) {
                 // Forzar un postback para actualizar el grid
                 __doPostBack('<%= gridEvidencias.ClientID %>', '');
+                location.reload();
             },
             failure: function (response) {
                 alert("Error al actualizar la fecha seleccionada.");
@@ -273,16 +275,17 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <h1>Subir Indicadores</h1>
-      <telerik:RadAjaxLoadingPanel runat="server" ID="RadAjaxLoadingPanel1"></telerik:RadAjaxLoadingPanel>
-  <telerik:RadFormDecorator RenderMode="Lightweight" ID="RadFormDecorator1" runat="server" DecorationZoneID="demo" DecoratedControls="All" EnableRoundedCorners="false" />
+    <h1 style="display:inline-block;">Subir Indicadores</h1>
+    
+    <telerik:RadAjaxLoadingPanel runat="server" ID="RadAjaxLoadingPanel1"></telerik:RadAjaxLoadingPanel>
+    <telerik:RadFormDecorator RenderMode="Lightweight" ID="RadFormDecorator1" runat="server" DecorationZoneID="demo" DecoratedControls="All" EnableRoundedCorners="false" />
   
-  <div id="demo" style="margin-top:20px">
-
+    <div id="demo" style="margin-top:20px">
+      
       <telerik:RadGrid RenderMode="Lightweight" ID="gridEvidencias" GridLines="None" runat="server"
           CellSpacing="0" CellPadding="0" Font-Size="Smaller" Style="padding: 0; margin: 0 auto"
           AllowAutomaticInserts="True" PageSize="10" AllowAutomaticUpdates="True" AllowPaging="True" OnItemCreated="gridEvidencias_ItemCreated"
-          AutoGenerateColumns="False" DataSourceID="SqlDataSource1" OnBatchEditCommand="gridEvidencias_BatchEditCommand" OnItemDataBound="gridEvidencias_ItemDataBound" ShowFooter="true">
+          AutoGenerateColumns="False" OnItemDataBound="gridEvidencias_ItemDataBound" ShowFooter="true">
 
           <MasterTableView  CommandItemDisplay="Top"  EditMode="Batch" AutoGenerateColumns="False" CellPadding="0" CellSpacing="0">
               <CommandItemSettings ShowAddNewRecordButton="false"  />
@@ -293,13 +296,13 @@
 
                   <asp:Label ID="nombreColaborador" CssClass="label1" runat="server" Text="Texto"></asp:Label>
 
-
+                  
                   <telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker1" runat="server" Width="238px" MinDate="2024-01-1" CssClass="label2">
                       <ClientEvents OnDateSelected="OnDateSelected"></ClientEvents>
                   </telerik:RadMonthYearPicker>
               </CommandItemTemplate>
               <Columns>
-                  <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='20' HeaderStyle-Font-Bold="true" UniqueName="indicadorId" DataField='indicadorId' SortExpression="indicadorId" HeaderText='ID' 
+                  <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='10' HeaderStyle-Font-Bold="true" UniqueName="indicadorId" DataField='indicadorId' SortExpression="indicadorId" HeaderText='ID' 
                       ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
                   <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='50' HeaderStyle-Font-Bold="true" UniqueName="descripcionIndicador" DataField='descripcionIndicador' SortExpression="descripcionIndicador" 
                       HeaderText='Descripción' ItemStyle-HorizontalAlign="Left" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
@@ -329,19 +332,7 @@
       </telerik:RadGrid>
        <!-- Hidden label to store the value from the database -->
       <asp:Label ID="HiddenLabel" runat="server" Visible="false"></asp:Label>
-  </div>
-  <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Server=187.174.147.102; User ID=sa; password=similares*3; DataBase=Indicadores;"
-      SelectCommand="select pli.pIndicadorId as indicadorId, pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, 
-                      isnull(cumplimientoOBjetivo,0)as cumplimientoObjetivo, isnull(evaluacionPonderada,0)as evaluacionPonderada from Indicador i 
-                      inner join PlantillaIndicador pli on pli.pIndicadorId=i.pIndicadorId
-                      inner join resultadoIndicador e on i.IndicadorId=e.indicadorId 
-                      where empleadoId=@empleadoId and mes=@mes and año=@año">
-      <SelectParameters>
-              <asp:SessionParameter Name="empleadoId" SessionField="Log" Type="Int32" />
-              <asp:Parameter Name="mes" Type="Int32" />
-          <asp:Parameter Name="año" Type="Int32" />
-      </SelectParameters>
-  </asp:SqlDataSource>
+    </div>
   <div class="demo-container no-bg">
       <telerik:RadFormDecorator RenderMode="Lightweight" ID="FormDecorator1" runat="server" DecoratedControls="Textbox, Buttons" />
  
