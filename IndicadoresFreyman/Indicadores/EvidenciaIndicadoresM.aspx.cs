@@ -94,6 +94,7 @@ namespace IndicadoresFreyman.Indicadores
             tb.Columns.Add("resultado");
             tb.Columns.Add("cumplimientoObjetivo");
             tb.Columns.Add("evaluacionPonderada");
+            tb.Columns.Add("cumplimientoOBjetivoReal");
             try
             {
                 using (var con = new SqlConnection(conn))
@@ -264,7 +265,7 @@ namespace IndicadoresFreyman.Indicadores
         }
 
 
-        public void calcularResultados(bool esAscendente, double valor, int indicadorMinimo, int indicadorDeseable, int ponderacion, out double cumplimientoObjetivo, out double evaluacionPonderada)
+        public void calcularResultados(bool esAscendente, double valor, int indicadorMinimo, int indicadorDeseable, int ponderacion, out double cumplimientoObjetivo, out double evaluacionPonderada, out double cumplimientoObjetivoReal)
         {
 
             if (esAscendente)
@@ -281,6 +282,7 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     cumplimientoObjetivo = 100;
                 }
+                cumplimientoObjetivoReal= Math.Round(((1 / ((indicadorDeseable - indicadorMinimo) * 2.00)) * (valor - indicadorMinimo) * 100.00) + 50.00, 2);
             }
             else
             {
@@ -297,6 +299,7 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     cumplimientoObjetivo = 100;
                 }
+                cumplimientoObjetivoReal = Math.Round(((1 / ((indicadorMinimo - indicadorDeseable) * 2.00)) * (indicadorMinimo - valor) * 100.00) + 50.00, 2);
             }
             evaluacionPonderada = Math.Round((ponderacion / 100.00) * cumplimientoObjetivo, 2);
 
@@ -331,13 +334,14 @@ namespace IndicadoresFreyman.Indicadores
                     }
                 }
             }
-            double cumplimientoObjetivo, evaluacionPonderada;
+            double cumplimientoObjetivo, evaluacionPonderada, cumplimientoObjetivoReal;
 
-            obj.calcularResultados(esAscendente, Convert.ToDouble(valorEditado), indicadorMinimo, indicadorDeseable, ponderacion, out cumplimientoObjetivo, out evaluacionPonderada);
+            obj.calcularResultados(esAscendente, Convert.ToDouble(valorEditado), indicadorMinimo, indicadorDeseable, ponderacion, out cumplimientoObjetivo, out evaluacionPonderada, out cumplimientoObjetivoReal);
             return new
             {
                 cumplimientoObjetivo,
-                evaluacionPonderada
+                evaluacionPonderada,
+                cumplimientoObjetivoReal
             };
         }
 
@@ -355,8 +359,8 @@ namespace IndicadoresFreyman.Indicadores
                     using (var command = new SqlCommand())
                     {
                         command.Connection = con;
-                        command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
-                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + "and activo=1 and empleadoId=" + obj.Session["Log"] + " ) and mes=" + mes + " and año=" + año + " and fechaCerrado is null";
+                        command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + ", cumplimientoOBjetivoReal= " + row.CumplimientoObjetivoReal +
+                            " where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + "and activo=1 and empleadoId=" + obj.Session["Log"] + " ) and mes=" + mes + " and año=" + año + " and fechaCerrado is null";
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }
@@ -378,8 +382,8 @@ namespace IndicadoresFreyman.Indicadores
                     using (var command = new SqlCommand())
                     {
                         command.Connection = con;
-                        command.CommandText = "update resultadoIndicador set fechaCerrado=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
-                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " and empleadoId=" + obj.Session["Log"] + " and activo=1 ) and mes=" + mes + " and año=" + año;
+                        command.CommandText = "update resultadoIndicador set fechaCerrado=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " ,cumplimientoOBjetivoReal=" + row.CumplimientoObjetivoReal +
+                            " where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " and empleadoId=" + obj.Session["Log"] + " and activo=1 ) and mes=" + mes + " and año=" + año;
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }
@@ -537,12 +541,14 @@ namespace IndicadoresFreyman.Indicadores
 
     }
 }
-    // Clase del modelo de datos
-    public class MyDataModel
-    {
-        public string IndicadorId { get; set; }
-        public string Resultado { get; set; }
-        public string CumplimientoObjetivo { get; set; }
-        public string EvaluacionPonderada { get; set; }
-    }
+// Clase del modelo de datos
+public class MyDataModel
+{
+    public string IndicadorId { get; set; }
+    public string Resultado { get; set; }
+    public string CumplimientoObjetivo { get; set; }
+    public string EvaluacionPonderada { get; set; }
+    public string CumplimientoObjetivoReal { get; set; }
+
+}
 
