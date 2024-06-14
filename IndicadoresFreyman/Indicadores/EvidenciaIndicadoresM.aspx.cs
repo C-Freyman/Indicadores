@@ -434,8 +434,14 @@ namespace IndicadoresFreyman.Indicadores
 
                 //< span class="badge badge-danger" style="font-size:15px;margin-right:10px; float:right">Danger</span>
             }
+            if (e.Item is GridDataItem)
+            {
+                GridDataItem item = e.Item as GridDataItem;
+                HiddenField HidcumplimientoObjetivoReal = item["cumplimientoOBjetivoReal"].FindControl("HidcumplimientoObjetivoReal") as HiddenField;
+                item["cumplimientoObjetivo"].CssClass = HidcumplimientoObjetivoReal.Value;
+                item["cumplimientoObjetivo"].ToolTip = HidcumplimientoObjetivoReal.Value;
+            }
         }
-
         protected void RadAsyncUpload1_FileUploaded(object sender, FileUploadedEventArgs e)
         {
             if (RadAsyncUpload1.UploadedFiles.Count > 1)

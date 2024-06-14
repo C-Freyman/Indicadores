@@ -93,7 +93,8 @@
         var row = cell.parentNode;
         var filaHTML = row.innerText;
         var valorEditado = cell.innerText;
-
+        //row.cells[6].innerText = "11";
+        //row.cells[6].Attributes.Add("title", "holaaaa");
         // Enviar los valores de la fila al servidor usando AJAX
         $.ajax({
             type: "POST",
@@ -102,23 +103,25 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
+               
                 // Manejar el éxito y actualizar las celdas correspondientes
                 var data = response.d;
                 var cumplimientoObjetivo = data.cumplimientoObjetivo;
                 var evaluacionPonderada = data.evaluacionPonderada;
                 var cumplimientoObjetivoReal = data.cumplimientoObjetivoReal;
 
-
-
                 // Asumiendo que las celdas de cumplimientoObjetivo y evaluacionPonderada están en la misma fila
                 // Puedes cambiar esto según tu estructura de tabla
                 var cumplimientoObjetivoCell = row.cells[6]; // Ajusta el índice según la posición real de la celda
                 var evaluacionPonderadaCell = row.cells[7]; // Ajusta el índice según la posición real de la celda
                 var cumplimientoObjetivoRealCell = row.cells[8];
-
+               
+                cumplimientoObjetivoCell.className = cumplimientoObjetivoReal;
+                cumplimientoObjetivoCell.title = cumplimientoObjetivoReal;
                 cumplimientoObjetivoCell.innerText = cumplimientoObjetivo.toFixed(2);
                 evaluacionPonderadaCell.innerText = evaluacionPonderada.toFixed(2);
                 cumplimientoObjetivoRealCell.innerText = cumplimientoObjetivoReal.toFixed(2);
+               // cumplimientoObjetivoCell.Attributes.Add("title","holaaaa" );
 
                 console.log("Values saved successfully");
             },
@@ -141,12 +144,13 @@
         for (var i = 0; i < rows.length; i++) {
             var cells = rows[i].get_element().cells;
             //if (cells[6].innerText.trim()!='0.00') {
+            
             var rowData = {
                 indicadorId: cells[0].innerText.trim(),
                 resultado: cells[5].innerText.trim(),
                 cumplimientoObjetivo: cells[6].innerText.trim(),
                 evaluacionPonderada: cells[7].innerText.trim(),
-                cumplimientoObjetivoReal: cells[8].innerText.trim()
+                cumplimientoObjetivoReal: (cells[6].className == '') ? 0 : cells[6].className //cells[8].innerText.trim()
             };
             tableData.push(rowData);
             //}
@@ -321,7 +325,8 @@
                   <telerik:GridTemplateColumn FilterControlWidth='80%' HeaderStyle-Width='15' HeaderStyle-Font-Bold="true" UniqueName="cumplimientoObjetivo" DataField='cumplimientoObjetivo' SortExpression="cumplimientoObjetivo" 
                       HeaderText='Cumplimiento Objetivo (0-100 Pts.)' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="false" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center">
                           <ItemTemplate>
-                              <span style="font-size:13px" class='<%# CargarEstilosCumplimiento(Convert.ToDecimal(Eval("cumplimientoObjetivo")))%>'>  <%# Eval("cumplimientoObjetivo") %></span>
+                              <span style="font-size:13px"  class='<%# CargarEstilosCumplimiento(Convert.ToDecimal(Eval("cumplimientoObjetivo")))%>'>  <%# Eval("cumplimientoObjetivo") %></span>
+                              <asp:HiddenField ID="HidcumplimientoObjetivoReal" Value='<%# Eval("cumplimientoOBjetivoReal") %>' runat="server" />
                           </ItemTemplate>
                   </telerik:GridTemplateColumn>
                   <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='15' HeaderStyle-Font-Bold="true" UniqueName="evaluacionPonderada" DataField='evaluacionPonderada' SortExpression="evaluacionPonderada"
