@@ -2,24 +2,16 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using Telerik.Web.UI;
-using Telerik.Web.UI.Skins;
-using System.Collections;
 using System.Diagnostics;
 using System.Web.Services;
-using Telerik.Web;
 using System.IO;
-using System.Web.UI.HtmlControls;
-using Newtonsoft.Json;
-using Telerik.Web.UI.Chat;
-using System.Runtime.InteropServices.ComTypes;
-using Telerik.Web.UI.PivotGrid.Queryable.Groups;
 using System.Drawing;
-
+using Telerik.Web.UI.PdfViewer;
+using Telerik.Web.UI.Skins;
+using System.Runtime.CompilerServices;
+using System.Web;
 
 namespace IndicadoresFreyman.Indicadores
 {
@@ -32,12 +24,101 @@ namespace IndicadoresFreyman.Indicadores
 
             if (!IsPostBack)
             {
-                Session["empleadoId"] = "3246";
-                BindRepeater();
-                LoadDataFromDatabase();
-                SqlDataSource1.SelectParameters["mes"].DefaultValue = DateTime.Now.Month.ToString();
-                ValidacionIndicadoresCerrado();
+               // Session["Log"] = "3246";
+                ValidarTablaBD();//Procedure para validar si existe o no el registro del mes 
+                
+                DatosUsuario();//Carga el nombre de la persona en label
+
+                if (Session["mes"]== null)
+                {
+                    Session["mes"] = DateTime.Now.AddMonths(-1).Month.ToString();
+                    Session["año"] = DateTime.Now.Year.ToString();
+                    cargarDatosEnGrid(Session["mes"]as string, Session["año"] as string);//Carga datos en grid
+                    ValidarArchivoEvidencia(DateTime.Now.AddMonths(-1).Month, DateTime.Now.Year);//FileRepeater
+                    
+                }
+                else
+                {
+                    cargarDatosEnGrid(Session["mes"].ToString(), Session["año"].ToString());
+                    ValidarArchivoEvidencia(Convert.ToInt32(Session["mes"]), Convert.ToInt32(Session["año"]));
+                }
             }
+            else
+            {
+                cargarDatosEnGrid(Session["mes"].ToString(), Session["año"].ToString());
+                ValidarArchivoEvidencia(Convert.ToInt32(Session["mes"]), Convert.ToInt32(Session["año"]));
+            }
+            ValidacionIndicadoresCerrado();
+
+            ValidarIndicadoresPasados();
+
+        }
+
+        private void ValidarTablaBD()//Procedure para validar si existe o no el registro del mes 
+        {
+            try
+            {
+                using (var con = new SqlConnection(conn))
+                {
+                    con.Open();
+                    using (var cmd = new SqlCommand("validarTablaResultado", con))
+                    {
+                        cmd.Connection = con;
+                        cmd.Parameters.AddWithValue("empleadoId", Session["Log"]);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private void cargarDatosEnGrid(string mes, string año)
+        {
+            DataTable tb= new DataTable();
+            tb = consultaTablaResultados(mes, año);
+            gridEvidencias.DataSource = tb;
+            gridEvidencias.DataBind();
+        }
+
+        private DataTable consultaTablaResultados(string mes, string año)
+        {
+            DataTable tb= new DataTable();
+            tb.Columns.Add("indicadorId");
+            tb.Columns.Add("descripcionIndicador");
+            tb.Columns.Add("ponderacion");
+            tb.Columns.Add("indicadorMinimo");
+            tb.Columns.Add("indicadorDeseable");
+            tb.Columns.Add("resultado");
+            tb.Columns.Add("cumplimientoObjetivo");
+            tb.Columns.Add("evaluacionPonderada");
+            tb.Columns.Add("cumplimientoOBjetivoReal");
+            try
+            {
+                using (var con = new SqlConnection(conn))
+                {
+                    con.Open();
+                    using (var cmd = new SqlCommand("gridResultados", con))
+                    {
+                        cmd.Connection = con;
+                        cmd.Parameters.AddWithValue("empleadoId", Session["Log"]);
+                        cmd.Parameters.AddWithValue("mes", mes);
+                        cmd.Parameters.AddWithValue("año", año);
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        da.Fill(tb);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                tb = new DataTable();
+            }
+            
+            return tb;
         }
 
         public string CargarEstilosCumplimiento(decimal valor)//Estilos en columna Cumplimiento del Objetivo
@@ -48,7 +129,7 @@ namespace IndicadoresFreyman.Indicadores
             {
                 estilo = "badge badge-pill badge-success";
             }
-            else if (valor >= 75)
+            else if (valor >= 80)
             {
                 estilo = "badge badge-pill badge-warning";
             }
@@ -62,7 +143,7 @@ namespace IndicadoresFreyman.Indicadores
 
         private void ValidacionIndicadoresCerrado()
         {
-            string query = "select top 1  isnull(cast(fechaCerrado as varchar(10)),'1') as fechaCerrado from resultadoIndicador ri left join Indicador i on ri.indicadorId=i.IndicadorId where mes=6 and empleadoId=" + Session["empleadoId"];
+            string query = "select top 1  isnull(cast(fechaCerrado as varchar(10)),'1') as fechaCerrado from resultadoIndicador ri left join Indicador i on ri.indicadorId=i.IndicadorId where mes=" + Session["mes"] + " and año=" + Session["año"] + " and activo=1 and empleadoId=" + Session["Log"];
             string cerrado = "";
             using (SqlConnection con = new SqlConnection(conn))
             {
@@ -85,9 +166,9 @@ namespace IndicadoresFreyman.Indicadores
             }
         }
 
-        private void LoadDataFromDatabase()//Datos del usuario
+        private void DatosUsuario()//Datos del usuario
         {
-            string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["empleadoId"] + ";";
+            string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["Log"] + ";";
 
             using (SqlConnection con = new SqlConnection(conn))
             {
@@ -105,10 +186,10 @@ namespace IndicadoresFreyman.Indicadores
             }
         }
 
-        private void BindRepeater()//Datos del mes
+        private void ValidarArchivoEvidencia(int mes, int año)//Datos del mes
         {
 
-            DataTable dt = GetUploadedFiles(DateTime.Now.Month, DateTime.Now.Year);
+            DataTable dt = ConsultaArchivo(mes, año);
             if (dt.Rows.Count > 0)
             {
                 ltrNoResults.Visible = false;
@@ -121,10 +202,10 @@ namespace IndicadoresFreyman.Indicadores
             }
         }
 
-        private DataTable GetUploadedFiles(int mes, int año)
+        private DataTable ConsultaArchivo(int mes, int año)
         {
             DataTable dt = new DataTable();
-            string query = "SELECT nombreArchivo as FileName, tamaño as ContentLength FROM Evidencia WHERE empleadoId =  " + Session["empleadoId"] + " AND mes = 1 AND año =" + año;
+            string query = "SELECT nombreArchivo as FileName, tamaño as ContentLength FROM Evidencia WHERE empleadoId =  " + Session["Log"] + " AND mes = " + mes + " AND año =" + año;
 
             using (SqlConnection con = new SqlConnection(conn))
             {
@@ -139,6 +220,42 @@ namespace IndicadoresFreyman.Indicadores
             return dt;
         }
 
+        private bool ValidarIndicadoresPasados()//Valida si tiene meses pasados sin subir indicadores
+        {
+            //En caso de tener pendientes se asigna true
+            //En caso de no tener pendientes se asigna false
+            bool result;
+            try
+            {
+                string mes = DateTime.Now.AddMonths(-1).Month.ToString();
+                string año = DateTime.Now.Year.ToString();
+                using (var con = new SqlConnection(conn))
+                {
+                    con.Open();
+                    using (var cmd = new SqlCommand("selecT mes, count(*) from Indicador i left join resultadoIndicador ri on i.IndicadorId=ri.indicadorId " +
+                        "where ri.mes<" + mes + " and año="+ año +" and i.empleadoId=" + Session["Log"] + " group by mes;", con))
+                    {
+                        cmd.Connection = con;
+                        cmd.CommandType = CommandType.Text;
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            result = true;
+                        }
+                        else
+                        {
+                            result = false;
+                        }
+                    }
+                }
+            }
+            catch 
+            {
+                result = false;
+            }
+            return result;
+        }
+
 
         [WebMethod]
         public static void SaveEditorValue(string editorValue)
@@ -147,13 +264,8 @@ namespace IndicadoresFreyman.Indicadores
             Debug.WriteLine("Editor Value: " + editorValue);
         }
 
-        protected void gridEvidencias_BatchEditCommand(object sender, GridBatchEditingEventArgs e)
-        {
 
-        }
-
-
-        public void calcularResultados(bool esAscendente, double valor, int indicadorMinimo, int indicadorDeseable, int ponderacion, out double cumplimientoObjetivo, out double evaluacionPonderada)
+        public void calcularResultados(bool esAscendente, double valor, int indicadorMinimo, int indicadorDeseable, int ponderacion, out double cumplimientoObjetivo, out double evaluacionPonderada, out double cumplimientoObjetivoReal)
         {
 
             if (esAscendente)
@@ -170,6 +282,7 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     cumplimientoObjetivo = 100;
                 }
+                cumplimientoObjetivoReal= Math.Round(((1 / ((indicadorDeseable - indicadorMinimo) * 2.00)) * (valor - indicadorMinimo) * 100.00) + 50.00, 2);
             }
             else
             {
@@ -186,6 +299,7 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     cumplimientoObjetivo = 100;
                 }
+                cumplimientoObjetivoReal = Math.Round(((1 / ((indicadorMinimo - indicadorDeseable) * 2.00)) * (indicadorMinimo - valor) * 100.00) + 50.00, 2);
             }
             evaluacionPonderada = Math.Round((ponderacion / 100.00) * cumplimientoObjetivo, 2);
 
@@ -196,6 +310,7 @@ namespace IndicadoresFreyman.Indicadores
         public static object SaveRowValues(string filaHTML, string valorEditado)
         {
             string id = filaHTML.Substring(0, filaHTML.IndexOf('\t'));
+            var obj = new EvidenciaIndicadoresM();
 
             bool esAscendente = false;
             int ponderacion = 0, indicadorMinimo = 0, indicadorDeseable = 0;
@@ -207,7 +322,7 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     command.Connection = con;
                     command.CommandText = "select pli.esAscendente, pli.TipoId,i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli" +
-                        " left join Indicador i on pli.pIndicadorId=i.pIndicadorId where pli.pIndicadorId=" + id + ";";
+                        " left join Indicador i on i.pIndicadorId=pli.pIndicadorId where i.pIndicadorId=" + id + " and i.activo=1 and pli.estatus=1 and empleadoId=" + obj.Session["Log"] + ";";
                     command.CommandType = CommandType.Text;
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -219,20 +334,23 @@ namespace IndicadoresFreyman.Indicadores
                     }
                 }
             }
-            double cumplimientoObjetivo, evaluacionPonderada;
-            var obj = new EvidenciaIndicadores();
-            obj.calcularResultados(esAscendente, Convert.ToDouble(valorEditado), indicadorMinimo, indicadorDeseable, ponderacion, out cumplimientoObjetivo, out evaluacionPonderada);
+            double cumplimientoObjetivo, evaluacionPonderada, cumplimientoObjetivoReal;
+
+            obj.calcularResultados(esAscendente, Convert.ToDouble(valorEditado), indicadorMinimo, indicadorDeseable, ponderacion, out cumplimientoObjetivo, out evaluacionPonderada, out cumplimientoObjetivoReal);
             return new
             {
                 cumplimientoObjetivo,
-                evaluacionPonderada
+                evaluacionPonderada,
+                cumplimientoObjetivoReal
             };
         }
 
         [WebMethod]
         public static void GuardarBorrador(List<MyDataModel> tableData)
         {
-
+            string mes = HttpContext.Current.Session["mes"].ToString();
+            string año = HttpContext.Current.Session["año"].ToString();
+            var obj = new EvidenciaIndicadoresM();
             using (var con = new SqlConnection(conn))
             {
                 con.Open();
@@ -241,8 +359,8 @@ namespace IndicadoresFreyman.Indicadores
                     using (var command = new SqlCommand())
                     {
                         command.Connection = con;
-                        command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
-                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " ) and mes=1 and año=2024 and fechaCerrado is null";
+                        command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + ", cumplimientoOBjetivoReal= " + row.CumplimientoObjetivoReal +
+                            " where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + "and activo=1 and empleadoId=" + obj.Session["Log"] + " ) and mes=" + mes + " and año=" + año + " and fechaCerrado is null";
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }
@@ -253,7 +371,9 @@ namespace IndicadoresFreyman.Indicadores
         [WebMethod]
         public static void cerrarCambios(List<MyDataModel> tableData)
         {
-
+            var obj = new EvidenciaIndicadoresM();
+            string mes = HttpContext.Current.Session["mes"].ToString();
+            string año = HttpContext.Current.Session["año"].ToString();
             using (var con = new SqlConnection(conn))
             {
                 con.Open();
@@ -262,8 +382,8 @@ namespace IndicadoresFreyman.Indicadores
                     using (var command = new SqlCommand())
                     {
                         command.Connection = con;
-                        command.CommandText = "update resultadoIndicador set fechaCerrado=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " " +
-                            "where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " ) and mes=1 and año=2024";
+                        command.CommandText = "update resultadoIndicador set fechaCerrado=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " ,cumplimientoOBjetivoReal=" + row.CumplimientoObjetivoReal +
+                            " where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " and empleadoId=" + obj.Session["Log"] + " and activo=1 ) and mes=" + mes + " and año=" + año;
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }
@@ -271,6 +391,12 @@ namespace IndicadoresFreyman.Indicadores
             }
         }
 
+        [WebMethod]
+        public static void fechaRadMonthYearPicker(int mes, int año)
+        {
+            HttpContext.Current.Session["mes"] = mes.ToString();
+            HttpContext.Current.Session["año"] = año.ToString();
+        }
 
         protected void gridEvidencias_ItemDataBound(object sender, GridItemEventArgs e)
         {
@@ -302,8 +428,11 @@ namespace IndicadoresFreyman.Indicadores
                     resultado = "<span style='Font-size:17px' class='badge badge-danger'>" + totalEvaluacionPonderada + "</span>";
                 }
                 //footerItem["cumplimientoObjetivo"].Text = "Evaluación Mensual: ";
+
                 footerItem["cumplimientoObjetivo"].Text = "<div style='text-align: right;'>Evaluación Mensual: </div>";
                 footerItem["evaluacionPonderada"].Text = resultado;
+
+                //< span class="badge badge-danger" style="font-size:15px;margin-right:10px; float:right">Danger</span>
             }
         }
 
@@ -329,14 +458,15 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     string nombreArchivo = e.File.FileName;
                     long tamaño = e.File.ContentLength;
-                    string query = "if (select top 1 fechaCerrado from resultadoIndicador where mes=" + DateTime.Now.Month + " and año=2024 and indicadorId=(select top 1 indicadorId from Indicador where empleadoId=3246 and activo=1)) is not null begin " +
-                                    "if not exists(select* from Evidencia where mes=1 and año=2024 and empleadoId=" + Session["empleadoId"] + ") " +
+
+                    string query = "if (select top 1 fechaCerrado from resultadoIndicador where mes=" + Session["mes"] + " and año=2024 and indicadorId=(select top 1 indicadorId from Indicador where empleadoId=" + Session["Log"] + " and activo=1)) is null begin " +
+                                    "if not exists(select* from Evidencia where mes=" + Session["mes"] + " and año=" + Session["mes"] + " and empleadoId=" + Session["Log"] + ") " +
                                         "begin " +
-                                        "insert into Evidencia values(3246,1,2024,'" + nombreArchivo + "',null,@archivo," + tamaño + "); " +
+                                        "insert into Evidencia values(" + Session["Log"] + "," + Session["mes"] + "," + Session["mes"] + ",'" + nombreArchivo + "',null,@archivo," + tamaño + ", getdate() ); " +
                                     "end " +
                                     "else " +
                                         "begin " +
-                                        "update Evidencia set nombreArchivo='" + nombreArchivo + "', archivo=@archivo, tamaño=" + tamaño + " where empleadoId=" + Session["empleadoId"] + " and mes=1 and año=2024 " +
+                                        "update Evidencia set nombreArchivo='" + nombreArchivo + "', archivo=@archivo, tamaño=" + tamaño + " where empleadoId=" + Session["Log"] + " and mes=" + Session["mes"] + " and año=" + Session["mes"] + " " +
                                     "end end";
 
                     using (SqlConnection connection = new SqlConnection(conn))
@@ -388,21 +518,37 @@ namespace IndicadoresFreyman.Indicadores
                     labelNombre.Text = "Nombre del Colaborador: " + HiddenLabel.Text;
                 }
 
-                Label mes = (Label)e.Item.FindControl("mes");
-                if (mes != null)
+
+                //Proceso para asignar la fecha del mes anterior al control radMonthyearpicker
+                GridCommandItem commandItem = (GridCommandItem)e.Item;
+                Telerik.Web.UI.RadMonthYearPicker radMonthYearPicker = (Telerik.Web.UI.RadMonthYearPicker)commandItem.FindControl("RadMonthYearPicker1");
+
+                if (radMonthYearPicker != null)
                 {
-                    mes.Text = DateTime.Now.ToString("MMMM-yyyy", new System.Globalization.CultureInfo("es-ES"));
+                    if (Session["mes"] == null)
+                    {
+                        radMonthYearPicker.SelectedDate = DateTime.Now.AddMonths(-1);
+                    }
+                    else
+                    {
+                        var mes = Session["mes"];
+                        var año = Session["año"];
+                        radMonthYearPicker.SelectedDate = new DateTime(Convert.ToInt32(año), Convert.ToInt32(mes), 1);
+                    }
                 }
             }
         }
+
     }
 }
-    // Clase del modelo de datos
-    public class MyDataModel
-    {
-        public string IndicadorId { get; set; }
-        public string Resultado { get; set; }
-        public string CumplimientoObjetivo { get; set; }
-        public string EvaluacionPonderada { get; set; }
-    }
+// Clase del modelo de datos
+public class MyDataModel
+{
+    public string IndicadorId { get; set; }
+    public string Resultado { get; set; }
+    public string CumplimientoObjetivo { get; set; }
+    public string EvaluacionPonderada { get; set; }
+    public string CumplimientoObjetivoReal { get; set; }
+
+}
 

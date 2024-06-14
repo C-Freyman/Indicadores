@@ -7,92 +7,74 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace IndicadoresFreyman.Indicadores
+namespace IndicadoresFreyman
 {
 
 
-    public partial class EvidenciaIndicadoresM
+    public partial class asignaIndicadores
     {
 
         /// <summary>
-        /// Control RadAjaxLoadingPanel1.
+        /// Control Button1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadAjaxLoadingPanel RadAjaxLoadingPanel1;
+        protected global::System.Web.UI.WebControls.Button Button1;
 
         /// <summary>
-        /// Control RadFormDecorator1.
+        /// Control radIndicador.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadFormDecorator RadFormDecorator1;
+        protected global::Telerik.Web.UI.RadGrid radIndicador;
 
         /// <summary>
-        /// Control gridEvidencias.
+        /// Control SqlTipo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadGrid gridEvidencias;
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlTipo;
 
         /// <summary>
-        /// Control HiddenLabel.
+        /// Control htntotal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label HiddenLabel;
+        protected global::System.Web.UI.WebControls.HiddenField htntotal;
 
         /// <summary>
-        /// Control FormDecorator1.
+        /// Control hdneditar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadFormDecorator FormDecorator1;
+        protected global::System.Web.UI.WebControls.HiddenField hdneditar;
 
         /// <summary>
-        /// Control ltrNoResults.
+        /// Control hdnArea.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltrNoResults;
+        protected global::System.Web.UI.WebControls.HiddenField hdnArea;
 
         /// <summary>
-        /// Control Repeater1.
+        /// Control hdnEmpleado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater Repeater1;
-
-        /// <summary>
-        /// Control RadAsyncUpload1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadAsyncUpload RadAsyncUpload1;
-
-        /// <summary>
-        /// Control button1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button button1;
+        protected global::System.Web.UI.WebControls.HiddenField hdnEmpleado;
     }
 }

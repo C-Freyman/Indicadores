@@ -112,7 +112,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="asignaIndicador.aspx" />
+
+    <Content Include="asignaIndicadores.aspx" />
+
     <Content Include="bin\EnvDTE.dll" />
+    <Content Include="bin\EnvDTE.xml" />
     <Content Include="bin\IndicadoresFreyman.dll" />
     <Content Include="bin\IndicadoresFreyman.pdb" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
@@ -130,6 +134,7 @@
     <Content Include="bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll" />
     <Content Include="bin\roslyn\Microsoft.Win32.Primitives.dll" />
     <Content Include="bin\roslyn\System.AppContext.dll" />
+    <Content Include="bin\roslyn\System.Buffers.dll" />
     <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
     <Content Include="bin\roslyn\System.Console.dll" />
     <Content Include="bin\roslyn\System.Diagnostics.DiagnosticSource.dll" />
@@ -140,9 +145,12 @@
     <Content Include="bin\roslyn\System.IO.Compression.ZipFile.dll" />
     <Content Include="bin\roslyn\System.IO.FileSystem.dll" />
     <Content Include="bin\roslyn\System.IO.FileSystem.Primitives.dll" />
+    <Content Include="bin\roslyn\System.Memory.dll" />
     <Content Include="bin\roslyn\System.Net.Http.dll" />
     <Content Include="bin\roslyn\System.Net.Sockets.dll" />
+    <Content Include="bin\roslyn\System.Numerics.Vectors.dll" />
     <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="bin\roslyn\System.Runtime.CompilerServices.Unsafe.dll" />
     <Content Include="bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll" />
     <Content Include="bin\roslyn\System.Security.Cryptography.Algorithms.dll" />
     <Content Include="bin\roslyn\System.Security.Cryptography.Encoding.dll" />
@@ -158,6 +166,7 @@
     <Content Include="bin\roslyn\vbc.exe" />
     <Content Include="bin\roslyn\VBCSCompiler.exe" />
     <Content Include="bin\stdole.dll" />
+    <Content Include="bin\Telerik.Documents.SpreadsheetStreaming.dll" />
     <Content Include="bin\Telerik.Web.Design.dll" />
     <Content Include="bin\Telerik.Web.Device.Detection.dll" />
     <Content Include="bin\Telerik.Web.Spreadsheet.dll" />
@@ -166,6 +175,8 @@
     <Content Include="bin\Telerik.Web.UI.Skins.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Core.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Core.xml" />
+    <Content Include="bin\Telerik.Windows.Documents.Flow.dll" />
+    <Content Include="bin\Telerik.Windows.Documents.Flow.FormatProviders.Doc.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll" />
     <Content Include="bin\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.xml" />
@@ -174,6 +185,7 @@
     <Content Include="bin\Telerik.Windows.Zip.Extensions.dll" />
     <Content Include="bin\Telerik.Windows.Zip.Extensions.xml" />
     <Content Include="bin\Telerik.Windows.Zip.xml" />
+    
     <Content Include="crearIndicador.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
@@ -189,12 +201,12 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\pantallaDivida.css" />
     <Content Include="Global.asax" />
+
     <Content Include="Imagenes\LogF.png" />
     <Content Include="Imagenes\LogF_.png" />
-    <Content Include="Indicadores\EvidenciaIndicadores.aspx" />
     <Content Include="Indicadores\EvidenciaIndicadoresM.aspx" />
-    <Content Include="Indicadores\HistoricoIndicadores.aspx" />
     <Content Include="Indicadores\HistoricoIndicadoresM.aspx" />
+
     <Content Include="js\bootstrap.bundle.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery-1.8.2.min.js" />
@@ -205,11 +217,16 @@
     <Content Include="obj\Debug\indicadoresfreyman.dll.licenses" />
     <Content Include="obj\Debug\IndicadoresFreyman.pdb" />
     <Content Include="Paramentros.aspx" />
+    
+    <Content Include="Indicadores\EvidenciaIndicadores.aspx" />
+    <Content Include="Indicadores\HistoricoIndicadores.aspx" />
+
     <Content Include="Reportes\ReporteRRHH.aspx" />
     <Content Include="Reportes\ReporteTableroHist.aspx" />
     <Content Include="Reportes\ReporteTableroHistorico.aspx" />
     <Content Include="Reportes\Tablero.aspx" />
     <Content Include="usuario.png" />
+
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +236,13 @@
     </Compile>
     <Compile Include="asignaIndicador.aspx.designer.cs">
       <DependentUpon>asignaIndicador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="asignaIndicadores.aspx.cs">
+      <DependentUpon>asignaIndicadores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="asignaIndicadores.aspx.designer.cs">
+      <DependentUpon>asignaIndicadores.aspx</DependentUpon>
     </Compile>
     <Compile Include="Conexion.cs" />
     <Compile Include="crearIndicador.aspx.cs">
@@ -253,26 +277,12 @@
       <DependentUpon>Log.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Indicadores\EvidenciaIndicadores.aspx.cs">
-      <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Indicadores\EvidenciaIndicadores.aspx.designer.cs">
-      <DependentUpon>EvidenciaIndicadores.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Indicadores\EvidenciaIndicadoresM.aspx.cs">
       <DependentUpon>EvidenciaIndicadoresM.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Indicadores\EvidenciaIndicadoresM.aspx.designer.cs">
       <DependentUpon>EvidenciaIndicadoresM.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Indicadores\HistoricoIndicadores.aspx.cs">
-      <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Indicadores\HistoricoIndicadores.aspx.designer.cs">
-      <DependentUpon>HistoricoIndicadores.aspx</DependentUpon>
     </Compile>
     <Compile Include="Indicadores\HistoricoIndicadoresM.aspx.cs">
       <DependentUpon>HistoricoIndicadoresM.aspx</DependentUpon>
@@ -403,6 +413,7 @@
     <Content Include="App_Data\RadUploadTemp\1717515086366footer.png.tmp" />
     <Content Include="App_Data\RadUploadTemp\1717607752162usuario %281%29.png.tmp" />
     <Content Include="App_Data\RadUploadTemp\RadUploadTestFile" />
+    <Content Include="bin\roslyn\Microsoft.Managed.Core.CurrentVersions.targets" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
