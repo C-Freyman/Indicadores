@@ -106,6 +106,7 @@
                 var data = response.d;
                 var cumplimientoObjetivo = data.cumplimientoObjetivo;
                 var evaluacionPonderada = data.evaluacionPonderada;
+                var cumplimientoObjetivoReal = data.cumplimientoObjetivoReal;
 
 
 
@@ -113,9 +114,11 @@
                 // Puedes cambiar esto según tu estructura de tabla
                 var cumplimientoObjetivoCell = row.cells[6]; // Ajusta el índice según la posición real de la celda
                 var evaluacionPonderadaCell = row.cells[7]; // Ajusta el índice según la posición real de la celda
+                var cumplimientoObjetivoRealCell = row.cells[8];
 
                 cumplimientoObjetivoCell.innerText = cumplimientoObjetivo.toFixed(2);
                 evaluacionPonderadaCell.innerText = evaluacionPonderada.toFixed(2);
+                cumplimientoObjetivoRealCell.innerText = cumplimientoObjetivoReal.toFixed(2);
 
                 console.log("Values saved successfully");
             },
@@ -128,7 +131,7 @@
     }
 
     function guardarBorrador() {
-        
+        debugger;
         var grid = $find("<%= gridEvidencias.ClientID %>");
         var masterTableView = grid.get_masterTableView();
         var rows = masterTableView.get_dataItems();
@@ -142,7 +145,8 @@
                 indicadorId: cells[0].innerText.trim(),
                 resultado: cells[5].innerText.trim(),
                 cumplimientoObjetivo: cells[6].innerText.trim(),
-                evaluacionPonderada: cells[7].innerText.trim()
+                evaluacionPonderada: cells[7].innerText.trim(),
+                cumplimientoObjetivoReal: cells[8].innerText.trim()
             };
             tableData.push(rowData);
             //}
@@ -322,6 +326,8 @@
                   </telerik:GridTemplateColumn>
                   <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='15' HeaderStyle-Font-Bold="true" UniqueName="evaluacionPonderada" DataField='evaluacionPonderada' SortExpression="evaluacionPonderada"
                       HeaderText='Evaluacion Ponderada' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true"  HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
+                  <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='15' HeaderStyle-Font-Bold="true" UniqueName="cumplimientoOBjetivoReal" DataField='cumplimientoOBjetivoReal' SortExpression="cumplimientoOBjetivoReal"
+                    HeaderText='cumplimientoOBjetivoReal' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ReadOnly="true"  HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
               </Columns>
               <FooterStyle Height="30px" HorizontalAlign="Center" Font-Size="Medium" Font-Bold="true"/>
           </MasterTableView>
