@@ -40,11 +40,11 @@ namespace IndicadoresFreyman.Reportes
             DataTable dt = null;
             if (HidTipoTablero.Value == "I")
             {
-                dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico2 {0},{1},{2},{3},'I','MA'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
+                dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'I','MA'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
             }
             if (HidTipoTablero.Value == "E")
             {
-                dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico2 {0},{1},{2},{3},'E','MA' ", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
+                dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'E','MA' ", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
             }
             try
             {
@@ -172,7 +172,7 @@ namespace IndicadoresFreyman.Reportes
                                 item[columnName].HorizontalAlign = HorizontalAlign.Center;
                                 double cellValue=0;
                                 string cellText = valor.Split('_')[1];
-                                item[columnName].ToolTip ="Resultado:" + (string)cellValue.ToString("F2") +" Cumplimiento obj: " +cellText  ;
+                                item[columnName].ToolTip ="Resultado:" + (string)cellValue.ToString("F2") +" Calificación: " +cellText  ;
                                 if (double.TryParse(cellText, out cellValue))
                                 {
 

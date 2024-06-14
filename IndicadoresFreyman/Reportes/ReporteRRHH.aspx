@@ -12,9 +12,9 @@
     <div style="text-align: center">
         MES: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker1" runat="server" Width="238px" MinDate="2024-01-1">
         </telerik:RadMonthYearPicker>
-        <asp:ImageButton ID="btnActualizar" ImageUrl="~/Imagenes/Actualizar.png" Style="margin-left: 5px" Width="30px" OnClick="btnActualizar_Click" runat="server" />
-        <telerik:RadButton runat="server" ID="RadButton3" Text="Exportar a Excel" AutoPostBack="false" OnClientClicked="exportToExcel" />
-
+        <asp:ImageButton ID="btnActualizar" ImageUrl="~/Imagenes/Actualizar.png" Style="position :absolute ;  margin-left: 5px" Width="25px" OnClick="btnActualizar_Click" runat="server" />
+        <%--<telerik:RadButton runat="server" ID="RadButton3" Text="Exportar a Excel" AutoPostBack="false" OnClientClicked="exportToExcel" />--%>
+                <asp:Image ID="btnExportar" runat="server" ImageUrl ="~/Imagenes/ExportarE.png" onclick="exportToExcel()" Width ="30" style ="position :absolute; margin-left :20%"/>
         <telerik:RadGrid RenderMode="Lightweight" ID="RadGridRRHH" runat="server" CellSpacing="0" CellPadding="0" Font-Size="Smaller" Width="70%" Style="padding: 0; margin: 0 auto"
             GridLines="None" AllowSorting="true" shownosorticons="true" AllowFilteringByColumn="True" EnableHeaderContextFilterMenu="true"
             showfiltericon="false" OnItemDataBound="RadGridRRHH_ItemDataBound" OnSortCommand="RadGridRRHH_SortCommand" AllowPaging="false" OnItemCommand="RadGridRRHH_ItemCommand"
