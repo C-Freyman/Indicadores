@@ -172,10 +172,10 @@ namespace IndicadoresFreyman.Reportes
                                 item[columnName].HorizontalAlign = HorizontalAlign.Center;
                                 double cellValue=0;
                                 string cellText = valor.Split('_')[1];
-                                item[columnName].ToolTip ="Resultado:" + (string)cellValue.ToString("F2") +" Calificación: " +cellText  ;
-                                if (double.TryParse(cellText, out cellValue))
+                                
+                                if (double.TryParse(valor.Split('_')[0], out cellValue))
                                 {
-
+                                    item[columnName].ToolTip ="Resultado:" + (string)cellValue.ToString("F2") +" Calificación: " +cellText  ;
                                     if (cellValue >= 0 && cellValue <= 80)
                                     {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBCEC0");//rojo

@@ -331,7 +331,7 @@
                   </telerik:GridTemplateColumn>
                   <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='15' HeaderStyle-Font-Bold="true" UniqueName="evaluacionPonderada" DataField='evaluacionPonderada' SortExpression="evaluacionPonderada"
                       HeaderText='Evaluacion Ponderada' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true"  HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                  <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='15' HeaderStyle-Font-Bold="true" UniqueName="cumplimientoOBjetivoReal" DataField='cumplimientoOBjetivoReal' SortExpression="cumplimientoOBjetivoReal"
+                  <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='15' Visible ="false"  HeaderStyle-Font-Bold="true" UniqueName="cumplimientoOBjetivoReal" DataField='cumplimientoOBjetivoReal' SortExpression="cumplimientoOBjetivoReal"
                     HeaderText='cumplimientoOBjetivoReal' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ReadOnly="true"  HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
               </Columns>
               <FooterStyle Height="30px" HorizontalAlign="Center" Font-Size="Medium" Font-Bold="true"/>
