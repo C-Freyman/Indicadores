@@ -190,6 +190,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Imagenes\Actualizar.png" />
+    <Content Include="Imagenes\ExportarE.png" />
     <Content Include="Log.aspx" />
     <Content Include="Reportes\Graficas.aspx" />
     <Content Include="Reportes\ReporteTableroHist.aspx" />

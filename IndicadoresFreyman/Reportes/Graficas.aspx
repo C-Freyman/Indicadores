@@ -31,6 +31,7 @@
             <asp:Literal ID="itemsClientSide" runat="server" />
             <telerik:RadButton RenderMode="Lightweight" ID="btnActualizar" runat="server" Text="Actualizar" OnClick="btnActualizar_Click" />
         </div>
+
         <table style="width: 100%">
             <tr>
                 <td style="width: 50%">
@@ -60,7 +61,7 @@
                 </td>
                 <td>
                     <div class="ContenidoRecuadro ">
-                        <telerik:RadHtmlChart runat="server" ID="GraficaAñoEmpleado" Width="100%"  Style="top: -7px" Transitions="true">
+                        <telerik:RadHtmlChart runat="server" ID="GraficaAñoEmpleado" Width="100%" Style="top: -7px" Transitions="true">
                             <Legend>
                                 <Appearance BackgroundColor="Transparent" Position="Bottom" Visible="false"></Appearance>
                             </Legend>

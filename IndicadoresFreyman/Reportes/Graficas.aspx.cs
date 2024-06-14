@@ -41,10 +41,10 @@ namespace IndicadoresFreyman.Reportes
             DateTime? FechaDe = RadMonthYearPicker1.SelectedDate;
             DateTime? FechaA = RadMonthYearPicker2.SelectedDate;
 
-            DataTable dtMesAñoEmpleado =  con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico2 {0},{1},{2},{3},'E','MA'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
+            DataTable dtMesAñoEmpleado =  con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'E','MA'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
             GenerarPtosGrafica(dtMesAñoEmpleado, GraficaMesAñoEmpleado,3);
            
-            DataTable dtAñoEmpleado = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico2 {0},{1},{2},{3},'E','A'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
+            DataTable dtAñoEmpleado = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'E','A'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
             GenerarPtosGrafica(dtAñoEmpleado, GraficaAñoEmpleado,3);
             // GenerarPtosGrafica(dtgraficaMesAñoEmpleado, GraficaAñoEmpleado);
 
