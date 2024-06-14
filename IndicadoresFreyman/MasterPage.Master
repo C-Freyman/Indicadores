@@ -27,7 +27,7 @@
      </div>--%>
      <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
      <div>
-         <telerik:RadSkinManager ID="RadSkinManager1" runat="server" ShowChooser="true" Visible="false" Skin="Vista" />
+         <telerik:RadSkinManager ID="RadSkinManager1" runat="server" ShowChooser="true" Visible="false" Skin="WebBlue" />
          <div class="demo-container no-bg">
              <telerik:RadMenu RenderMode="Lightweight" ID="RadMenu1" Style="float: none" CssClass="mainMenu" runat="server" ShowToggleHandle="true" EnableEmbeddedBaseStylesheet="true" EnableEmbeddedSkins="true" Flow="Horizontal">
                  <Items>
@@ -52,7 +52,7 @@
                              <telerik:RadMenuItem Text="Tablero por Indicador" NavigateUrl="/Reportes/Tablero.aspx?TipoTablero=I" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
                              <telerik:RadMenuItem Text="Tablero por Empleado" NavigateUrl="/Reportes/Tablero.aspx?TipoTablero=E" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
                              <telerik:RadMenuItem Text="RRHH" NavigateUrl="/Reportes/ReporteRRHH.aspx" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
-                             <telerik:RadMenuItem Text="Gráficas" NavigateUrl="" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
+                             <telerik:RadMenuItem Text="Gráficas" NavigateUrl="/Reportes/Graficas.aspx" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
                          </Items>
                      </telerik:RadMenuItem>
                  </Items>

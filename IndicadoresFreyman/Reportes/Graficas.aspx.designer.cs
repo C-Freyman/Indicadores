@@ -11,26 +11,8 @@ namespace IndicadoresFreyman.Reportes
 {
 
 
-    public partial class Tablero
+    public partial class Graficas
     {
-
-        /// <summary>
-        /// Control HidTipoTablero.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HidTipoTablero;
-
-        /// <summary>
-        /// Control HidEmpleado.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HidEmpleado;
 
         /// <summary>
         /// Control RadMonthYearPicker1.
@@ -51,30 +33,48 @@ namespace IndicadoresFreyman.Reportes
         protected global::Telerik.Web.UI.RadMonthYearPicker RadMonthYearPicker2;
 
         /// <summary>
+        /// Control radEmpleados.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadComboBox radEmpleados;
+
+        /// <summary>
+        /// Control itemsClientSide.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal itemsClientSide;
+
+        /// <summary>
         /// Control btnActualizar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnActualizar;
+        protected global::Telerik.Web.UI.RadButton btnActualizar;
 
         /// <summary>
-        /// Control btnExportar.
+        /// Control GraficaMesAñoEmpleado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image btnExportar;
+        protected global::Telerik.Web.UI.RadHtmlChart GraficaMesAñoEmpleado;
 
         /// <summary>
-        /// Control RadGridHistorico.
+        /// Control GraficaAñoEmpleado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadGrid RadGridHistorico;
+        protected global::Telerik.Web.UI.RadHtmlChart GraficaAñoEmpleado;
     }
 }

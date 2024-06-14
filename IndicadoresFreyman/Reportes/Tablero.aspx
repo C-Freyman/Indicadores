@@ -16,12 +16,13 @@
         </telerik:RadMonthYearPicker>
         A: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker2" runat="server" Width="238px" MinDate="2024-01-1">
         </telerik:RadMonthYearPicker>
-        <asp:ImageButton ID="btnActualizar" ImageUrl="~/Imagenes/Actualizar.png" Style=" margin-left: 5px" Width="30px" OnClick="btnActualizar_Click" runat="server" />
+        <asp:ImageButton ID="btnActualizar" ImageUrl="~/Imagenes/Actualizar.png" Style="position :absolute ;  margin-left: 5px" Width="25px" OnClick="btnActualizar_Click" runat="server" />
+        <asp:Image ID="btnExportar" runat="server" ImageUrl ="~/Imagenes/ExportarE.png" onclick="exportToExcel()" Width ="30" style ="position :absolute; margin-left :20%"/>
         <%--<asp:ImageButton ID="btnExportar" Width="30" ToolTip="Exportar Reporte" style="margin-left:100px" ImageUrl="../Imagenes/ExportarE.png" runat="server"  AutoPostBack="false" OnClientClicked="exportToExcel" />--%>
-        <telerik:RadButton runat="server" ID="RadButton3" Text="Exportar a Excel" AutoPostBack="false" OnClientClicked="exportToExcel"  />
+        <%--<telerik:RadButton runat="server" ID="RadButton3" Text="Exportar a Excel" AutoPostBack="false" OnClientClicked="exportToExcel"  />--%>
     </div>
     <%--Skin="Metro"--%>
-    <telerik:RadGrid ID="RadGridHistorico" RenderMode="Lightweight" Width="90%" runat="server" CellPadding="0" CellSpacing="0" Font-Size="X-Small" Style="margin: 0 auto;" AutoGenerateColumns="False" OnItemDataBound="RadGridHistorico_ItemDataBound" OnItemCommand="RadGridHistorico_ItemCommand" OnSortCommand="RadGridHistorico_SortCommand">
+    <telerik:RadGrid ID="RadGridHistorico" RenderMode="Lightweight" Width="90%" runat="server" CellPadding="0" CellSpacing="0" Font-Size="Small" Style="margin: 0 auto;" AutoGenerateColumns="False" OnItemDataBound="RadGridHistorico_ItemDataBound" OnItemCommand="RadGridHistorico_ItemCommand" OnSortCommand="RadGridHistorico_SortCommand">
         <ExportSettings>
             <Excel Format="Xlsx" />
         </ExportSettings>
