@@ -114,7 +114,7 @@
 
 
 
-    <h2>Crear indicadores</h2>
+    <h2>Crear</h2>
 
     <div class="divCenter">
         <telerik:RadDropDownList RenderMode="Lightweight" ID="radEstatus" runat="server" OnSelectedIndexChanged="radEstatus_SelectedIndexChanged"
