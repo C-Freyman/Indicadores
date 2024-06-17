@@ -112,9 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="asignaIndicador.aspx" />
-
     <Content Include="asignaIndicadores.aspx" />
-
     <Content Include="bin\EnvDTE.dll" />
     <Content Include="bin\EnvDTE.xml" />
     <Content Include="bin\IndicadoresFreyman.dll" />
@@ -185,12 +183,17 @@
     <Content Include="bin\Telerik.Windows.Zip.Extensions.dll" />
     <Content Include="bin\Telerik.Windows.Zip.Extensions.xml" />
     <Content Include="bin\Telerik.Windows.Zip.xml" />
-    
+    <Content Include="Crear.aspx" />
     <Content Include="crearIndicador.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Imagenes\Actualizar.png" />
     <Content Include="Imagenes\ExportarE.png" />
+    <Content Include="Imagenes\basura.PNG" />
+    <Content Include="Imagenes\editar.PNG" />
+    <Content Include="Imagenes\editar2.PNG" />
+    <Content Include="Imagenes\paloma.PNG" />
+    <Content Include="Imagenes\x.PNG" />
     <Content Include="Log.aspx" />
     <Content Include="Reportes\Graficas.aspx" />
     <Content Include="Reportes\ReporteTableroHist.aspx" />
@@ -201,12 +204,10 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\pantallaDivida.css" />
     <Content Include="Global.asax" />
-
     <Content Include="Imagenes\LogF.png" />
     <Content Include="Imagenes\LogF_.png" />
     <Content Include="Indicadores\EvidenciaIndicadoresM.aspx" />
     <Content Include="Indicadores\HistoricoIndicadoresM.aspx" />
-
     <Content Include="js\bootstrap.bundle.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery-1.8.2.min.js" />
@@ -217,16 +218,13 @@
     <Content Include="obj\Debug\indicadoresfreyman.dll.licenses" />
     <Content Include="obj\Debug\IndicadoresFreyman.pdb" />
     <Content Include="Paramentros.aspx" />
-    
     <Content Include="Indicadores\EvidenciaIndicadores.aspx" />
     <Content Include="Indicadores\HistoricoIndicadores.aspx" />
-
     <Content Include="Reportes\ReporteRRHH.aspx" />
     <Content Include="Reportes\ReporteTableroHist.aspx" />
     <Content Include="Reportes\ReporteTableroHistorico.aspx" />
     <Content Include="Reportes\Tablero.aspx" />
     <Content Include="usuario.png" />
-
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -245,6 +243,13 @@
       <DependentUpon>asignaIndicadores.aspx</DependentUpon>
     </Compile>
     <Compile Include="Conexion.cs" />
+    <Compile Include="Crear.aspx.cs">
+      <DependentUpon>Crear.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Crear.aspx.designer.cs">
+      <DependentUpon>Crear.aspx</DependentUpon>
+    </Compile>
     <Compile Include="crearIndicador.aspx.cs">
       <DependentUpon>crearIndicador.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -425,6 +430,7 @@
   <ItemGroup>
     <Folder Include="css\.vs\css\v17\" />
     <Folder Include="Models\" />
+    <Folder Include="NewFolder2\" />
     <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>

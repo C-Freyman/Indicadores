@@ -65,6 +65,7 @@
             -moz-border-radius: 10px 10px 10px 10px;
             -webkit-border-radius: 10px 10px 10px 10px;
             border: 0px solid #000000;
+            padding: 0px 0.5em;
         }
     </style>
 </head>

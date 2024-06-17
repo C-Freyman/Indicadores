@@ -15,6 +15,15 @@ namespace IndicadoresFreyman.Reportes
     {
 
         /// <summary>
+        /// Control rdlQuien.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList rdlQuien;
+
+        /// <summary>
         /// Control RadMonthYearPicker1.
         /// </summary>
         /// <remarks>
@@ -42,6 +51,15 @@ namespace IndicadoresFreyman.Reportes
         protected global::Telerik.Web.UI.RadComboBox radEmpleados;
 
         /// <summary>
+        /// Control radDepartamentos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadComboBox radDepartamentos;
+
+        /// <summary>
         /// Control itemsClientSide.
         /// </summary>
         /// <remarks>
@@ -49,15 +67,6 @@ namespace IndicadoresFreyman.Reportes
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal itemsClientSide;
-
-        /// <summary>
-        /// Control btnActualizar.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadButton btnActualizar;
 
         /// <summary>
         /// Control GraficaMesAñoEmpleado.

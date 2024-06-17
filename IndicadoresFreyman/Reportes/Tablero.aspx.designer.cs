@@ -33,6 +33,15 @@ namespace IndicadoresFreyman.Reportes
         protected global::System.Web.UI.WebControls.HiddenField HidEmpleado;
 
         /// <summary>
+        /// Control Titulo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Titulo;
+
+        /// <summary>
         /// Control RadMonthYearPicker1.
         /// </summary>
         /// <remarks>
