@@ -9,6 +9,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <span id="Titulo" runat ="server"  style="font-size :30px; margin :0 auto;  margin-bottom :10px; position :absolute " >Tablero</span>
     <div style="text-align: center">
         MES: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker1" runat="server" Width="238px" MinDate="2024-01-1">
         </telerik:RadMonthYearPicker>

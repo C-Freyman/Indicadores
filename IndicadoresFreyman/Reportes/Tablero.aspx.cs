@@ -21,6 +21,14 @@ namespace IndicadoresFreyman.Reportes
             HidEmpleado.Value = Session["log"]?.ToString();
             if (!IsPostBack)
             {
+                if (HidTipoTablero.Value == "I")
+                {
+                    Titulo.InnerText = "Tablero por Indicadores";
+                }
+                else
+                {
+                    Titulo.InnerText = "Tablero por Empleado";
+                }
                 RadMonthYearPicker1.MaxDate = (DateTime)DateTime.Now;
                 RadMonthYearPicker1.SelectedDate = (DateTime)DateTime.Now.AddMonths(-5);
 
