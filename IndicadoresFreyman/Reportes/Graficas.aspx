@@ -24,7 +24,7 @@
                 <asp:ListItem Text="Por Departamento" Value="D"></asp:ListItem>
             </asp:RadioButtonList>
             <panel id="panelFiltros">
-                DE: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker1" runat="server" Width="238px" MinDate="2024-01-1">
+                DE: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker1" runat="server" Width="238px" MinDate="2024-01-1" >
                 </telerik:RadMonthYearPicker>
                 A: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker2" runat="server" Width="238px" MinDate="2024-01-1">
                 </telerik:RadMonthYearPicker>
