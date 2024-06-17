@@ -21,6 +21,14 @@ namespace IndicadoresFreyman.Reportes
             HidEmpleado.Value = Session["log"]?.ToString();
             if (!IsPostBack)
             {
+                if (HidTipoTablero.Value == "I")
+                {
+                    Titulo.InnerText = "Tablero por Indicadores";
+                }
+                else
+                {
+                    Titulo.InnerText = "Tablero por Empleado";
+                }
                 RadMonthYearPicker1.MaxDate = (DateTime)DateTime.Now;
                 RadMonthYearPicker1.SelectedDate = (DateTime)DateTime.Now.AddMonths(-5);
 
@@ -38,14 +46,9 @@ namespace IndicadoresFreyman.Reportes
             DateTime? FechaDe = RadMonthYearPicker1.SelectedDate;
             DateTime? FechaA = RadMonthYearPicker2.SelectedDate;
             DataTable dt = null;
-            if (HidTipoTablero.Value == "I")
-            {
-                dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'I','MA'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
-            }
-            if (HidTipoTablero.Value == "E")
-            {
-                dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'E','MA' ", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
-            }
+
+            dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'"+ HidTipoTablero.Value + "'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
+      
             try
             {
                 var dtCOMPAÑEROS = con.getDatatable(@"select IdEmpleado from Vacaciones.dbo.AdministrativosNomiChecador as a1 where a1.Departamento = 
@@ -65,10 +68,10 @@ namespace IndicadoresFreyman.Reportes
             {
                 dtAux = dt;
             }
-            GenerarColumnas(dt);
-            RadGridHistorico.DataSource = dt;
+            GenerarColumnas(dtAux);
+            RadGridHistorico.DataSource = dtAux;
             RadGridHistorico.Rebind();
-            return dt;
+            return dtAux;
         }
         private void GenerarColumnas(DataTable dt)
         {

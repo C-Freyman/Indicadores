@@ -114,7 +114,7 @@
 
 
 
-    <h2>Crear indicadores</h2>
+    <h2>Crear</h2>
 
     <div class="divCenter">
         <telerik:RadDropDownList RenderMode="Lightweight" ID="radEstatus" runat="server" OnSelectedIndexChanged="radEstatus_SelectedIndexChanged"
@@ -162,10 +162,10 @@
                     <ItemStyle HorizontalAlign="Left" Width="25px" CssClass="nowrap" />
                 </telerik:GridTemplateColumn>
 
-                <telerik:GridBoundColumn UniqueName="pIndicadorId" HeaderText="pIndicadorId" DataField="pIndicadorId" SortExpression="pIndicadorId"
+                <telerik:GridBoundColumn UniqueName="pIndicadorId" HeaderText="Id" DataField="pIndicadorId" SortExpression="pIndicadorId"
                     FilterControlWidth="100%" AllowFiltering="true" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="false">
-                    <ItemStyle Width="0px" />
-                    <HeaderStyle Width="0px" Font-Bold="true" HorizontalAlign="Center" />
+                    <ItemStyle Width="50px" />
+                    <HeaderStyle Width="50px" Font-Bold="true" HorizontalAlign="Center" />
                 </telerik:GridBoundColumn>
 
                 <telerik:GridBoundColumn UniqueName="tipo" HeaderText="Tipo" DataField="tipo" SortExpression="tipo"
@@ -207,6 +207,21 @@
                     <HeaderStyle Font-Bold="true" Width="25px" HorizontalAlign="Center" />
                     <ItemStyle HorizontalAlign="Left" Width="25px" CssClass="nowrap" />
                 </telerik:GridTemplateColumn>
+
+
+                <Telerik:GridTemplateColumn UniqueName="colActiva" HeaderText="" ShowFilterIcon="false" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains">
+                    <ItemTemplate>
+                        <%-- <asp:Button ID="btnEstus" runat="server" BorderStyle="None" ForeColor="#0000ff" Font-Underline="true" Value='<%# Eval("pIndicadorId") %>'
+                            OnClick="btnEstatus_Click" Width="45px" Style='<%# cargaimagen(Eval("estatus").ToString())%>' />--%>
+
+                        <telerik:RadImageButton  runat="server" ID="btnActiva" OnClick="btnActiva_Click" Width="45px" Image-Url ="~/Imagenes/paloma.PNG"  Value='<%# Eval("pIndicadorId")%>'  Style  ="border:none;  width:1em; height:1.5em;" CssClass="coverImage">
+                            <ConfirmSettings ConfirmText="Deseas habilitar el indicador?" />  
+                        </telerik:RadImageButton>
+                    </ItemTemplate>
+                    <HeaderStyle Font-Bold="true" Width="25px" HorizontalAlign="Center" />
+                    <ItemStyle HorizontalAlign="Left" Width="25px" CssClass="nowrap" />
+                </telerik:GridTemplateColumn>
+
 
 
 
@@ -309,7 +324,7 @@
                                 <td style="width: 130px">&nbsp;  &nbsp;   Indicador Mínimo:
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtindicadorMinimo" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorMinimo") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)" onChange="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1" OnTextChanged="txtindicadorMinimo_TextChanged" AutoPostBack="true">
+                                    <asp:TextBox ID="txtindicadorMinimo" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorMinimo") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)" onChange="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1"  >
                                     </asp:TextBox>
                                     <div class="invalid-feedback">
                                         indicador Minimo requerido
@@ -324,8 +339,9 @@
                                 <td style="width: 130px">&nbsp;  &nbsp;   Indicador Deseable:
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtindicadorDeseable" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="200px" onKeyPress="return soloNumeros(event)" onBlur="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1" OnTextChanged="txtindicadorDeseable_TextChanged" AutoPostBack="true">
+                                    <asp:TextBox ID="txtindicadorDeseable" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="200px" onKeyPress="return soloNumeros(event)" onBlur="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1">
                                     </asp:TextBox>
+                                   <%-- <asp:Label ID="lblordrnamiento" runat="server" Text="Label"></asp:Label>--%>
                                     <div class="invalid-feedback">
                                         indicador Deseable requerido
                                     </div>
@@ -333,16 +349,16 @@
 
                                 </td>
                             </tr>
-                            <tr>
+                           <%-- <tr>
                                 <td colspan="2"></td>
                                 <td style="width: 150px">&nbsp;  &nbsp;   Ordenamiento</td>
                                 <td>
-                                    <telerik:RadDropDownList RenderMode="Lightweight" ID="dllOrden" runat="server"
+                                    <%--<telerik:RadDropDownList RenderMode="Lightweight" ID="dllOrden" runat="server"
                                         DropDownHeight="80px"
                                         Width="200px">
                                     </telerik:RadDropDownList>
                                 </td>
-                            </tr>
+                            </tr>--%>
                         </table>
 
                     </div>

@@ -33,6 +33,14 @@ namespace IndicadoresFreyman.Reportes
                 radEmpleados.Items.Add(new RadComboBoxItem("SELECCIONA", "-1"));
                 radEmpleados.SelectedValue = "-1";
 
+                string qD = "select distinct Departamento , iddepartamento  from Vacaciones .dbo.AdministrativosNomiChecador order by Departamento ";
+                DataTable dtD = con.getDatatable(qD);
+                radDepartamentos.DataSource = dtD;
+                radDepartamentos.DataTextField = "Departamento";
+                radDepartamentos.DataValueField = "iddepartamento";
+                radDepartamentos.DataBind();
+                radDepartamentos.Items.Add(new RadComboBoxItem("SELECCIONA", "-1"));
+                radDepartamentos.SelectedValue = "-1";
                 obtenerInfo();
             }
         }
@@ -41,10 +49,10 @@ namespace IndicadoresFreyman.Reportes
             DateTime? FechaDe = RadMonthYearPicker1.SelectedDate;
             DateTime? FechaA = RadMonthYearPicker2.SelectedDate;
 
-            DataTable dtMesAñoEmpleado =  con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'E','MA'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
+            DataTable dtMesAñoEmpleado =  con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'E'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
             GenerarPtosGrafica(dtMesAñoEmpleado, GraficaMesAñoEmpleado,3);
            
-            DataTable dtAñoEmpleado = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'E','A'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
+            DataTable dtAñoEmpleado = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistoricoAño {0},{1},'E'",  FechaDe.Value.Year,  FechaA.Value.Year));
             GenerarPtosGrafica(dtAñoEmpleado, GraficaAñoEmpleado,3);
             // GenerarPtosGrafica(dtgraficaMesAñoEmpleado, GraficaAñoEmpleado);
 
@@ -100,9 +108,20 @@ namespace IndicadoresFreyman.Reportes
 
         }
 
-        protected void btnActualizar_Click(object sender, EventArgs e)
+        protected void rdlQuien_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ShowCheckedItems(radEmpleados, itemsClientSide);
+            radDepartamentos.Visible = false;
+            radEmpleados.Visible = false;
+            if (rdlQuien .SelectedValue == "E")
+            {
+                radDepartamentos.Visible = false;
+                radEmpleados.Visible = true;
+            }
+            if (rdlQuien.SelectedValue == "D")
+            {
+                radDepartamentos.Visible = true;
+                radEmpleados.Visible = false;
+            }
         }
     }
 }
