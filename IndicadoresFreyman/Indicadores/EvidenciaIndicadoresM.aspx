@@ -196,7 +196,8 @@
                     indicadorId: cells[0].innerText.trim(),
                     resultado: cells[5].innerText.trim(),
                     cumplimientoObjetivo: cells[6].innerText.trim(),
-                    evaluacionPonderada: cells[7].innerText.trim()
+                    evaluacionPonderada: cells[7].innerText.trim(),
+                    cumplimientoObjetivoReal: (cells[6].className == '') ? 0 : cells[6].className //cells[8].innerText.trim()
                 };
                 tableData.push(rowData);
             }
