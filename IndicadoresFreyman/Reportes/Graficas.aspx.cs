@@ -33,6 +33,14 @@ namespace IndicadoresFreyman.Reportes
                 radEmpleados.Items.Add(new RadComboBoxItem("SELECCIONA", "-1"));
                 radEmpleados.SelectedValue = "-1";
 
+                string qD = "select distinct Departamento , iddepartamento  from Vacaciones .dbo.AdministrativosNomiChecador order by Departamento ";
+                DataTable dtD = con.getDatatable(qD);
+                radDepartamentos.DataSource = dtD;
+                radDepartamentos.DataTextField = "Departamento";
+                radDepartamentos.DataValueField = "iddepartamento";
+                radDepartamentos.DataBind();
+                radDepartamentos.Items.Add(new RadComboBoxItem("SELECCIONA", "-1"));
+                radDepartamentos.SelectedValue = "-1";
                 obtenerInfo();
             }
         }
@@ -100,9 +108,20 @@ namespace IndicadoresFreyman.Reportes
 
         }
 
-        protected void btnActualizar_Click(object sender, EventArgs e)
+        protected void rdlQuien_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ShowCheckedItems(radEmpleados, itemsClientSide);
+            radDepartamentos.Visible = false;
+            radEmpleados.Visible = false;
+            if (rdlQuien .SelectedValue == "E")
+            {
+                radDepartamentos.Visible = false;
+                radEmpleados.Visible = true;
+            }
+            if (rdlQuien.SelectedValue == "D")
+            {
+                radDepartamentos.Visible = true;
+                radEmpleados.Visible = false;
+            }
         }
     }
 }

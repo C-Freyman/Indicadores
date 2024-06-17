@@ -12,24 +12,33 @@
             margin: 0 auto;
             padding: 0 auto;
             margin: 10px;
+            text-align: center;
         }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div style="text-align: center">
         <div class="ContenidoRecuadro ">
-            DE: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker1" runat="server" Width="238px" MinDate="2024-01-1">
-            </telerik:RadMonthYearPicker>
-            A: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker2" runat="server" Width="238px" MinDate="2024-01-1">
-            </telerik:RadMonthYearPicker>
+            <asp:RadioButtonList ID="rdlQuien" runat="server" RepeatDirection="Horizontal" AutoPostBack ="true"  Style="margin: 0 auto;" OnSelectedIndexChanged ="rdlQuien_SelectedIndexChanged">
+                <asp:ListItem Text="Por Empleado" Value="E" Selected="True"></asp:ListItem>
+                <asp:ListItem Text="Por Departamento" Value="D"></asp:ListItem>
+            </asp:RadioButtonList>
+            <panel id="panelFiltros">
+                DE: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker1" runat="server" Width="238px" MinDate="2024-01-1">
+                </telerik:RadMonthYearPicker>
+                A: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker2" runat="server" Width="238px" MinDate="2024-01-1">
+                </telerik:RadMonthYearPicker>
 
-            <telerik:RadComboBox RenderMode="Lightweight" ID="radEmpleados" runat="server" CheckBoxes="true" EnableCheckAllItemsCheckBox="true"
-                Width="400" Label="Empleados:">
-                <Items>
-                </Items>
-            </telerik:RadComboBox>
-            <asp:Literal ID="itemsClientSide" runat="server" />
-            <telerik:RadButton RenderMode="Lightweight" ID="btnActualizar" runat="server" Text="Actualizar" OnClick="btnActualizar_Click" />
+                <telerik:RadComboBox RenderMode="Lightweight" ID="radEmpleados" runat="server" CheckBoxes="true" EnableCheckAllItemsCheckBox="true"
+                    Width="400" Label="Empleados:">
+                </telerik:RadComboBox>
+
+                <telerik:RadComboBox RenderMode="Lightweight" ID="radDepartamentos" Visible ="false"  runat="server" CheckBoxes="true" EnableCheckAllItemsCheckBox="true"
+                    Width="400" Label="Departamentos:">
+                </telerik:RadComboBox>
+                <asp:Literal ID="itemsClientSide" runat="server" />
+
+            </panel>
         </div>
 
         <table style="width: 100%">
