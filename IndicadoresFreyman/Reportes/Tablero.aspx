@@ -12,7 +12,7 @@
     <asp:HiddenField ID="HidTipoTablero" runat="server" />
     <asp:HiddenField ID="HidEmpleado" runat="server" />
 
-    <span id="Titulo" runat ="server"  style="font-size :30px; margin :0 auto;  margin-top :20px;margin-bottom :10px; position :absolute " >Tablero</span>
+    <span id="Titulo" runat ="server"  style="font-size :30px; margin :0 auto;  margin-bottom :10px; position :absolute " >Tablero</span>
     <div style="text-align: center">
         DE: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker1" runat="server" Width="238px" MinDate="2024-01-1">
         </telerik:RadMonthYearPicker>
@@ -23,7 +23,7 @@
         <%--<asp:ImageButton ID="btnExportar" Width="30" ToolTip="Exportar Reporte" style="margin-left:100px" ImageUrl="../Imagenes/ExportarE.png" runat="server"  AutoPostBack="false" OnClientClicked="exportToExcel" />--%>
         <%--<telerik:RadButton runat="server" ID="RadButton3" Text="Exportar a Excel" AutoPostBack="false" OnClientClicked="exportToExcel"  />--%>
     </div>
-    <br /> <br />
+    <br /> 
     <%--Skin="Metro"--%>
     <telerik:RadGrid ID="RadGridHistorico" RenderMode="Lightweight" Width="90%" runat="server" CellPadding="0" CellSpacing="0" Font-Size="Small" Style="margin: 0 auto;" AutoGenerateColumns="False" OnItemDataBound="RadGridHistorico_ItemDataBound" OnItemCommand="RadGridHistorico_ItemCommand" OnSortCommand="RadGridHistorico_SortCommand">
         <ExportSettings>
