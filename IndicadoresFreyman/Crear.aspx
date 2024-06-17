@@ -162,10 +162,10 @@
                     <ItemStyle HorizontalAlign="Left" Width="25px" CssClass="nowrap" />
                 </telerik:GridTemplateColumn>
 
-                <telerik:GridBoundColumn UniqueName="pIndicadorId" HeaderText="pIndicadorId" DataField="pIndicadorId" SortExpression="pIndicadorId"
+                <telerik:GridBoundColumn UniqueName="pIndicadorId" HeaderText="Id" DataField="pIndicadorId" SortExpression="pIndicadorId"
                     FilterControlWidth="100%" AllowFiltering="true" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="false">
-                    <ItemStyle Width="0px" />
-                    <HeaderStyle Width="0px" Font-Bold="true" HorizontalAlign="Center" />
+                    <ItemStyle Width="50px" />
+                    <HeaderStyle Width="50px" Font-Bold="true" HorizontalAlign="Center" />
                 </telerik:GridBoundColumn>
 
                 <telerik:GridBoundColumn UniqueName="tipo" HeaderText="Tipo" DataField="tipo" SortExpression="tipo"

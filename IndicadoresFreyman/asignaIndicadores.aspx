@@ -164,10 +164,10 @@
                     <Columns>
 
 
-                        <telerik:GridBoundColumn UniqueName="pIndicadorId" HeaderText="pIndicadorId" DataField="pIndicadorId" SortExpression="pIndicadorId"
+                        <telerik:GridBoundColumn UniqueName="pIndicadorId" HeaderText="Id" DataField="pIndicadorId" SortExpression="pIndicadorId"
                             FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false">
-                            <ItemStyle Width="0px" />
-                            <HeaderStyle Width="0px" Font-Bold="true" HorizontalAlign="Center" />
+                            <ItemStyle Width="50px" />
+                            <HeaderStyle Width="50px" Font-Bold="true" HorizontalAlign="Center" />
                         </telerik:GridBoundColumn>
 
 
@@ -190,8 +190,8 @@
                                 <i id="StatusIcon" runat="server" style="font-size: 20px"></i>
                                 <%-- </span>  --%>
                             </ItemTemplate>
-                            <HeaderStyle Font-Bold="true" Width="100px" />
-                            <ItemStyle HorizontalAlign="Center" />
+                            <HeaderStyle Font-Bold="true" Width="30px" />
+                            <ItemStyle HorizontalAlign="Center" Width="30px" />
                         </telerik:GridTemplateColumn>
                         <telerik:GridBoundColumn UniqueName="ponderacion" HeaderText="Ponderación" DataField="ponderacion" SortExpression="ponderacion"
                             FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:P0}">
