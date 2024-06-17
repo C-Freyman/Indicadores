@@ -196,7 +196,8 @@
                     indicadorId: cells[0].innerText.trim(),
                     resultado: cells[5].innerText.trim(),
                     cumplimientoObjetivo: cells[6].innerText.trim(),
-                    evaluacionPonderada: cells[7].innerText.trim()
+                    evaluacionPonderada: cells[7].innerText.trim(),
+                    cumplimientoObjetivoReal: (cells[6].className == '') ? 0 : cells[6].className //cells[8].innerText.trim()
                 };
                 tableData.push(rowData);
             }
@@ -283,7 +284,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <h1 style="display:inline-block;">Subir Indicadores</h1>
+    <h2 style="display:inline-block;">Subir Indicadores</h2>
     
     <telerik:RadAjaxLoadingPanel runat="server" ID="RadAjaxLoadingPanel1"></telerik:RadAjaxLoadingPanel>
     <telerik:RadFormDecorator RenderMode="Lightweight" ID="RadFormDecorator1" runat="server" DecorationZoneID="demo" DecoratedControls="All" EnableRoundedCorners="false" />

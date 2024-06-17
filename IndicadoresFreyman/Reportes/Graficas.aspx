@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="Graficas.aspx.cs" Inherits="IndicadoresFreyman.Reportes.Graficas" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="Graficas.aspx.cs" Inherits="IndicadoresFreyman.Reportes.Graficas"  %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
