@@ -232,7 +232,7 @@ namespace IndicadoresFreyman
         private DataTable consultaAsigna()
         {
             DataTable dt;
-            string strsql = String.Format("select p.pIndicadorId, descripcionIndicador, (i.ponderacion*1.0)/100 ponderacion, p.indicadorMinimo, p.indicadorDeseable, cast(0 as bit)  activo  from PlantillaIndicador as p   where not exists (select * from  Indicador as a  where p.pIndicadorId = a.pIndicadorId  and empleadoId = {1} ) and area ={0} and estatus = 1 and p.pIndicadorId  not in ({2})", hdnArea.Value, hdnEmpleado.Value, hdnIndicador.Value);
+            string strsql = String.Format("select p.pIndicadorId, descripcionIndicador, (ponderacion*1.0)/100 ponderacion, p.indicadorMinimo, p.indicadorDeseable, cast(0 as bit)  activo  from PlantillaIndicador as p   where not exists (select * from  Indicador as a  where p.pIndicadorId = a.pIndicadorId  and empleadoId = {1} ) and area ={0} and estatus = 1 and p.pIndicadorId  not in ({2})", hdnArea.Value, hdnEmpleado.Value, hdnIndicador.Value);
             dt = con.getDatatable(strsql);
             return dt;
         }      
