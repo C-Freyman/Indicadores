@@ -59,9 +59,9 @@ namespace IndicadoresFreyman
             ddltipo.DataTextField = "tipo";
             ddltipo.DataValueField = "tipoId";
             ddltipo.DataBind();
-            ddltipo.SelectedValue = "1";
+            //ddltipo.SelectedValue = "1";
             ddltipo.Items.Insert(0,"Selecciona tipo");
-            ddltipo.SelectedIndex = 0;
+            ddltipo.SelectedIndex = 1;
         }
 
 
