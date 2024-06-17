@@ -36,7 +36,7 @@ namespace IndicadoresFreyman
 
                 tipo();
                 estatus();
-                ordenamiento();
+                //ordenamiento();
             }
         }
 
@@ -65,15 +65,15 @@ namespace IndicadoresFreyman
         }
 
 
-        private void ordenamiento()
-        {
-            string strsql = "select * from Ordenamiento order by orden";
-            dllOrden.DataSource = con.getReader(strsql);
-            dllOrden.DataTextField = "orden";
-            dllOrden.DataValueField = "ordenId";
-            dllOrden.DataBind();
+        //private void ordenamiento()
+        //{
+        //    string strsql = "select * from Ordenamiento order by orden";
+        //    dllOrden.DataSource = con.getReader(strsql);
+        //    dllOrden.DataTextField = "orden";
+        //    dllOrden.DataValueField = "ordenId";
+        //    dllOrden.DataBind();
             
-        }
+        //}
 
 
         protected void radGridIndicador_NeedDataSource(object sender, Telerik.Web.UI.GridNeedDataSourceEventArgs e)
@@ -168,9 +168,9 @@ namespace IndicadoresFreyman
         public string cargaimagen(string estatus)
         {
             string estilo = "";
-          
-                estilo = "border:none; max-width: 15px; max-height: 15px; background-repeat:no-repeat; background-position: center; background-size: cover;";
-                estilo += estatus == "0" ? "background-image: url('imagenes/paloma.png');" : "background-image: url('imagenes/basura.png');";
+
+            estilo = "border:none;  width:1em; height:1.5em;";           
+            estilo += estatus == "0" ? "background-image: url('imagenes/paloma.png');" : "background-image: url('imagenes/basura.png');";
 
            return estilo;
         }
@@ -191,7 +191,7 @@ namespace IndicadoresFreyman
             lbltiulo.Text = "Crear Indicador";
             pnlEditar.Visible = true;
             btnGuardaEditar.Text = "Guardar";
-            dllOrden.SelectedValue = "0";
+            //dllOrden.SelectedValue = "0";
         }
 
         private DataTable consultaEditar(string pIndicadorId)
@@ -264,52 +264,50 @@ namespace IndicadoresFreyman
 
         protected void txtindicadorMinimo_TextChanged(object sender, EventArgs e)
         {
-            decimal minimo = 0;
-            decimal deseable = 0;
-            if (txtindicadorMinimo.Text != "")
-            {
-                minimo = decimal.Parse(txtindicadorMinimo.Text);
-            }
-            if (txtindicadorDeseable.Text != "")
-            { 
-                deseable = decimal.Parse(txtindicadorDeseable.Text);
-            }
+            //decimal minimo = 0;
+            //decimal deseable = 0;
+            //if (txtindicadorMinimo.Text != "")
+            //{
+            //    minimo = decimal.Parse(txtindicadorMinimo.Text);
+            //}
+            //if (txtindicadorDeseable.Text != "")
+            //{ 
+            //    deseable = decimal.Parse(txtindicadorDeseable.Text);
+            //}
 
-            if (minimo < deseable)
-            {
-                dllOrden.SelectedValue = "1";
-            }
+            //if (minimo < deseable)
+            //{
+            //    lblordrnamiento.Text = "Ascendente";
+            //}
 
-
-            if (minimo > deseable)
-            {
-                dllOrden.SelectedValue = "0";
-            }
+            //if (minimo > deseable)
+            //{
+            //    lblordrnamiento.Text = "Descendente";
+            //}
         }
 
         protected void txtindicadorDeseable_TextChanged(object sender, EventArgs e)
         {
-            decimal minimo = 0;
-            decimal deseable = 0;
-            if (txtindicadorMinimo.Text != "")
-            {
-                minimo = decimal.Parse(txtindicadorMinimo.Text);
-            }
-            if (txtindicadorDeseable.Text != "")
-            {
-                deseable = decimal.Parse(txtindicadorDeseable.Text);
-            }
+            //decimal minimo = 0;
+            //decimal deseable = 0;
+            //if (txtindicadorMinimo.Text != "")
+            //{
+            //    minimo = decimal.Parse(txtindicadorMinimo.Text);
+            //}
+            //if (txtindicadorDeseable.Text != "")
+            //{
+            //    deseable = decimal.Parse(txtindicadorDeseable.Text);
+            //}
 
-            if (minimo < deseable)
-            {
-                dllOrden.SelectedValue = "1";
-            }
+            //if (minimo < deseable)
+            //{
+            //    lblordrnamiento.Text = "Ascendente";
+            //}
 
-
-            if (minimo > deseable)
-            {
-                dllOrden.SelectedValue = "0";
-            }
+            //if (minimo > deseable)
+            //{
+            //    lblordrnamiento.Text = "Descendente";
+            //}
 
         }
 
@@ -331,14 +329,36 @@ namespace IndicadoresFreyman
             {
                 radGridIndicador.MasterTableView.GetColumn("EditarColumn").Visible = true;
                 radGridIndicador.MasterTableView.GetColumn("EditarColumn").HeaderText = "Eliminar";
+                radGridIndicador.MasterTableView.GetColumn("Estatus").Visible = true;
+                radGridIndicador.MasterTableView.GetColumn("Estatus").HeaderText = "Eliminar";
+                radGridIndicador.MasterTableView.GetColumn("colActiva").Visible = false;
+                radGridIndicador.MasterTableView.GetColumn("colActiva").HeaderText = "Activar";
+
+
+
             }
             else if (selectedValue == "Inactivo")
             {
                 radGridIndicador.MasterTableView.GetColumn("EditarColumn").Visible = false;
                 radGridIndicador.MasterTableView.GetColumn("EditarColumn").HeaderText = "Activar";
+                radGridIndicador.MasterTableView.GetColumn("Estatus").Visible = false;
+                radGridIndicador.MasterTableView.GetColumn("Estatus").HeaderText = "Eliminar";
+                radGridIndicador.MasterTableView.GetColumn("colActiva").Visible = true;
+                radGridIndicador.MasterTableView.GetColumn("colActiva").HeaderText = "Activar";
+
+
             }
         }
 
-       
+        protected void btnActiva_Click(object sender, ImageButtonClickEventArgs e)
+        {
+            DataTable dt = new DataTable();
+            RadImageButton bt = (RadImageButton)sender;
+            string pIndicadorId = bt.Value;
+
+            actualizaEstatus(int.Parse(pIndicadorId));
+            radGridIndicador.DataSource = consulta();
+            radGridIndicador.Rebind();
+        }
     }
 }

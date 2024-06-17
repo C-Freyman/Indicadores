@@ -57,6 +57,7 @@ namespace IndicadoresFreyman
             {
                 var IdEmpleado = dataItem["IdEmpleado"].Text;
                 hdnEmpleado.Value = IdEmpleado;
+                hdnIndicador.Value = "0";
                 radGridIndicador.DataSource = consultaIndicadores();
                 radGridIndicador.Rebind();
 
@@ -116,7 +117,7 @@ namespace IndicadoresFreyman
 
             DataTable dt;
             string strsql = "";         
-            strsql = String.Format(" select IndicadorId pIndicadorId, descripcionIndicador, (i.ponderacion*1.0)/100 ponderacion, i.indicadorMinimo, i.indicadorDeseable,  CAST(activo AS BIT)  activo , empleadoId from Indicador as i inner join PlantillaIndicador as p on p.pIndicadorId = i.pIndicadorId    where empleadoId = {0} and estatus = 1 union all select p.pIndicadorId, descripcionIndicador, p.ponderacion/100 ponderacion, p.indicadorMinimo, p.indicadorDeseable, cast(0 as bit) activo ,0 from PlantillaIndicador as p  where estatus = 1 and pIndicadorId in ({1})", hdnEmpleado.Value, hdnIndicador.Value);
+            strsql = String.Format(" select IndicadorId pIndicadorId, descripcionIndicador, (i.ponderacion*1.0)/100 ponderacion, i.indicadorMinimo, i.indicadorDeseable,  CAST(activo AS BIT)  activo , empleadoId, esAscendente from Indicador as i inner join PlantillaIndicador as p on p.pIndicadorId = i.pIndicadorId    where empleadoId = {0} and estatus = 1 union all select p.pIndicadorId, descripcionIndicador, p.ponderacion/100 ponderacion, p.indicadorMinimo, p.indicadorDeseable, cast(0 as bit) activo ,0, esAscendente from PlantillaIndicador as p  where estatus = 1 and pIndicadorId in ({1})", hdnEmpleado.Value, hdnIndicador.Value);
             dt = con.getDatatable(strsql);
             return dt;
         }
@@ -276,6 +277,39 @@ namespace IndicadoresFreyman
         protected void btnBorrar_Click1(object sender, ImageButtonClickEventArgs e)
         {
 
+        }
+
+        protected void radGridIndicador_ItemDataBound(object sender, GridItemEventArgs e)
+        {
+            try
+            {
+                if (e.Item is GridDataItem)
+                {
+                    GridDataItem item = (GridDataItem)e.Item;                    
+                    bool esAscendente = bool.Parse(item["esAscendente"].Text);
+                   
+                    HtmlGenericControl statusIcon = (HtmlGenericControl)item["colOrdenamiento"].FindControl("StatusIcon");
+
+                    if (esAscendente == true)
+                    {
+
+                        statusIcon.Attributes["class"] = "bi bi-arrow-down"; // Icono para "Active"                    
+                        //statusIcon.Attributes["title"] = "Orn";
+                    }
+
+                    if (esAscendente != false)
+                    {
+                        statusIcon.Attributes["class"] = "bi bi-arrow-up  "; // Icono para "Active"
+                        //statusIcon.Attributes["title"] = "Ponderacion";
+                    }
+                    //}
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+            }
         }
     }
 
