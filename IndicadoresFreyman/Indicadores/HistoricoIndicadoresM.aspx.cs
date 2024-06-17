@@ -101,6 +101,7 @@ namespace IndicadoresFreyman.Indicadores
                         {
                             Session["puesto"] = "0";
                             LoadDataFromDatabase();
+                            gridHistorico.MasterTableView.GetColumn("Evidencia").Visible = false;
                         }
                     }
                 }

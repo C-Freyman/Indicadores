@@ -267,9 +267,11 @@ namespace IndicadoresFreyman.Indicadores
 
         public void calcularResultados(bool esAscendente, double valor, int indicadorMinimo, int indicadorDeseable, int ponderacion, out double cumplimientoObjetivo, out double evaluacionPonderada, out double cumplimientoObjetivoReal)
         {
-
-            if (esAscendente)
+            cumplimientoObjetivo = 0;
+            cumplimientoObjetivoReal = 0;
+            if (indicadorMinimo>indicadorDeseable)
             {
+                
                 if (valor < indicadorMinimo)
                 {
                     cumplimientoObjetivo = 0;
@@ -284,7 +286,7 @@ namespace IndicadoresFreyman.Indicadores
                 }
                 cumplimientoObjetivoReal= Math.Round(((1 / ((indicadorDeseable - indicadorMinimo) * 2.00)) * (valor - indicadorMinimo) * 100.00) + 50.00, 2);
             }
-            else
+            else if (indicadorMinimo < indicadorDeseable)
             {
                 // Caso donde valorMinimo es mayor que valorDeseable
                 if (valor > indicadorMinimo)
@@ -300,6 +302,19 @@ namespace IndicadoresFreyman.Indicadores
                     cumplimientoObjetivo = 100;
                 }
                 cumplimientoObjetivoReal = Math.Round(((1 / ((indicadorMinimo - indicadorDeseable) * 2.00)) * (indicadorMinimo - valor) * 100.00) + 50.00, 2);
+            }
+            else if (indicadorMinimo == indicadorDeseable)//Por actividad
+            {
+                if (valor >= indicadorDeseable)
+                {
+                    cumplimientoObjetivo = 100;
+                    cumplimientoObjetivoReal = 100;
+                }
+                else if (valor < indicadorMinimo)
+                {
+                    cumplimientoObjetivo = 0;
+                    cumplimientoObjetivoReal = 0;
+                }
             }
             evaluacionPonderada = Math.Round((ponderacion / 100.00) * cumplimientoObjetivo, 2);
 
@@ -327,7 +342,14 @@ namespace IndicadoresFreyman.Indicadores
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        esAscendente = Convert.ToBoolean(reader["esAscendente"]);
+                        try
+                        {
+                            esAscendente = Convert.ToBoolean(reader["esAscendente"]);
+                        }
+                        catch
+                        {
+                            esAscendente = false;
+                        }
                         ponderacion = Convert.ToInt32(reader["ponderacion"]);
                         indicadorMinimo = Convert.ToInt32(reader["indicadorMinimo"]);
                         indicadorDeseable = Convert.ToInt32(reader["indicadorDeseable"]);
