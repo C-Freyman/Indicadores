@@ -172,30 +172,55 @@ namespace IndicadoresFreyman
                 }
                 sumponderacion += decimal.Parse(ponderacion);
                 plantillaId = fila["pIndicadorId"].Text;
-                strsql += String.Format("insert into indicador (pIndicadorId,	empleadoId,	ponderacion,	indicadorMinimo,	indicadorDeseable,	fechaAsignacion,activo)"+
-                   "select pIndicadorId,    {0},	ponderacion,	indicadorMinimo,	indicadorDeseable,	getdate(), 1 from plantillaIndicador where pIndicadorId = {1}", hdnEmpleado.Value, pIndicadorId);
+          
 
             }
             if (sumponderacion != 100)
             {
                 RadWindowManager1.RadAlert($"La suma de las ponderaciones seleccionadas es diferente a 100, pero los indicadores asingados ya fueron guardados.", 0, 0, "", null);
                 lblsuma.Text = sumponderacion.ToString();
+                strsql = cadenaInsert();
                 con.Save(strsql);
-                //return;
-            }
-            if (sumponderacion == 100)
-            {
-                con.Save(strsql);
-                RadWindowManager1.RadAlert($"Los indicadores se han asignado correctamente", 0, 0, "", null);
                 hdnIndicador.Value = "0";
                 radGridIndicador.DataSource = consultaIndicadores();
                 radGridIndicador.Rebind();
                 radGridEmpleados.DataSource = consultaEmpleados();
                 radGridEmpleados.Rebind();
-
+                //return;
             }
 
+            //if (sumponderacion >= 100)
+            //{
 
+
+            //    strsql = cadenaInsert();
+            //    con.Save(strsql);
+            //    RadWindowManager1.RadAlert($"Los indicadores se han asignado correctamente", 0, 0, "", null);
+            //    hdnIndicador.Value = "0";
+            //    radGridIndicador.DataSource = consultaIndicadores();
+            //    radGridIndicador.Rebind();
+            //    radGridEmpleados.DataSource = consultaEmpleados();
+            //    radGridEmpleados.Rebind();
+
+            //}
+
+
+        }
+
+
+        private string  cadenaInsert()
+        {
+            string strsql = "";
+            foreach (GridDataItem fila in radGridIndicador.MasterTableView.Items)
+            {
+
+
+                string pIndicadorId = fila["pIndicadorId"].Text;
+                strsql += String.Format("insert into indicador (pIndicadorId,	empleadoId,	ponderacion,	indicadorMinimo,	indicadorDeseable,	fechaAsignacion,activo)" +
+                   "select pIndicadorId,    {0},	ponderacion,	indicadorMinimo,	indicadorDeseable,	getdate(), 1 from plantillaIndicador where pIndicadorId = {1}", hdnEmpleado.Value, pIndicadorId);
+
+            }
+            return strsql;
         }
 
         protected void btnBorrar_Click(object sender, EventArgs e)
@@ -305,6 +330,8 @@ namespace IndicadoresFreyman
             }
             lblsuma.Text = Convert.ToString(suma);
         }
+
+
         protected void radGridIndicador_ItemDataBound(object sender, GridItemEventArgs e)
         {
             try
@@ -312,18 +339,18 @@ namespace IndicadoresFreyman
                 if (e.Item is GridDataItem)
                 {
                     GridDataItem item = (GridDataItem)e.Item;                    
-                    bool esAscendente = bool.Parse(item["esAscendente"].Text);
-                   
+                    double indicadorMinimo = double.Parse(item["indicadorMinimo"].Text);
+                    double indicadorDeseable = double.Parse(item["indicadorDeseable"].Text);
                     HtmlGenericControl statusIcon = (HtmlGenericControl)item["colOrdenamiento"].FindControl("StatusIcon");
 
-                    if (esAscendente == true)
+                    if (indicadorMinimo > indicadorDeseable)
                     {
 
                         statusIcon.Attributes["class"] = "bi bi-arrow-down"; // Icono para "Active"                    
                         //statusIcon.Attributes["title"] = "Orn";
                     }
 
-                    if (esAscendente != false)
+                    if (indicadorMinimo <= indicadorDeseable)
                     {
                         statusIcon.Attributes["class"] = "bi bi-arrow-up  "; // Icono para "Active"
                         //statusIcon.Attributes["title"] = "Ponderacion";
