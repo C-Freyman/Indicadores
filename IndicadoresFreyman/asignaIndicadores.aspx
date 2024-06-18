@@ -76,13 +76,12 @@
                 PageSize="20"
                 AllowPaging="True"
                 AutoGenerateColumns="False" Culture="bg-BG" OnNeedDataSource="radGridEmpleados_NeedDataSource"
-                Style="margin: 0px auto" Width="50%" OnSelectedIndexChanged="radGridEmpleados_SelectedIndexChanged" OnItemDataBound="radGridEmpleados_ItemDataBound">
+                Style="margin: 0px auto" Width="60%" OnSelectedIndexChanged="radGridEmpleados_SelectedIndexChanged" OnItemDataBound="radGridEmpleados_ItemDataBound">
                 <MasterTableView AutoGenerateColumns="false" AllowFilteringByColumn="False" ShowFooter="False"
                     HorizontalAlign="NotSet">
                     <%-- <BatchEditingSettings EditType="Cell" SaveAllHierarchyLevels="true" HighlightDeletedRows="true" OpenEditingEvent="DblClick" />--%>
                     <SortExpressions>
                         <telerik:GridSortExpression FieldName="nombre" SortOrder="Ascending" />
-
                     </SortExpressions>
 
                     <Columns>
@@ -143,7 +142,7 @@
                 AllowSorting="True" AutoGenerateColumns="False" AllowFilteringByColumn="false"
                 EnableHeaderContextFilterMenu="true"
                 FilterDelay="4000" ShowFilterIcon="false" OnNeedDataSource="radGridIndicador_NeedDataSource" OnItemDataBound="radGridIndicador_ItemDataBound"
-                ShowStatusBar="True" Width="85%"
+                ShowStatusBar="True" Width="98%"
                 Culture="es-ES" Style="margin: 0px auto" AllowFiltering="true">
 
 
@@ -254,13 +253,13 @@
                     </div>
                     <div class="modal-body">
                         <telerik:RadGrid RenderMode="Lightweight" ID="radAsigna" GridLines="None" runat="server" AllowAutomaticDeletes="True"
-                            AllowAutomaticInserts="True" PageSize="50" Culture="bg-BG" AllowMultiRowSelection="true"
+                            AllowAutomaticInserts="True" PageSize="50" Culture="bg-BG" AllowMultiRowSelection="true" 
                             OnNeedDataSource="radAsigna_NeedDataSource"
                             AutoGenerateColumns="False"
-                            Width="75%" Style="margin: 0px auto;">
+                            Width="98%" Style="margin: 0px auto;">
 
 
-                            <MasterTableView CommandItemDisplay="Top" DataKeyNames="pIndicadorId"
+                            <MasterTableView CommandItemDisplay="Top" DataKeyNames="pIndicadorId" AllowFilteringByColumn ="true"
                                 HorizontalAlign="NotSet" AutoGenerateColumns="False">
                                 <%-- <BatchEditingSettings EditType="Cell"   SaveAllHierarchyLevels="true" HighlightDeletedRows="true" OpenEditingEvent="DblClick"  /> --%>
 
@@ -284,17 +283,17 @@
                                     </telerik:GridBoundColumn>
 
                                     <telerik:GridBoundColumn DataField="descripcionIndicador" HeaderStyle-Width="310px" HeaderText="Inidicador" SortExpression="descripcionIndicador"
-                                        UniqueName="descripcionIndicador" ReadOnly="true">
+                                        UniqueName="descripcionIndicador" ReadOnly="true" FilterControlWidth="100%" AllowFiltering="true" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon="false">
                                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                             <RequiredFieldValidator ForeColor="Red" Text="*Indicador requerido" Display="Dynamic">
                                             </RequiredFieldValidator>
                                         </ColumnValidationSettings>
-                                        <HeaderStyle Width="410px" />
-                                        <ItemStyle Width="410px" />
+                                        <HeaderStyle Width="450px" />
+                                        <ItemStyle Width="400px" />
                                     </telerik:GridBoundColumn>
 
                                     <telerik:GridBoundColumn DataField="ponderacion" HeaderStyle-Width="80px" HeaderText="Ponderación" SortExpression="Ponderacion"
-                                        UniqueName="Ponderacion" DataFormatString="{0:P0}" ReadOnly="true">
+                                        UniqueName="Ponderacion" DataFormatString="{0:P0}" ReadOnly="true" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false">
 
                                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                             <RequiredFieldValidator ForeColor="Red" Text="*Indicador ponderación" Display="Dynamic">
@@ -306,7 +305,7 @@
 
 
                                     <telerik:GridBoundColumn HeaderText="Indicador Minimo" HeaderStyle-Width="80px" SortExpression="indicadorMinimo" UniqueName="indicadorMinimo"
-                                        DataField="indicadorMinimo" DataFormatString="{0:N0}" ReadOnly="true">
+                                        DataField="indicadorMinimo" DataFormatString="{0:N0}" ReadOnly="true" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false">
                                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                             <RequiredFieldValidator ForeColor="Red" Text="*Indicador Minimo" Display="Dynamic">
                                             </RequiredFieldValidator>
@@ -317,7 +316,7 @@
 
 
                                     <telerik:GridBoundColumn HeaderText="Indicador Deseable" HeaderStyle-Width="80px" SortExpression="indicadorDeseable" UniqueName="indicadorDeseable"
-                                        DataField="indicadorDeseable" DataFormatString="{0:N0}" ReadOnly="true">
+                                        DataField="indicadorDeseable" DataFormatString="{0:N0}" ReadOnly="true" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false">
                                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                             <RequiredFieldValidator ForeColor="Red" Text="Indicador deseable" Display="Dynamic">
                                             </RequiredFieldValidator>
@@ -340,7 +339,7 @@
                             </MasterTableView>
                             <ClientSettings AllowKeyboardNavigation="true">
                                 <Selecting AllowRowSelect="true" UseClientSelectColumnOnly="true" />
-
+                                <Scrolling AllowScroll="True" UseStaticHeaders="true" ScrollHeight="350"  />
                             </ClientSettings>
 
 

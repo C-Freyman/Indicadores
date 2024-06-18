@@ -18,7 +18,7 @@ namespace IndicadoresFreyman.Indicadores
     public partial class EvidenciaIndicadoresM : System.Web.UI.Page
     {
         static protected string conn = "Server = 187.174.147.102; User ID = sa; password=similares*3; DataBase=Indicadores;";
-
+        public bool archivoGuardado;
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -163,6 +163,11 @@ namespace IndicadoresFreyman.Indicadores
                 gridEvidencias.MasterTableView.GetColumn("resultado").ItemStyle.BackColor = ColorTranslator.FromHtml("#74C99B");
                 RadAsyncUpload1.Visible = false;
                 button1.Visible = false;
+                etiquetaCerrado.Visible = true;
+            }
+            else
+            {
+                etiquetaCerrado.Visible = false;
             }
         }
 
@@ -195,10 +200,12 @@ namespace IndicadoresFreyman.Indicadores
                 ltrNoResults.Visible = false;
                 Repeater1.DataSource = dt;
                 Repeater1.DataBind();
+                archivoGuardado = true;
             }
             else
             {
                 ltrNoResults.Visible = true;
+                archivoGuardado = false;
             }
         }
 
@@ -396,6 +403,7 @@ namespace IndicadoresFreyman.Indicadores
             var obj = new EvidenciaIndicadoresM();
             string mes = HttpContext.Current.Session["mes"].ToString();
             string año = HttpContext.Current.Session["año"].ToString();
+            
             using (var con = new SqlConnection(conn))
             {
                 con.Open();
@@ -487,14 +495,14 @@ namespace IndicadoresFreyman.Indicadores
                     string nombreArchivo = e.File.FileName;
                     long tamaño = e.File.ContentLength;
 
-                    string query = "if (select top 1 fechaCerrado from resultadoIndicador where mes=" + Session["mes"] + " and año=2024 and indicadorId=(select top 1 indicadorId from Indicador where empleadoId=" + Session["Log"] + " and activo=1)) is null begin " +
+                    string query = "if (select top 1 fechaCerrado from resultadoIndicador where mes=" + Session["mes"] + " and año=" + Session["año"] + " and indicadorId=(select top 1 indicadorId from Indicador where empleadoId=" + Session["Log"] + " and activo=1)) is null begin " +
                                     "if not exists(select* from Evidencia where mes=" + Session["mes"] + " and año=" + Session["mes"] + " and empleadoId=" + Session["Log"] + ") " +
                                         "begin " +
-                                        "insert into Evidencia values(" + Session["Log"] + "," + Session["mes"] + "," + Session["mes"] + ",'" + nombreArchivo + "',null,@archivo," + tamaño + ", getdate() ); " +
+                                        "insert into Evidencia values(" + Session["Log"] + "," + Session["mes"] + "," + Session["año"] + ",'" + nombreArchivo + "',null,@archivo," + tamaño + ", getdate() ); " +
                                     "end " +
                                     "else " +
                                         "begin " +
-                                        "update Evidencia set nombreArchivo='" + nombreArchivo + "', archivo=@archivo, tamaño=" + tamaño + " where empleadoId=" + Session["Log"] + " and mes=" + Session["mes"] + " and año=" + Session["mes"] + " " +
+                                        "update Evidencia set nombreArchivo='" + nombreArchivo + "', archivo=@archivo, tamaño=" + tamaño + " where empleadoId=" + Session["Log"] + " and mes=" + Session["mes"] + " and año=" + Session["año"] + " " +
                                     "end end";
 
                     using (SqlConnection connection = new SqlConnection(conn))
@@ -504,7 +512,9 @@ namespace IndicadoresFreyman.Indicadores
                             command.Parameters.Add("@archivo", SqlDbType.VarBinary).Value = fileData;
 
                             connection.Open();
-                            command.ExecuteNonQuery();
+                            int i = command.ExecuteNonQuery();
+
+                            archivoGuardado = (i > 0) ? true : false;
                         }
                     }
 
