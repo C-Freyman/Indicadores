@@ -356,7 +356,7 @@
  
       
  
-      <div class="uploaded-files" style="margin:10px">
+      <div class="uploaded-files" style="margin:10px; display:inline-block">
           <h3>Archivo Evidencia</h3>
           <asp:Literal runat="server" ID="ltrNoResults" Visible="True" Text="<strong>No files uploaded</strong>" />
           <asp:Repeater runat="server" ID="Repeater1">
@@ -376,16 +376,19 @@
               </ItemTemplate>
           </asp:Repeater>
       </div>
-      <div id="etiquetaCerrado" runat="server">
-          <h2 style="color:red">Tus Indicadores ya fueron enviados</h2>
+      <div style="display:inline-block">
+        <telerik:RadAsyncUpload RenderMode="Lightweight" runat="server" ID="RadAsyncUpload1" OnClientFileUploading="onClientFileUploading" OnClientFileUploaded="onClientFileUploaded" OnFileUploaded="RadAsyncUpload1_FileUploaded"
+        MultipleFileSelection="Disabled" />
+ 
+        <p class="buttons">
+            <asp:Button runat="server" ID="button1" OnClick="button1_Click"  Text="Guardar Archivo" />
+        </p>
       </div>
+      
+    <div id="etiquetaCerrado" style="display:inline-block; margin-left:25%" runat="server">
+        <h2 style="color:red">Tus Indicadores ya fueron enviados</h2>
+    </div>
  
-      <telerik:RadAsyncUpload RenderMode="Lightweight" runat="server" ID="RadAsyncUpload1" OnClientFileUploading="onClientFileUploading" OnClientFileUploaded="onClientFileUploaded" OnFileUploaded="RadAsyncUpload1_FileUploaded"
-          MultipleFileSelection="Disabled" />
- 
-      <p class="buttons">
-          <asp:Button runat="server" ID="button1" OnClick="button1_Click"  Text="Guardar Archivo" />
-      </p>
  
   </div>
 
