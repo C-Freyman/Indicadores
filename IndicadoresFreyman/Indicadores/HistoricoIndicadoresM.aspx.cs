@@ -12,12 +12,17 @@ using Telerik.Web.UI.Skins;
 using System.Text;
 using Telerik.Web;
 using Telerik.Windows.Documents.Flow.Model.Styles;
+using System.Web.Services;
+using System.Runtime.CompilerServices;
 
 namespace IndicadoresFreyman.Indicadores
 {
     public partial class HistoricoIndicadoresM : System.Web.UI.Page
     {
         static protected string conn = "Server = 187.174.147.102; User ID = sa; password=similares*3; DataBase=Indicadores;";
+        static public string mes;
+        static public string año;
+        static private bool cambioDeMes;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -28,24 +33,21 @@ namespace IndicadoresFreyman.Indicadores
                 // Obtener el mes anterior
                 DateTime mesAnterior = DateTime.Now.AddMonths(-1);
                 int mesAnteriorNumero = mesAnterior.Month;
-
-                // Llenar el RadDropDownList con los meses
-                CultureInfo cultura = new CultureInfo("es-ES");
-                DateTimeFormatInfo formatoFecha = cultura.DateTimeFormat;
-                for (int i = 1; i <= 12; i++)
+                if(mes == null)
                 {
-                    string nombreMes = formatoFecha.GetMonthName(i);
-                    RadDropDownList1.Items.Add(new DropDownListItem(nombreMes, i.ToString()));
-                }
+                    mes = mesAnteriorNumero.ToString();
+                    año = mesAnterior.Year.ToString();
 
-                // Seleccionar el mes anterior
-                RadDropDownList1.SelectedValue = mesAnteriorNumero.ToString();
+                    cambioDeMes = false;
+                }
+                else
+                {
+                    cambioDeMes = true;
+                }
                 
                 CargarDatosEnGrid();
             }
         }
-
-
 
         private void ValidarPuesto()
         {
@@ -101,6 +103,7 @@ namespace IndicadoresFreyman.Indicadores
                         {
                             Session["puesto"] = "0";
                             LoadDataFromDatabase();
+                            gridHistorico.MasterTableView.GetColumn("Evidencia").Visible = false;
                         }
                     }
                 }
@@ -153,22 +156,22 @@ namespace IndicadoresFreyman.Indicadores
             //si es gerente ejecuta un metodo diferente al de un colaborador no gerente
             if (Session["puesto"] as string == "2")//Contralor
             {
-                dt = ObtenerDatosContralor(Convert.ToInt32(RadDropDownList1.SelectedValue), RadDropDownList3.SelectedValue.ToString(), RadDropDownList2.SelectedValue.ToString());
+                dt = ObtenerDatosContralor(RadDropDownList3.SelectedValue.ToString(), RadDropDownList2.SelectedValue.ToString());
             }
             else if (Session["puesto"] as string == "1")
             {
-                dt = ObtenerDatosGerente(Convert.ToInt32(RadDropDownList1.SelectedValue), Convert.ToInt32(RadDropDownList2.SelectedValue));
+                dt = ObtenerDatosGerente(Convert.ToInt32(RadDropDownList2.SelectedValue));
             }
             else
             {
-                dt = ObtenerDatos(Convert.ToInt32(RadDropDownList1.SelectedValue));
+                dt = ObtenerDatos();
             }
 
             gridHistorico.DataSource = dt;
             gridHistorico.DataBind();
         }
 
-        private DataTable ObtenerDatosContralor(int mes, string departamento, string empleadoId)//Consulta los datos en la base de datos
+        private DataTable ObtenerDatosContralor(string departamento, string empleadoId)//Consulta los datos en la base de datos
         {
             DataTable dt = new DataTable();
             try
@@ -191,21 +194,21 @@ namespace IndicadoresFreyman.Indicadores
                     query = "select pli.pIndicadorId as indicadorId,  anc.Departamento, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i " +
                         "left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId left join resultadoIndicador e on i.IndicadorId = e.indicadorId " +
-                        "left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado where i.activo = 1 and mes = " + mes + " order by anc.Nombre_";
+                        "left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado where i.activo = 1 and mes = " + mes + " and año=" + año + " order by anc.Nombre_";
                 }
                 else if (empleadoId == "")//consulta el acumulado de todos los colaboradores de un gerente
                 {
                     query = "select pli.pIndicadorId as indicadorId, anc.Departamento, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i " +
                         "left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId left join resultadoIndicador e on i.IndicadorId = e.indicadorId " +
-                        "left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado where i.activo = 1 and mes = " + mes + " and anc.Departamento='" + departamento + "' order by anc.Nombre_";
+                        "left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado where i.activo = 1 and mes = " + mes + " and año=" + año + " and anc.Departamento='" + departamento + "' order by anc.Nombre_";
                 }
                 else //Filtrado por un colaborador en especifico
                 {
                     query = "select pli.pIndicadorId as indicadorId, anc.Departamento, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i " +
                         "left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId left join resultadoIndicador e on i.IndicadorId = e.indicadorId " +
-                        "left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado where i.activo = 1 and mes = " + mes + " and anc.IdEmpleado=" + empleadoId + " order by anc.Nombre_";
+                        "left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado where i.activo = 1 and mes = " + mes + " and año=" + año + " and anc.IdEmpleado=" + empleadoId + " order by anc.Nombre_";
                 }
 
 
@@ -229,7 +232,7 @@ namespace IndicadoresFreyman.Indicadores
 
         }
 
-        private DataTable ObtenerDatosGerente(int mes, int empleadoId)//Consulta los datos en la base de datos
+        private DataTable ObtenerDatosGerente(int empleadoId)//Consulta los datos en la base de datos
         {
             DataTable dt = new DataTable();
             try
@@ -252,7 +255,7 @@ namespace IndicadoresFreyman.Indicadores
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId " +
                         "left join resultadoIndicador e on i.IndicadorId = e.indicadorId left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado " +
                         "where empleadoId in(select IdEmpleado from Vacaciones.dbo.AdministrativosNomiChecador " +
-                        "where JefeInmediato = (select a.Correo from Vacaciones.dbo.AdministrativosNomiChecador a where a.IdEmpleado = " + Session["Log"] + ")) and i.activo=1 and mes = " + mes+"order by anc.Nombre_";
+                        "where JefeInmediato = (select a.Correo from Vacaciones.dbo.AdministrativosNomiChecador a where a.IdEmpleado = " + Session["Log"] + ")) and i.activo=1 and mes = " + mes+ " and año=" + año + " order by anc.Nombre_";
                 }
                 else //Filtrado por un colaborador en especifico
                 {
@@ -260,7 +263,7 @@ namespace IndicadoresFreyman.Indicadores
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId " +
                         "left join resultadoIndicador e on i.IndicadorId = e.indicadorId left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado " +
                         "where empleadoId in(select IdEmpleado from Vacaciones.dbo.AdministrativosNomiChecador " +
-                        "where JefeInmediato = (select a.Correo from Vacaciones.dbo.AdministrativosNomiChecador a where a.IdEmpleado = " + Session["Log"] + ")) and i.activo=1 and mes = " + mes + " and empleadoId=" + empleadoId;
+                        "where JefeInmediato = (select a.Correo from Vacaciones.dbo.AdministrativosNomiChecador a where a.IdEmpleado = " + Session["Log"] + ")) and i.activo=1 and mes = " + mes + " and año=" + año + " and empleadoId=" + empleadoId;
                 }
 
 
@@ -284,7 +287,7 @@ namespace IndicadoresFreyman.Indicadores
 
         }
 
-        private DataTable ObtenerDatos(int mes)//Consulta en la base de datos datos de un colaborador
+        private DataTable ObtenerDatos()//Consulta en la base de datos datos de un colaborador
         {
             DataTable dt = new DataTable();
             try
@@ -302,7 +305,7 @@ namespace IndicadoresFreyman.Indicadores
 
                 query = "select pli.pIndicadorId as indicadorId, pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
                 "isnull(cumplimientoOBjetivo,0)as cumplimientoObjetivo, isnull(evaluacionPonderada,0)as evaluacionPonderada from Indicador i " +
-                "left join PlantillaIndicador pli on pli.pIndicadorId=i.pIndicadorId left join resultadoIndicador e on i.IndicadorId=e.indicadorId where i.activo=1 and empleadoId=" + Session["Log"] + " and mes=" + mes + ";";
+                "left join PlantillaIndicador pli on pli.pIndicadorId=i.pIndicadorId left join resultadoIndicador e on i.IndicadorId=e.indicadorId where i.activo=1 and empleadoId=" + Session["Log"] + " and mes=" + mes + " and año=" + año + ";";
                 
 
                 using (SqlConnection con = new SqlConnection(conn))
@@ -324,20 +327,14 @@ namespace IndicadoresFreyman.Indicadores
 
         }
 
-        protected void RadDropDownList1_SelectedIndexChanged(object sender, DropDownListEventArgs e)
-        {
-            CargarDatosEnGrid();
-        }
-
         protected void btnDescargarArchivo_Click(object sender, EventArgs e)
         {
-            int selectedMonth = int.Parse(RadDropDownList1.SelectedValue);
-            DescargarArchivo(selectedMonth);
+            DescargarArchivo();
 
         }
-        private void DescargarArchivo(int mes)
+        private void DescargarArchivo()
         {
-            string query = "select nombreArchivo, archivo from Evidencia where empleadoId=" + Session["Log"] + " and mes=" + mes + " and año=2024;";
+            string query = "select nombreArchivo, archivo from Evidencia where empleadoId=" + Session["Log"] + " and mes=" + mes + " and año=" + año + ";";
 
             using (SqlConnection conn_ = new SqlConnection(conn))
             {
@@ -424,12 +421,35 @@ namespace IndicadoresFreyman.Indicadores
                     labelNombre.Text = "Nombre del Colaborador: " + HiddenLabel.Text;
                 }
 
-                Label mes = (Label)e.Item.FindControl("mes");
-                if (mes != null)
+                Label mes_ = (Label)e.Item.FindControl("mes");
+                if (mes_ != null)
                 {
-                    mes.Text = DateTime.Now.ToString("MMMM-yyyy", new System.Globalization.CultureInfo("es-ES"));
+                    mes_.Text = DateTime.Now.ToString("MMMM-yyyy", new System.Globalization.CultureInfo("es-ES"));
+                }
+
+                //Proceso para asignar la fecha del mes anterior al control radMonthyearpicker
+                GridCommandItem commandItem = (GridCommandItem)e.Item;
+                Telerik.Web.UI.RadMonthYearPicker radMonthYearPicker = (Telerik.Web.UI.RadMonthYearPicker)commandItem.FindControl("RadMonthYearPicker1");
+
+                if (radMonthYearPicker != null)
+                {
+                    if (!cambioDeMes)
+                    {
+                        radMonthYearPicker.SelectedDate = DateTime.Now.AddMonths(-1);
+                        cambioDeMes = true;
+                    }
+                    else
+                    {
+                        radMonthYearPicker.SelectedDate = new DateTime(Convert.ToInt32(año), Convert.ToInt32(mes), 1);
+                    }
                 }
             }
+        }
+        [WebMethod]
+        public static void fechaRadMonthYearPicker(int mes, int año)
+        {
+            HistoricoIndicadoresM.mes = mes.ToString();
+            HistoricoIndicadoresM.año = año.ToString();
         }
 
         protected void txtFilter_TextChanged(object sender, EventArgs e)
@@ -442,7 +462,7 @@ namespace IndicadoresFreyman.Indicadores
                 // Filtrar datos en el grid basado en el texto del TextBox
                 if (Session["puesto"] as string == "2")//Contralor
                 {
-                    dt = ObtenerDatosContralor(Convert.ToInt32(RadDropDownList1.SelectedValue), RadDropDownList3.SelectedValue.ToString(), RadDropDownList2.SelectedValue.ToString());
+                    dt = ObtenerDatosContralor(RadDropDownList3.SelectedValue.ToString(), RadDropDownList2.SelectedValue.ToString());
                     filterExpression = string.Format(
                         "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
                         "Convert(Departamento, 'System.String') LIKE '%{0}%' OR " +
@@ -458,7 +478,7 @@ namespace IndicadoresFreyman.Indicadores
                 }
                 else if (Session["puesto"] as string == "1")
                 {
-                    dt = ObtenerDatosGerente(Convert.ToInt32(RadDropDownList1.SelectedValue), Convert.ToInt32(RadDropDownList2.SelectedValue));
+                    dt = ObtenerDatosGerente(Convert.ToInt32(RadDropDownList2.SelectedValue));
                     filterExpression = string.Format(
                         "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
                         "Convert(Nombre_, 'System.String') LIKE '%{0}%' OR " +
@@ -473,7 +493,7 @@ namespace IndicadoresFreyman.Indicadores
                 }
                 else
                 {
-                    dt = ObtenerDatos(Convert.ToInt32(RadDropDownList1.SelectedValue));
+                    dt = ObtenerDatos();
                     filterExpression = string.Format(
                         "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
                         "Convert(descripcionIndicador, 'System.String') LIKE '%{0}%' OR " +

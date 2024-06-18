@@ -41,16 +41,17 @@ namespace IndicadoresFreyman.Reportes
         }
         protected DataTable ObtenerInfo()
         {
-            DataTable dtAux=null;
-
-            DateTime? FechaDe = RadMonthYearPicker1.SelectedDate;
-            DateTime? FechaA = RadMonthYearPicker2.SelectedDate;
-            DataTable dt = null;
-
-            dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'"+ HidTipoTablero.Value + "'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
-      
+            DataTable dtAux = null;
             try
             {
+
+
+                DateTime? FechaDe = RadMonthYearPicker1.SelectedDate;
+                DateTime? FechaA = RadMonthYearPicker2.SelectedDate;
+                DataTable dt = null;
+
+                dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'" + HidTipoTablero.Value + "'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
+
                 var dtCOMPAÑEROS = con.getDatatable(@"select IdEmpleado from Vacaciones.dbo.AdministrativosNomiChecador as a1 where a1.Departamento = 
                 (select a2.Departamento from Vacaciones.dbo.AdministrativosNomiChecador as a2 where idempleado=" + HidEmpleado.Value + @") 
                 union all 
@@ -61,16 +62,17 @@ namespace IndicadoresFreyman.Reportes
 
                 var lst = (from c in dtCOMPAÑEROS.AsEnumerable() select c.Field<int>("IdEmpleado")).ToList();
                 dtAux = (from c in dt.AsEnumerable() where lst.Contains(c.Field<int>("IdEmpleado")) select c).CopyToDataTable();
+
+                if (dtAux == null)
+                {
+                    dtAux = dt;
+                }
+                GenerarColumnas(dtAux);
+                RadGridHistorico.DataSource = dtAux;
+                RadGridHistorico.Rebind();
+                return dtAux;
             }
             catch (Exception ex) { }
-
-            if (dtAux == null)
-            {
-                dtAux = dt;
-            }
-            GenerarColumnas(dtAux);
-            RadGridHistorico.DataSource = dtAux;
-            RadGridHistorico.Rebind();
             return dtAux;
         }
         private void GenerarColumnas(DataTable dt)
