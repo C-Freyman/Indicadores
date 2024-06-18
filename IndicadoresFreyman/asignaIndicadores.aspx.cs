@@ -237,7 +237,7 @@ namespace IndicadoresFreyman
             if (dt.Rows.Count > 0)
             {
                 strslq = "";
-                strslq = String.Format("delete from indicador where pIndicadorId = {0} and empleadoId = {1}", indicadorId, hdnEmpleado.Value);
+                strslq = String.Format("update  indicador set activo = 0 where  pIndicadorId = {0} and empleadoId = {1}", indicadorId, hdnEmpleado.Value);
                 con.Save(strslq);
             }
             else
@@ -257,6 +257,9 @@ namespace IndicadoresFreyman
             }
             radGridIndicador.DataSource = consultaIndicadores();
             radGridIndicador.Rebind();
+            radGridEmpleados.DataSource = consultaEmpleados();
+            radGridEmpleados.Rebind();
+
             
            //suma();
         }

@@ -196,7 +196,7 @@
 
 
                         <telerik:GridBoundColumn UniqueName="descripcionIndicador" HeaderText="Indicador" DataField="descripcionIndicador" SortExpression="descripcionIndicador"
-                            FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false">
+                            FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" FooterText ="Total" FooterStyle-HorizontalAlign ="Center" FooterStyle-Font-Size ="18px" FooterStyle-Font-Bold ="true" FooterStyle-ForeColor ="White">
                             <ItemStyle Width="400px" />
                             <HeaderStyle Width="400px" Font-Bold="true" HorizontalAlign="Center" />
                         </telerik:GridBoundColumn>
@@ -207,7 +207,7 @@
                         </telerik:GridBoundColumn>
 
 
-                        <telerik:GridTemplateColumn UniqueName="colOrdenamiento" HeaderText="" DataField="esAscendente" FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false"  FooterText ="Total" FooterStyle-HorizontalAlign ="Center" FooterStyle-Font-Size ="18px" FooterStyle-Font-Bold ="true" FooterStyle-ForeColor ="White">
+                        <telerik:GridTemplateColumn UniqueName="colOrdenamiento" HeaderText="" DataField="esAscendente" FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false"  >
                             <ItemTemplate>
 
                                 <%--<span id="StatusIcon" runat="server">--%>
