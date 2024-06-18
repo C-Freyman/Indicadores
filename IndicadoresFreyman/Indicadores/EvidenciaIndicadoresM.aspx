@@ -305,9 +305,9 @@
           <MasterTableView  CommandItemDisplay="Top"  EditMode="Batch" AutoGenerateColumns="False" CellPadding="0" CellSpacing="0">
               <CommandItemSettings ShowAddNewRecordButton="false"  />
               <CommandItemTemplate>                        
-                  <asp:Button ID="SaveChangesButton" runat="server" OnClientClick="return cerrarCambios();" Text="Enviar Indicadores" />
-                  
                   <asp:Button ID="GuardarBorradorButton" OnClientClick="return guardarBorrador();" runat="server" Text="Guardar Borrador" />
+
+                  <asp:Button ID="SaveChangesButton" runat="server" OnClientClick="return cerrarCambios();" Text="Enviar Indicadores" />
 
                   <asp:Label ID="nombreColaborador" CssClass="label1" runat="server" Text="Texto"></asp:Label>
 
@@ -377,7 +377,7 @@
           </asp:Repeater>
       </div>
       <div id="etiquetaCerrado" runat="server">
-          <h2 style="color:red">El Indicador esta cerrado</h2>
+          <h2 style="color:red">Tus Indicadores ya fueron enviados</h2>
       </div>
  
       <telerik:RadAsyncUpload RenderMode="Lightweight" runat="server" ID="RadAsyncUpload1" OnClientFileUploading="onClientFileUploading" OnClientFileUploaded="onClientFileUploaded" OnFileUploaded="RadAsyncUpload1_FileUploaded"

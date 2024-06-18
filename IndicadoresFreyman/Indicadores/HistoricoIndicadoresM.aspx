@@ -3,19 +3,52 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 <style>
 
-    /*.demo-container {
-        margin-right: 50px;
-        font: 400 14px / 1.4 Arial, Helvetica, sans-serif;
-        font-style: normal;
-        margin: 40px auto;
-        padding: 20px;
-        border: 1px solid #e2e4e7;
-    }*/
+    .label2 {
+        font-size: 18px;
+        margin-right: 200px;
+        float: right;
+    }
 </style>
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        function OnDateSelected(sender, e) {
+            debugger;
+            // Obtener la fecha seleccionada del objeto sender
+            var selectedDate = sender.get_selectedDate();
+
+            // Obtener el número del mes seleccionado
+            var selectedMonth = selectedDate.getMonth() + 1; // getMonth() devuelve 0-11, por eso sumamos 1
+
+            // Obtener el año seleccionado
+            var selectedYear = selectedDate.getFullYear();
+
+            // Llamar al WebMethod usando AJAX
+            $.ajax({
+                type: "POST",
+                url: "HistoricoIndicadoresM.aspx/fechaRadMonthYearPicker",
+                data: JSON.stringify({ mes: selectedMonth, año: selectedYear }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    // Forzar un postback para actualizar el grid
+                    __doPostBack('<%= gridHistorico.ClientID %>', '');
+                    location.reload();
+                },
+                failure: function (response) {
+                    alert("Error al actualizar la fecha seleccionada.");
+                }
+            });
+        }
+    </script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -65,8 +98,11 @@
             <CommandItemTemplate>                        
                 <%if (Session["puesto"]as string == "0"){%> <asp:Button ID="btnDescargarArchivo" runat="server" Text="Descargar Evidencia" OnClick="btnDescargarArchivo_Click" /> <% } %>
                 <asp:Label ID="nombreColaborador" CssClass="label1" runat="server" Text="Texto"></asp:Label>
-            </CommandItemTemplate>
 
+                <telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker1" runat="server" Width="238px" MinDate="2024-01-1" CssClass="label2">
+                    <ClientEvents OnDateSelected="OnDateSelected"></ClientEvents>
+                </telerik:RadMonthYearPicker>
+            </CommandItemTemplate>
             <Columns>
                 <telerik:GridBoundColumn HeaderStyle-Width='3%' HeaderStyle-Font-Bold="true" UniqueName="indicadorId" DataField='indicadorId' SortExpression="indicadorId" HeaderText='ID' 
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
