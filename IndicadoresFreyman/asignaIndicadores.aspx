@@ -39,6 +39,7 @@
 
         .RadGrid .rgRow, .RadGrid .rgAltRow, .RadGrid .rgEditRow, .RadGrid .rgFooter, .RadGrid .rgGroupHeader {
             height: 5px !important;
+            
         }
 
             RadGrid .rgRow > td, .RadGrid .rgAltRow > td, .RadGrid .rgEditRow > td, .RadGrid .rgFooter > td, .RadGrid .rgGroupHeader > td {
@@ -57,6 +58,19 @@
             background-repeat: no-repeat;
             background-position: center;
         }
+
+        .label1 {
+        margin-left: 50px;
+        font-size:15px;
+         }
+
+        .label2{
+        font-size:18px;
+        margin-right:200px;
+        float:right;
+        }
+
+      
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -70,12 +84,14 @@
 
         <div class="left-pane">
 
-            <h3>&nbsp;</h3>
+          
+
+           
 
             <telerik:RadGrid RenderMode="Lightweight" ID="radGridEmpleados" GridLines="None" runat="server" AllowAutomaticDeletes="True"
                 PageSize="20"
                 AllowPaging="True"
-                AutoGenerateColumns="False" Culture="bg-BG" OnNeedDataSource="radGridEmpleados_NeedDataSource"
+                AutoGenerateColumns="False" Culture="bg-BG" OnNeedDataSource="radGridEmpleados_NeedDataSource" 
                 Style="margin: 0px auto" Width="60%" OnSelectedIndexChanged="radGridEmpleados_SelectedIndexChanged" OnItemDataBound="radGridEmpleados_ItemDataBound">
                 <MasterTableView AutoGenerateColumns="false" AllowFilteringByColumn="False" ShowFooter="False"
                     HorizontalAlign="NotSet">
@@ -130,17 +146,24 @@
                     <Resizing AllowColumnResize="true" ResizeGridOnColumnResize="true" AllowResizeToFit="true" />
                 </ClientSettings>
             </telerik:RadGrid>
+              <div class ="divCenter" >
+           
+              
+            </div>
+            
+              
         </div>
 
 
         <div class="right-pane">
             <div class="divCenter">
-                <asp:Label ID="lblsuma" runat="server" ClientIDMode="Static" Text="" Font-Bold="true" Font-Size="Larger" ForeColor="Green"></asp:Label>
+               
             </div>
+           
 
             <telerik:RadGrid RenderMode="Lightweight" ID="radGridIndicador" runat="server" CssClass="RadGrid" AllowPaging="true" PageSize="200"
-                AllowSorting="True" AutoGenerateColumns="False" AllowFilteringByColumn="false"
-                EnableHeaderContextFilterMenu="true"
+                AllowSorting="True" AutoGenerateColumns="False" AllowFilteringByColumn="false" OnItemCreated ="radGridIndicador_ItemCreated"
+                EnableHeaderContextFilterMenu="true" ShowFooter ="true"
                 FilterDelay="4000" ShowFilterIcon="false" OnNeedDataSource="radGridIndicador_NeedDataSource" OnItemDataBound="radGridIndicador_ItemDataBound"
                 ShowStatusBar="True" Width="98%"
                 Culture="es-ES" Style="margin: 0px auto" AllowFiltering="true">
@@ -148,13 +171,15 @@
 
                 <GroupingSettings CaseSensitive="false"></GroupingSettings>
 
-                <MasterTableView AllowFilteringByColumn="True" DataKeyNames="pIndicadorId" CommandItemDisplay="Top">
+                <MasterTableView AllowFilteringByColumn="False" DataKeyNames="pIndicadorId" CommandItemDisplay="Top" >
                     <CommandItemSettings ShowAddNewRecordButton="false" />
                     <CommandItemTemplate>
                         <telerik:RadButton RenderMode="Lightweight" ID="btnAgregar" runat="server" Text="Agregar indicador"
                             ButtonType="StandardButton" UseSubmitBehavior="true" OnClick="btnAgregar_Click" />
                         <telerik:RadButton RenderMode="Lightweight" ID="btnGuardarIndicador" runat="server" Text="Guardar"
                             ButtonType="StandardButton" UseSubmitBehavior="true" OnClick="btnGuardarIndicador_Click" />
+                        <asp:Label ID="lblEmpleado" runat="server" ClientIDMode="Static" Text="" Font-Bold="true" Font-Size="Larger" ForeColor="White"  ></asp:Label>
+                        <asp:Label ID="lblsuma" runat="server" ClientIDMode="Static" Text="" Font-Bold="true" Font-Size="Larger" ForeColor="White"  CssClass ="label2"></asp:Label>
                     </CommandItemTemplate>
 
                     <%--<SortExpressions>
@@ -165,7 +190,7 @@
 
                         <telerik:GridBoundColumn UniqueName="pIndicadorId" HeaderText="Id" DataField="pIndicadorId" SortExpression="pIndicadorId"
                             FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false">
-                            <ItemStyle Width="50px" />
+                            <ItemStyle Width="50px"  />
                             <HeaderStyle Width="50px" Font-Bold="true" HorizontalAlign="Center" />
                         </telerik:GridBoundColumn>
 
@@ -182,7 +207,7 @@
                         </telerik:GridBoundColumn>
 
 
-                        <telerik:GridTemplateColumn UniqueName="colOrdenamiento" HeaderText="" DataField="esAscendente" FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false">
+                        <telerik:GridTemplateColumn UniqueName="colOrdenamiento" HeaderText="" DataField="esAscendente" FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false"  FooterText ="Total" FooterStyle-HorizontalAlign ="Center" FooterStyle-Font-Size ="18px" FooterStyle-Font-Bold ="true" FooterStyle-ForeColor ="White">
                             <ItemTemplate>
 
                                 <%--<span id="StatusIcon" runat="server">--%>
@@ -192,7 +217,7 @@
                             <HeaderStyle Font-Bold="true" Width="30px" />
                             <ItemStyle HorizontalAlign="Center" Width="30px" />
                         </telerik:GridTemplateColumn>
-                        <telerik:GridBoundColumn UniqueName="ponderacion" HeaderText="Ponderación" DataField="ponderacion" SortExpression="ponderacion"
+                        <telerik:GridBoundColumn UniqueName="ponderacion" HeaderText="Ponderación" DataField="ponderacion" SortExpression="ponderacion" Aggregate ="Sum" FooterStyle-HorizontalAlign ="Center" FooterStyle-Font-Size ="24px" FooterStyle-Font-Bold ="true" FooterStyle-ForeColor ="White"
                             FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:P0}">
                             <ItemStyle Width="70px" HorizontalAlign="Center" />
                             <HeaderStyle Width="70px" Font-Bold="true" HorizontalAlign="Center" />
@@ -201,7 +226,7 @@
                             FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N0}">
                             <ItemStyle Width="70px" HorizontalAlign="Center" />
                             <HeaderStyle Width="70px" Font-Bold="true" HorizontalAlign="Center" />
-                        </telerik:GridBoundColumn>
+                        </telerik:GridBoundColumn> 
                         <telerik:GridBoundColumn UniqueName="indicadorDeseable" HeaderText="Indicador Deseable" DataField="indicadorDeseable" SortExpression="indicadorDeseable"
                             FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N0}">
                             <ItemStyle Width="70px" HorizontalAlign="Center" />
@@ -211,7 +236,7 @@
                         <telerik:GridTemplateColumn UniqueName="Estatus" HeaderText="" ShowFilterIcon="false" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains">
                             <ItemTemplate>
                                 <telerik:RadImageButton runat="server" ID="btnBorrar" OnClick="btnBorrar_Click" Width="45px" Image-Url="~/Imagenes/basura.PNG" Value='<%# Eval("pIndicadorId")%>' Style="border: none; width: 1em; height: 1.5em;" CssClass="coverImage">
-                                    <ConfirmSettings ConfirmText="Deseas quitar la asignación el indicador?" />
+                                    <ConfirmSettings ConfirmText="Deseas quitar la asignación del indicador?" />
                                 </telerik:RadImageButton>
                             </ItemTemplate>
                             <HeaderStyle Font-Bold="true" Width="25px" HorizontalAlign="Center" />
@@ -225,7 +250,7 @@
 
                 <ClientSettings EnablePostBackOnRowClick="true">
 
-                    <Scrolling AllowScroll="True" UseStaticHeaders="true" ScrollHeight="450" />
+                    <Scrolling AllowScroll="True" UseStaticHeaders="true" ScrollHeight ="450px" />
                     <Resizing AllowColumnResize="true" ResizeGridOnColumnResize="true" AllowResizeToFit="true" />
                 </ClientSettings>
 
@@ -253,10 +278,10 @@
                     </div>
                     <div class="modal-body">
                         <telerik:RadGrid RenderMode="Lightweight" ID="radAsigna" GridLines="None" runat="server" AllowAutomaticDeletes="True"
-                            AllowAutomaticInserts="True" PageSize="50" Culture="bg-BG" AllowMultiRowSelection="true" 
+                            AllowAutomaticInserts="True" PageSize="50" Culture="bg-BG" AllowMultiRowSelection="true"  
                             OnNeedDataSource="radAsigna_NeedDataSource"
                             AutoGenerateColumns="False"
-                            Width="98%" Style="margin: 0px auto;">
+                            Sytle ="overflow-x:auto; overflow-y:auto; width:100%; height: auto;">
 
 
                             <MasterTableView CommandItemDisplay="Top" DataKeyNames="pIndicadorId" AllowFilteringByColumn ="true"
@@ -299,8 +324,8 @@
                                             <RequiredFieldValidator ForeColor="Red" Text="*Indicador ponderación" Display="Dynamic">
                                             </RequiredFieldValidator>
                                         </ColumnValidationSettings>
-                                        <HeaderStyle Width="150px" />
-                                        <ItemStyle Width="150px" HorizontalAlign="center" />
+                                        <HeaderStyle Width="120px" />
+                                        <ItemStyle Width="120px" HorizontalAlign="center" />
                                     </telerik:GridBoundColumn>
 
 
@@ -310,8 +335,8 @@
                                             <RequiredFieldValidator ForeColor="Red" Text="*Indicador Minimo" Display="Dynamic">
                                             </RequiredFieldValidator>
                                         </ColumnValidationSettings>
-                                        <HeaderStyle Width="150px" />
-                                        <ItemStyle Width="150px" HorizontalAlign="center" />
+                                        <HeaderStyle Width="120px" />
+                                        <ItemStyle Width="120px" HorizontalAlign="center" />
                                     </telerik:GridBoundColumn>
 
 
@@ -321,8 +346,8 @@
                                             <RequiredFieldValidator ForeColor="Red" Text="Indicador deseable" Display="Dynamic">
                                             </RequiredFieldValidator>
                                         </ColumnValidationSettings>
-                                        <HeaderStyle Width="150px" />
-                                        <ItemStyle Width="150px" HorizontalAlign="center" />
+                                        <HeaderStyle Width="120px" />
+                                        <ItemStyle Width="120px" HorizontalAlign="center" />
                                     </telerik:GridBoundColumn>
 
 
@@ -339,7 +364,8 @@
                             </MasterTableView>
                             <ClientSettings AllowKeyboardNavigation="true">
                                 <Selecting AllowRowSelect="true" UseClientSelectColumnOnly="true" />
-                                <Scrolling AllowScroll="True" UseStaticHeaders="true" ScrollHeight="350"  />
+                                <Scrolling AllowScroll="True" UseStaticHeaders="true" ScrollHeight ="450px"  />
+                                
                             </ClientSettings>
 
 
@@ -360,4 +386,6 @@
     <asp:HiddenField ID="hdnEmpleado" runat="server" />
     <asp:HiddenField ID="hdnCorreo" runat="server" />
     <asp:HiddenField ID="hdnIndicador" runat="server" Value="0" />
+    <asp:HiddenField ID="hdnNomEmpleado" runat="server" Value="0" />
+    <asp:HiddenField ID="hdnSuma" runat="server" Value="0" />
 </asp:Content>

@@ -39,6 +39,7 @@ namespace IndicadoresFreyman
             if (dt.Rows.Count > 0)
             {
                 hdnEmpleado.Value = Convert.ToString((int)dt.Rows[0]["IdEmpleado"]);
+                hdnNomEmpleado.Value =  (string)dt.Rows[0]["nombre"];
             }
             return dt;
 
@@ -59,11 +60,11 @@ namespace IndicadoresFreyman
             {
                 var IdEmpleado = dataItem["IdEmpleado"].Text;
                 hdnEmpleado.Value = IdEmpleado;
+                hdnNomEmpleado.Value =  dataItem["nombre"].Text;
                 hdnIndicador.Value = "0";
                 radGridIndicador.DataSource = consultaIndicadores();
                 radGridIndicador.Rebind();
-                lblsuma.Text = "0";
-                suma();
+                //suma();
 
             }
         }
@@ -178,7 +179,8 @@ namespace IndicadoresFreyman
             if (sumponderacion != 100)
             {
                 RadWindowManager1.RadAlert($"La suma de las ponderaciones seleccionadas es diferente a 100, pero los indicadores asingados ya fueron guardados.", 0, 0, "", null);
-                lblsuma.Text = sumponderacion.ToString();
+                //lblsuma.Text = "Total ponderación: " + sumponderacion.ToString();
+                hdnSuma.Value = sumponderacion.ToString();
                 strsql = cadenaInsert();
                 con.Save(strsql);
                 hdnIndicador.Value = "0";
@@ -189,20 +191,20 @@ namespace IndicadoresFreyman
                 //return;
             }
 
-            //if (sumponderacion >= 100)
-            //{
+            if (sumponderacion == 100)
+            {
 
 
-            //    strsql = cadenaInsert();
-            //    con.Save(strsql);
-            //    RadWindowManager1.RadAlert($"Los indicadores se han asignado correctamente", 0, 0, "", null);
-            //    hdnIndicador.Value = "0";
-            //    radGridIndicador.DataSource = consultaIndicadores();
-            //    radGridIndicador.Rebind();
-            //    radGridEmpleados.DataSource = consultaEmpleados();
-            //    radGridEmpleados.Rebind();
+                strsql = cadenaInsert();
+                con.Save(strsql);
+                RadWindowManager1.RadAlert($"Los indicadores se han asignado correctamente", 0, 0, "", null);
+                hdnIndicador.Value = "0";
+                radGridIndicador.DataSource = consultaIndicadores();
+                radGridIndicador.Rebind();
+                radGridEmpleados.DataSource = consultaEmpleados();
+                radGridEmpleados.Rebind();
 
-            //}
+            }
 
 
         }
@@ -213,11 +215,12 @@ namespace IndicadoresFreyman
             string strsql = "";
             foreach (GridDataItem fila in radGridIndicador.MasterTableView.Items)
             {
-
-
-                string pIndicadorId = fila["pIndicadorId"].Text;
-                strsql += String.Format("insert into indicador (pIndicadorId,	empleadoId,	ponderacion,	indicadorMinimo,	indicadorDeseable,	fechaAsignacion,activo)" +
-                   "select pIndicadorId,    {0},	ponderacion,	indicadorMinimo,	indicadorDeseable,	getdate(), 1 from plantillaIndicador where pIndicadorId = {1}", hdnEmpleado.Value, pIndicadorId);
+                string pIndicadorId = fila["pIndicadorId"].Text;              
+                string ponderacion = fila["ponderacion"].Text.Replace("%","");
+                string indicadorMinimo = fila["indicadorMinimo"].Text;
+                string indicadorDeseable = fila["indicadorDeseable"].Text;
+                strsql += String.Format("  exec guardaAsignacion {0}, {1}, {2}, {3}, {4}", pIndicadorId, hdnEmpleado.Value, ponderacion, indicadorMinimo, indicadorDeseable);
+             
 
             }
             return strsql;
@@ -255,7 +258,7 @@ namespace IndicadoresFreyman
             radGridIndicador.DataSource = consultaIndicadores();
             radGridIndicador.Rebind();
             
-           suma();
+           //suma();
         }
 
 
@@ -307,7 +310,8 @@ namespace IndicadoresFreyman
                     
                 }
             }
-            lblsuma.Text = Convert.ToString(suma);
+            //lblsuma.Text = "Total ponderación: " + Convert.ToString(suma);
+            //suma();
             radGridIndicador.DataSource = consultaIndicadores();
             radGridIndicador.Rebind();
             pnlEditar.Visible = false;
@@ -328,19 +332,24 @@ namespace IndicadoresFreyman
 
                
             }
-            lblsuma.Text = Convert.ToString(suma);
+            hdnSuma.Value = Convert.ToString(suma);
+            //lblsuma.Text = "Total ponderación: " + Convert.ToString(suma);
         }
 
 
         protected void radGridIndicador_ItemDataBound(object sender, GridItemEventArgs e)
         {
             try
-            {
+            {   
+                
+
+
                 if (e.Item is GridDataItem)
                 {
                     GridDataItem item = (GridDataItem)e.Item;                    
                     double indicadorMinimo = double.Parse(item["indicadorMinimo"].Text);
                     double indicadorDeseable = double.Parse(item["indicadorDeseable"].Text);
+                   
                     HtmlGenericControl statusIcon = (HtmlGenericControl)item["colOrdenamiento"].FindControl("StatusIcon");
 
                     if (indicadorMinimo > indicadorDeseable)
@@ -355,15 +364,36 @@ namespace IndicadoresFreyman
                         statusIcon.Attributes["class"] = "bi bi-arrow-up  "; // Icono para "Active"
                         //statusIcon.Attributes["title"] = "Ponderacion";
                     }
-                    //}
+                   
 
                 }
-                suma();
+                
             }
             catch (Exception ex)
             {
                 string error = ex.Message;
             }
+        }
+
+        protected void radGridIndicador_ItemCreated(object sender, GridItemEventArgs e)
+        {
+          
+                if (e.Item is GridCommandItem)
+                {
+                    Label lblEmpleado = (Label)e.Item.FindControl("lblEmpleado");
+                    //Label lblSuma = (Label)e.Item.FindControl("lblsuma");
+                
+                if (lblEmpleado != null)
+                    {
+                        lblEmpleado.Text = "Nombre del Colaborador: " + hdnNomEmpleado.Value;
+                    }
+
+                //if (lblSuma != null)
+                //{
+                //    lblSuma.Text = "Total ponderación: " + hdnSuma.Value;
+                //}
+                 }
+            
         }
     }
 
