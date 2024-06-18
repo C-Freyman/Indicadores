@@ -44,20 +44,6 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     cambioDeMes = true;
                 }
-
-                
-
-                // Llenar el RadDropDownList con los meses
-                CultureInfo cultura = new CultureInfo("es-ES");
-                DateTimeFormatInfo formatoFecha = cultura.DateTimeFormat;
-                for (int i = 1; i <= 12; i++)
-                {
-                    string nombreMes = formatoFecha.GetMonthName(i);
-                    RadDropDownList1.Items.Add(new DropDownListItem(nombreMes, i.ToString()));
-                }
-
-                // Seleccionar el mes anterior
-                RadDropDownList1.SelectedValue = mesAnteriorNumero.ToString();
                 
                 CargarDatosEnGrid();
             }
@@ -170,22 +156,22 @@ namespace IndicadoresFreyman.Indicadores
             //si es gerente ejecuta un metodo diferente al de un colaborador no gerente
             if (Session["puesto"] as string == "2")//Contralor
             {
-                dt = ObtenerDatosContralor(Convert.ToInt32(RadDropDownList1.SelectedValue), RadDropDownList3.SelectedValue.ToString(), RadDropDownList2.SelectedValue.ToString());
+                dt = ObtenerDatosContralor(RadDropDownList3.SelectedValue.ToString(), RadDropDownList2.SelectedValue.ToString());
             }
             else if (Session["puesto"] as string == "1")
             {
-                dt = ObtenerDatosGerente(Convert.ToInt32(RadDropDownList1.SelectedValue), Convert.ToInt32(RadDropDownList2.SelectedValue));
+                dt = ObtenerDatosGerente(Convert.ToInt32(RadDropDownList2.SelectedValue));
             }
             else
             {
-                dt = ObtenerDatos(Convert.ToInt32(RadDropDownList1.SelectedValue));
+                dt = ObtenerDatos();
             }
 
             gridHistorico.DataSource = dt;
             gridHistorico.DataBind();
         }
 
-        private DataTable ObtenerDatosContralor(int mes, string departamento, string empleadoId)//Consulta los datos en la base de datos
+        private DataTable ObtenerDatosContralor(string departamento, string empleadoId)//Consulta los datos en la base de datos
         {
             DataTable dt = new DataTable();
             try
@@ -246,7 +232,7 @@ namespace IndicadoresFreyman.Indicadores
 
         }
 
-        private DataTable ObtenerDatosGerente(int mes, int empleadoId)//Consulta los datos en la base de datos
+        private DataTable ObtenerDatosGerente(int empleadoId)//Consulta los datos en la base de datos
         {
             DataTable dt = new DataTable();
             try
@@ -301,7 +287,7 @@ namespace IndicadoresFreyman.Indicadores
 
         }
 
-        private DataTable ObtenerDatos(int mes)//Consulta en la base de datos datos de un colaborador
+        private DataTable ObtenerDatos()//Consulta en la base de datos datos de un colaborador
         {
             DataTable dt = new DataTable();
             try
@@ -341,18 +327,12 @@ namespace IndicadoresFreyman.Indicadores
 
         }
 
-        protected void RadDropDownList1_SelectedIndexChanged(object sender, DropDownListEventArgs e)
-        {
-            CargarDatosEnGrid();
-        }
-
         protected void btnDescargarArchivo_Click(object sender, EventArgs e)
         {
-            int selectedMonth = int.Parse(RadDropDownList1.SelectedValue);
-            DescargarArchivo(selectedMonth);
+            DescargarArchivo();
 
         }
-        private void DescargarArchivo(int mes)
+        private void DescargarArchivo()
         {
             string query = "select nombreArchivo, archivo from Evidencia where empleadoId=" + Session["Log"] + " and mes=" + mes + " and año=" + año + ";";
 
@@ -482,7 +462,7 @@ namespace IndicadoresFreyman.Indicadores
                 // Filtrar datos en el grid basado en el texto del TextBox
                 if (Session["puesto"] as string == "2")//Contralor
                 {
-                    dt = ObtenerDatosContralor(Convert.ToInt32(RadDropDownList1.SelectedValue), RadDropDownList3.SelectedValue.ToString(), RadDropDownList2.SelectedValue.ToString());
+                    dt = ObtenerDatosContralor(RadDropDownList3.SelectedValue.ToString(), RadDropDownList2.SelectedValue.ToString());
                     filterExpression = string.Format(
                         "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
                         "Convert(Departamento, 'System.String') LIKE '%{0}%' OR " +
@@ -498,7 +478,7 @@ namespace IndicadoresFreyman.Indicadores
                 }
                 else if (Session["puesto"] as string == "1")
                 {
-                    dt = ObtenerDatosGerente(Convert.ToInt32(RadDropDownList1.SelectedValue), Convert.ToInt32(RadDropDownList2.SelectedValue));
+                    dt = ObtenerDatosGerente(Convert.ToInt32(RadDropDownList2.SelectedValue));
                     filterExpression = string.Format(
                         "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
                         "Convert(Nombre_, 'System.String') LIKE '%{0}%' OR " +
@@ -513,7 +493,7 @@ namespace IndicadoresFreyman.Indicadores
                 }
                 else
                 {
-                    dt = ObtenerDatos(Convert.ToInt32(RadDropDownList1.SelectedValue));
+                    dt = ObtenerDatos();
                     filterExpression = string.Format(
                         "Convert(indicadorId, 'System.String') LIKE '%{0}%' OR " +
                         "Convert(descripcionIndicador, 'System.String') LIKE '%{0}%' OR " +

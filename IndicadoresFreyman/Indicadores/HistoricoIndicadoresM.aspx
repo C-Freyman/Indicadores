@@ -56,12 +56,6 @@
     <h2>Histórico</h2>
 <div class="demo" style="margin-left:20px; margin-right:20px;">
 
-    <div style="display: inline-block; margin-right: 20px;">
-        <h3>Mes</h3>
-        <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList1" runat="server" Width="300" Height="200px" DropDownHeight="200px"
-            DataTextField="" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList1_SelectedIndexChanged">
-        </telerik:RadDropDownList>
-    </div>
 
     <asp:Literal ID="Literal1" runat="server"></asp:Literal>
 
