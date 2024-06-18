@@ -173,7 +173,7 @@ namespace IndicadoresFreyman.Indicadores
             }
             else
             {
-                etiquetaCerrado.Visible = true;
+                etiquetaCerrado.Visible = false;
             }
         }
 
@@ -282,7 +282,7 @@ namespace IndicadoresFreyman.Indicadores
         {
             cumplimientoObjetivo = 0;
             cumplimientoObjetivoReal = 0;
-            if (indicadorMinimo>indicadorDeseable)
+            if (indicadorMinimo < indicadorDeseable)
             {
                 
                 if (valor < indicadorMinimo)
@@ -299,7 +299,7 @@ namespace IndicadoresFreyman.Indicadores
                 }
                 cumplimientoObjetivoReal= Math.Round(((1 / ((indicadorDeseable - indicadorMinimo) * 2.00)) * (valor - indicadorMinimo) * 100.00) + 50.00, 2);
             }
-            else if (indicadorMinimo < indicadorDeseable)
+            else if (indicadorMinimo > indicadorDeseable)
             {
                 // Caso donde valorMinimo es mayor que valorDeseable
                 if (valor > indicadorMinimo)
