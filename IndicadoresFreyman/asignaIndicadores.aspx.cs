@@ -18,9 +18,10 @@ namespace IndicadoresFreyman
         Conexion con = new Conexion();
         protected void Page_Load(object sender, EventArgs e)
         {
-           // hdnEmpleadoLog.Value = Convert.ToString((int)Session["Log"]);
+            hdnJefe.Value = Convert.ToString((int)Session["Log"]);
             hdnArea.Value = Convert.ToString((int)Session["Depto"]);
             hdnCorreo.Value = (string)Session["Correo"];
+
            
         }
 
@@ -226,8 +227,8 @@ namespace IndicadoresFreyman
             {
                 string pIndicadorId = fila["pIndicadorId"].Text;              
                 string ponderacion = fila["ponderacion"].Text.Replace("%","");
-                string indicadorMinimo = fila["indicadorMinimo"].Text;
-                string indicadorDeseable = fila["indicadorDeseable"].Text;
+                string indicadorMinimo = fila["indicadorMinimo"].Text.Replace(",", "");
+                string indicadorDeseable = fila["indicadorDeseable"].Text.Replace(",", "");
                 strsql += String.Format("  exec guardaAsignacion {0}, {1}, {2}, {3}, {4}", pIndicadorId, hdnEmpleado.Value, ponderacion, indicadorMinimo, indicadorDeseable);
              
 
@@ -284,7 +285,7 @@ namespace IndicadoresFreyman
         private DataTable consultaAsigna()
         {
             DataTable dt;
-            string strsql = String.Format("select p.pIndicadorId, descripcionIndicador, (ponderacion*1.0)/100 ponderacion, p.indicadorMinimo, p.indicadorDeseable, cast(0 as bit)  activo  from PlantillaIndicador as p   where not exists (select * from  Indicador as a  where p.pIndicadorId = a.pIndicadorId  and empleadoId = {1} and activo = 1  ) and area ={0} and estatus = 1 and p.pIndicadorId  not in ({2})", hdnArea.Value, hdnEmpleado.Value, hdnIndicador.Value);
+            string strsql = String.Format("select p.pIndicadorId, descripcionIndicador, (ponderacion*1.0)/100 ponderacion, p.indicadorMinimo, p.indicadorDeseable, cast(0 as bit)  activo  from PlantillaIndicador as p   where not exists (select * from  Indicador as a  where p.pIndicadorId = a.pIndicadorId  and empleadoId = {1} and activo = 1  ) and area ={0} and estatus = 1 and p.pIndicadorId  not in ({2})  and jefeId = {3}", hdnArea.Value, hdnEmpleado.Value, hdnIndicador.Value, hdnJefe.Value);
             dt = con.getDatatable(strsql);
             return dt;
         }      

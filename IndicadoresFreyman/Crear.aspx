@@ -397,4 +397,6 @@
         </Windows>
     </telerik:RadWindowManager>
 
+    <asp:HiddenField ID="hdnJefe" runat="server"  />
+
 </asp:Content>
