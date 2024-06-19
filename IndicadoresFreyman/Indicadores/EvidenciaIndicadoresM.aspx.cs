@@ -164,17 +164,27 @@ namespace IndicadoresFreyman.Indicadores
                     }
                 }
             }
-            if (cerrado != "1")
+            if (cerrado == "")
             {
                 (gridEvidencias.MasterTableView.GetColumn("resultado") as GridBoundColumn).ReadOnly = true;
                 gridEvidencias.MasterTableView.GetColumn("resultado").ItemStyle.BackColor = ColorTranslator.FromHtml("#74C99B");
                 RadAsyncUpload1.Visible = false;
                 button1.Visible = false;
                 etiquetaCerrado.Visible = true;
+                etiquetaCerrado.InnerHtml = "<h2 style='color:red'>No tienes indicadores asignados, informa a tu gerente que te los asigne</h2>";
+            }
+            else if (cerrado == "1")
+            {
+                etiquetaCerrado.Visible = false;
             }
             else
             {
-                etiquetaCerrado.Visible = false;
+                (gridEvidencias.MasterTableView.GetColumn("resultado") as GridBoundColumn).ReadOnly = true;
+                gridEvidencias.MasterTableView.GetColumn("resultado").ItemStyle.BackColor = ColorTranslator.FromHtml("#74C99B");
+                RadAsyncUpload1.Visible = false;
+                button1.Visible = false;
+                etiquetaCerrado.Visible = true;
+                etiquetaCerrado.InnerHtml = "<h2 style='color:red'>Tus Indicadores ya fueron enviados</h2>";
             }
         }
 
