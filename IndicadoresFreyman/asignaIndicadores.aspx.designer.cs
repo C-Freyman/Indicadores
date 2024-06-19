@@ -33,15 +33,6 @@ namespace IndicadoresFreyman
         protected global::Telerik.Web.UI.RadGrid radGridEmpleados;
 
         /// <summary>
-        /// Control lblsuma.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblsuma;
-
-        /// <summary>
         /// Control radGridIndicador.
         /// </summary>
         /// <remarks>
@@ -123,6 +114,15 @@ namespace IndicadoresFreyman
         protected global::System.Web.UI.WebControls.HiddenField hdnEmpleado;
 
         /// <summary>
+        /// Control hdnEmpleadoId.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnEmpleadoId;
+
+        /// <summary>
         /// Control hdnCorreo.
         /// </summary>
         /// <remarks>
@@ -139,5 +139,23 @@ namespace IndicadoresFreyman
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnIndicador;
+
+        /// <summary>
+        /// Control hdnNomEmpleado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnNomEmpleado;
+
+        /// <summary>
+        /// Control hdnSuma.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnSuma;
     }
 }

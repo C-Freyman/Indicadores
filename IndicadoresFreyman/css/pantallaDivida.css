@@ -4,10 +4,10 @@
 }
 
 /* Estilo para el panel izquierdo */
-.left-pane  {
+.left-pane {
     flex: 1; /* Divide la pantalla en partes iguales */
     display: flex;
-    flex-basis: 40%;
+    flex-basis: 30%;
     align-items: center;
     /*justify-content: center;*/
     flex-direction: column;
@@ -18,7 +18,7 @@
 .right-pane {
     flex: 1; /* Divide la pantalla en partes iguales */
     display: flex;
-    flex-basis: 60%;
+    flex-basis: 70%;
     align-items: center;
     /*justify-content: center;*/
     flex-direction: column;
