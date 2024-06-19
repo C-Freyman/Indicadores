@@ -224,12 +224,12 @@
                             <HeaderStyle Width="70px" Font-Bold="true" HorizontalAlign="Center" />
                         </telerik:GridBoundColumn>
                         <telerik:GridBoundColumn UniqueName="indicadorMinimo" HeaderText="Indicador Minimo" DataField="indicadorMinimo" SortExpression="indicadorMinimo"
-                            FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N0}">
+                            FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N1}">
                             <ItemStyle Width="70px" HorizontalAlign="Center" />
                             <HeaderStyle Width="70px" Font-Bold="true" HorizontalAlign="Center" />
                         </telerik:GridBoundColumn> 
                         <telerik:GridBoundColumn UniqueName="indicadorDeseable" HeaderText="Indicador Deseable" DataField="indicadorDeseable" SortExpression="indicadorDeseable"
-                            FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N0}">
+                            FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N1}">
                             <ItemStyle Width="70px" HorizontalAlign="Center" />
                             <HeaderStyle Width="70px" Font-Bold="true" HorizontalAlign="Center" />
                         </telerik:GridBoundColumn>
@@ -304,8 +304,8 @@
 
                                     <telerik:GridBoundColumn DataField="pIndicadorId" HeaderText="Id" SortExpression="pIndicadorId"
                                         UniqueName="pIndicadorId">
-                                        <HeaderStyle Width="0px" />
-                                        <ItemStyle Width="0px" />
+                                        <HeaderStyle Width="50px" />
+                                        <ItemStyle Width="50px" />
                                     </telerik:GridBoundColumn>
 
                                     <telerik:GridBoundColumn DataField="descripcionIndicador" HeaderStyle-Width="310px" HeaderText="Inidicador" SortExpression="descripcionIndicador"
@@ -331,7 +331,7 @@
 
 
                                     <telerik:GridBoundColumn HeaderText="Indicador Minimo" HeaderStyle-Width="80px" SortExpression="indicadorMinimo" UniqueName="indicadorMinimo"
-                                        DataField="indicadorMinimo" DataFormatString="{0:N0}" ReadOnly="true" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false">
+                                        DataField="indicadorMinimo" DataFormatString="{0:N1}" ReadOnly="true" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false">
                                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                             <RequiredFieldValidator ForeColor="Red" Text="*Indicador Minimo" Display="Dynamic">
                                             </RequiredFieldValidator>
@@ -342,7 +342,7 @@
 
 
                                     <telerik:GridBoundColumn HeaderText="Indicador Deseable" HeaderStyle-Width="80px" SortExpression="indicadorDeseable" UniqueName="indicadorDeseable"
-                                        DataField="indicadorDeseable" DataFormatString="{0:N0}" ReadOnly="true" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false">
+                                        DataField="indicadorDeseable" DataFormatString="{0:N1}" ReadOnly="true" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false">
                                         <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                             <RequiredFieldValidator ForeColor="Red" Text="Indicador deseable" Display="Dynamic">
                                             </RequiredFieldValidator>

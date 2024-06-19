@@ -85,7 +85,7 @@ namespace IndicadoresFreyman
                 {
                     GridDataItem item = (GridDataItem)e.Item;
                     string nombre = item["nombre"].Text;
-                    int ponderacion = int.Parse(item["ponderacion"].Text);
+                    decimal  ponderacion = decimal.Parse(item["ponderacion"].Text);
                     //if (ponderacionStr != "")
                     //{
                     //int ponderacion = int.Parse(ponderacionStr);
