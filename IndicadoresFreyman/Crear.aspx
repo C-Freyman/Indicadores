@@ -203,12 +203,12 @@
                     <HeaderStyle Width="70px" Font-Bold="true" HorizontalAlign="Center" />
                 </telerik:GridBoundColumn>
                 <telerik:GridBoundColumn UniqueName="indicadorMinimo" HeaderText="Indicador Minimo" DataField="indicadorMinimo" SortExpression="indicadorMinimo"
-                    FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N0}">
+                    FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N1}">
                     <ItemStyle Width="70px" HorizontalAlign="Center" />
                     <HeaderStyle Width="70px" Font-Bold="true" HorizontalAlign="Center" />
                 </telerik:GridBoundColumn>
                 <telerik:GridBoundColumn UniqueName="indicadorDeseable" HeaderText="Indicador Deseable" DataField="indicadorDeseable" SortExpression="indicadorDeseable"
-                    FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N0}">
+                    FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" DataFormatString="{0:N1}">
                     <ItemStyle Width="70px" HorizontalAlign="Center" />
                     <HeaderStyle Width="70px" Font-Bold="true" HorizontalAlign="Center" />
                 </telerik:GridBoundColumn>
