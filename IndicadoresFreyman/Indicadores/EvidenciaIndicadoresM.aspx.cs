@@ -349,20 +349,13 @@ namespace IndicadoresFreyman.Indicadores
                 using (var command = new SqlCommand())
                 {
                     command.Connection = con;
-                    command.CommandText = "select pli.esAscendente, pli.TipoId,i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli" +
-                        " left join Indicador i on i.pIndicadorId=pli.pIndicadorId where i.pIndicadorId=" + id + " and i.activo=1 and pli.estatus=1 and empleadoId=" + obj.Session["Log"] + ";";
+                    command.CommandText = "select i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli" +
+                        " left join Indicador i on i.pIndicadorId=pli.pIndicadorId where i.IndicadorId=" + id + " and i.activo=1 and pli.estatus=1 and empleadoId=" + obj.Session["Log"] + ";";
                     command.CommandType = CommandType.Text;
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        try
-                        {
-                            esAscendente = Convert.ToBoolean(reader["esAscendente"]);
-                        }
-                        catch
-                        {
-                            esAscendente = false;
-                        }
+
                         ponderacion = Convert.ToInt32(reader["ponderacion"]);
                         indicadorMinimo = Convert.ToInt32(reader["indicadorMinimo"]);
                         indicadorDeseable = Convert.ToInt32(reader["indicadorDeseable"]);
@@ -372,35 +365,31 @@ namespace IndicadoresFreyman.Indicadores
             double cumplimientoObjetivo, evaluacionPonderada, cumplimientoObjetivoReal;
 
             obj.calcularResultados(esAscendente, Convert.ToDouble(valorEditado), indicadorMinimo, indicadorDeseable, ponderacion, out cumplimientoObjetivo, out evaluacionPonderada, out cumplimientoObjetivoReal);
+
+            string mes_ = EvidenciaIndicadoresM.mes;
+            string año_ = EvidenciaIndicadoresM.año;
+
+            using (var con = new SqlConnection(conn))
+            {
+                con.Open();
+
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = con;
+                    command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + valorEditado + ", cumplimientoOBjetivo=" + cumplimientoObjetivo + ",evaluacionPonderada=" + evaluacionPonderada + ", cumplimientoOBjetivoReal= " + cumplimientoObjetivoReal +
+                        " where indicadorId=" + id + " and mes=" + mes_ + " and año=" + año_ + " and fechaCerrado is null";
+                    command.CommandType = CommandType.Text;
+                    int i=command.ExecuteNonQuery();
+                }
+                
+            }
+
             return new
             {
                 cumplimientoObjetivo,
                 evaluacionPonderada,
                 cumplimientoObjetivoReal
             };
-        }
-
-        [WebMethod]
-        public static void GuardarBorrador(List<MyDataModel> tableData)
-        {
-            string mes_ = EvidenciaIndicadoresM.mes;
-            string año_ = EvidenciaIndicadoresM.año;
-            var obj = new EvidenciaIndicadoresM();
-            using (var con = new SqlConnection(conn))
-            {
-                con.Open();
-                foreach (var row in tableData)
-                {
-                    using (var command = new SqlCommand())
-                    {
-                        command.Connection = con;
-                        command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + ", cumplimientoOBjetivoReal= " + row.CumplimientoObjetivoReal +
-                            " where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + "and activo=1 and empleadoId=" + obj.Session["Log"] + " ) and mes=" + mes_ + " and año=" + año_ + " and fechaCerrado is null";
-                        command.CommandType = CommandType.Text;
-                        command.ExecuteNonQuery();
-                    }
-                }
-            }
         }
 
         [WebMethod]
@@ -419,7 +408,7 @@ namespace IndicadoresFreyman.Indicadores
                     {
                         command.Connection = con;
                         command.CommandText = "update resultadoIndicador set fechaCerrado=getdate(), resultado=" + row.Resultado + ", cumplimientoOBjetivo=" + row.CumplimientoObjetivo + ",evaluacionPonderada=" + row.EvaluacionPonderada.Replace("%", "") + " ,cumplimientoOBjetivoReal=" + row.CumplimientoObjetivoReal +
-                            " where indicadorId=(select indicadorId from Indicador where pIndicadorId=" + row.IndicadorId + " and empleadoId=" + obj.Session["Log"] + " and activo=1 ) and mes=" + mes_ + " and año=" + año_;
+                            " where indicadorId=" + row.IndicadorId + " and mes=" + mes_ + " and año=" + año_;
                         command.CommandType = CommandType.Text;
                         command.ExecuteNonQuery();
                     }
