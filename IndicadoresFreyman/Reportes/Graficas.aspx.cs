@@ -26,7 +26,7 @@ namespace IndicadoresFreyman.Reportes
                 RadMonthYearPicker2.MaxDate = (DateTime)DateTime.Now;
                 RadMonthYearPicker2.SelectedDate = (DateTime)DateTime.Now;
 
-                string qD = "select distinct Departamento , iddepartamento  from Vacaciones .dbo.AdministrativosNomiChecador where iddepartamento not in (313,24,321) order by Departamento ";
+                string qD = "select distinct Departamento , iddepartamento  from Vacaciones .dbo.AdministrativosNomiChecador where iddepartamento not in (313,24,321,39) order by Departamento ";
                 DataTable dtD = con.getDatatable(qD);
                 radDepartamentos.DataSource = dtD;
                 radDepartamentos.DataTextField = "Departamento";
@@ -58,14 +58,15 @@ namespace IndicadoresFreyman.Reportes
 
                 obtenerInfo();
             }
-            if (HidChecDepartamento .Value =="si") {
+          
                 if (radDepartamentos.CheckedItems.Count > 0)
-                {
-                    ObtenerEmpleados();
-                    HidChecDepartamento.Value = "";
-                }
-            }
-           
+                    {
+                        ObtenerEmpleados();
+    
+                    }
+          
+                
+                       
         }
         private  void obtenerInfo()
         {
@@ -219,7 +220,7 @@ namespace IndicadoresFreyman.Reportes
             if (rdlQuien.SelectedValue == "E")
             {
                 radEmpleados.Items.Clear ();    
-                string q = string.Format("select idempleado, Nombre from Vacaciones .dbo.AdministrativosNomiChecador where iddepartamento in ({0}) order by nombre", departamentos);
+                string q = string.Format("select idempleado, concat('(',Departamento,')',Nombre)Nombre from Vacaciones .dbo.AdministrativosNomiChecador where iddepartamento in ({0}) order by Departamento", departamentos);
                 DataTable dt = con.getDatatable(q);
                 radEmpleados.DataSource = dt;
                 radEmpleados.DataTextField = "Nombre";
