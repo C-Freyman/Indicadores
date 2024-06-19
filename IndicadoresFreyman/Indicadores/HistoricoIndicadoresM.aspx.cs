@@ -588,5 +588,15 @@ namespace IndicadoresFreyman.Indicadores
                 DescargarArchivoGerente(indicadorId);
             }
         }
+
+        protected void gridHistorico_PageIndexChanged(object sender, GridPageChangedEventArgs e)
+        {
+            CargarDatosEnGrid();
+        }
+
+        protected void gridHistorico_PageSizeChanged(object sender, GridPageSizeChangedEventArgs e)
+        {
+            CargarDatosEnGrid();
+        }
     }
 }
