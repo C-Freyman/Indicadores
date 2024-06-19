@@ -27,6 +27,8 @@ namespace IndicadoresFreyman
 
 
 
+       
+
 
         private DataTable consultaEmpleados()
         {
@@ -320,6 +322,9 @@ namespace IndicadoresFreyman
                     
                 }
             }
+
+
+           
             //lblsuma.Text = "Total ponderación: " + Convert.ToString(suma);
             //suma();
             radGridIndicador.DataSource = consultaIndicadores();

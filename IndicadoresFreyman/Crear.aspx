@@ -278,7 +278,7 @@
                                 <td style="width: 150px">Tipo:
                                 </td>
                                 <td>
-                                    <telerik:RadDropDownList RenderMode="Lightweight" ID="ddltipo" runat="server" data-required="1" CssClass="form-select-sm"
+                                    <telerik:RadDropDownList RenderMode="Lightweight" ID="ddltipo" runat="server"  CssClass="form-select" data-required="1"
                                         DropDownHeight="80px"
                                         TabIndex="7" Width="200px">
                                     </telerik:RadDropDownList>

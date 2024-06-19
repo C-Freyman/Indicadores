@@ -61,7 +61,7 @@ namespace IndicadoresFreyman
             ddltipo.DataBind();
             //ddltipo.SelectedValue = "1";
             ddltipo.Items.Insert(0,"Selecciona tipo");
-            ddltipo.SelectedIndex = 1;
+      
         }
 
 
@@ -229,6 +229,13 @@ namespace IndicadoresFreyman
             string Tipoid = ddltipo.SelectedValue;
             string area = hdnArea.Value;
             string strsql = "";
+
+            if (ddltipo.SelectedIndex == 0)
+            {
+                RadWindowManager1.RadAlert("Selecciona el tipo de indicador", 0, 0, "", null);
+                return;
+            }
+
 
             if (lblguarda.Text == "1")
             {
