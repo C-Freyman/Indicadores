@@ -12,6 +12,7 @@ using Telerik.Web.UI.PdfViewer;
 using Telerik.Web.UI.Skins;
 using System.Runtime.CompilerServices;
 using System.Web;
+using System.Web.UI;
 
 namespace IndicadoresFreyman.Indicadores
 {
@@ -335,9 +336,9 @@ namespace IndicadoresFreyman.Indicadores
         }
 
         [WebMethod]
-        public static object SaveRowValues(string filaHTML, string valorEditado)
+        public static object SaveRowValues(string idIndicador, string valorEditado)
         {
-            string id = filaHTML.Substring(0, filaHTML.IndexOf('\t'));
+            
             var obj = new EvidenciaIndicadoresM();
 
             bool esAscendente = false;
@@ -350,7 +351,7 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     command.Connection = con;
                     command.CommandText = "select i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli" +
-                        " left join Indicador i on i.pIndicadorId=pli.pIndicadorId where i.IndicadorId=" + id + " and i.activo=1 and pli.estatus=1 and empleadoId=" + obj.Session["Log"] + ";";
+                        " left join Indicador i on i.pIndicadorId=pli.pIndicadorId where i.IndicadorId=" + idIndicador + " and i.activo=1 and pli.estatus=1 and empleadoId=" + obj.Session["Log"] + ";";
                     command.CommandType = CommandType.Text;
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -377,7 +378,7 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     command.Connection = con;
                     command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + valorEditado + ", cumplimientoOBjetivo=" + cumplimientoObjetivo + ",evaluacionPonderada=" + evaluacionPonderada + ", cumplimientoOBjetivoReal= " + cumplimientoObjetivoReal +
-                        " where indicadorId=" + id + " and mes=" + mes_ + " and año=" + año_ + " and fechaCerrado is null";
+                        " where indicadorId=" + idIndicador + " and mes=" + mes_ + " and año=" + año_ + " and fechaCerrado is null";
                     command.CommandType = CommandType.Text;
                     int i=command.ExecuteNonQuery();
                 }
@@ -395,7 +396,6 @@ namespace IndicadoresFreyman.Indicadores
         [WebMethod]
         public static void cerrarCambios(List<MyDataModel> tableData)
         {
-            var obj = new EvidenciaIndicadoresM();
             string mes_ = EvidenciaIndicadoresM.mes;
             string año_ = EvidenciaIndicadoresM.año;
 
@@ -465,6 +465,9 @@ namespace IndicadoresFreyman.Indicadores
                 HiddenField HidcumplimientoObjetivoReal = item["cumplimientoOBjetivoReal"].FindControl("HidcumplimientoObjetivoReal") as HiddenField;
                 item["cumplimientoObjetivo"].CssClass = HidcumplimientoObjetivoReal.Value;
                 item["cumplimientoObjetivo"].ToolTip = HidcumplimientoObjetivoReal.Value;
+
+                item["pIndicadorId"].CssClass = DataBinder.Eval(item.DataItem, "IndicadorId").ToString();
+                item["pIndicadorId"].ToolTip = DataBinder.Eval(item.DataItem, "IndicadorId").ToString();
             }
         }
         protected void RadAsyncUpload1_FileUploaded(object sender, FileUploadedEventArgs e)

@@ -93,13 +93,13 @@
         var row = cell.parentNode;
         var filaHTML = row.innerText;
         var valorEditado = cell.innerText;
-        //row.cells[6].innerText = "11";
-        //row.cells[6].Attributes.Add("title", "holaaaa");
+        var idIndicador = row.cells[0].className;
+        
         // Enviar los valores de la fila al servidor usando AJAX
         $.ajax({
             type: "POST",
             url: "EvidenciaIndicadoresM.aspx/SaveRowValues",
-            data: JSON.stringify({ filaHTML: filaHTML, valorEditado: valorEditado }),
+            data: JSON.stringify({ idIndicador: idIndicador, valorEditado: valorEditado }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
@@ -152,7 +152,7 @@
                 for (var i = 0; i < rows.length; i++) {
                     var cells = rows[i].get_element().cells;
                     var rowData = {
-                        indicadorId: cells[0].innerText.trim(),
+                        indicadorId: cells[0].className,
                         resultado: cells[5].innerText.trim(),
                         cumplimientoObjetivo: cells[6].innerText.trim(),
                         evaluacionPonderada: cells[7].innerText.trim(),
@@ -272,7 +272,7 @@
                   </telerik:RadMonthYearPicker>
               </CommandItemTemplate>
               <Columns>
-                  <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='7' HeaderStyle-Font-Bold="true" UniqueName="indicadorId" DataField='indicadorId' SortExpression="indicadorId" HeaderText='ID' 
+                  <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='7' HeaderStyle-Font-Bold="true" UniqueName="pIndicadorId" DataField='pIndicadorId' SortExpression="pIndicadorId" HeaderText='ID' 
                       ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
                   <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='50' HeaderStyle-Font-Bold="true" UniqueName="descripcionIndicador" DataField='descripcionIndicador' SortExpression="descripcionIndicador" 
                       HeaderText='Descripción' ItemStyle-HorizontalAlign="Left" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
