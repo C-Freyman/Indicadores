@@ -53,29 +53,33 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <h2>Histórico</h2>
-<div class="demo" style="margin-left:20px; margin-right:20px;">
-
-
-    <asp:Literal ID="Literal1" runat="server"></asp:Literal>
-
-     <%if (Session["puesto"]as string == "2"){%>
-    <div id="divAreas" style="display: inline-block">
-        <h3>Departamento</h3>
-            <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList3" runat="server" Width="300" Height="200px" DropDownHeight="200px"
-                DataTextField="" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList3_SelectedIndexChanged">
-            </telerik:RadDropDownList>
-    </div>
-    <% } %>
     
-    <%if (Session["puesto"]as string == "1" || Session["puesto"]as string == "2"){%>
-    <div id="divColaboradores" style="display: inline-block;">
-        <h3>Colaborador</h3>
-        <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList2" runat="server" Width="300" Height="200px" DropDownHeight="200px"
-            DataTextField="Texto" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList2_SelectedIndexChanged">
-        </telerik:RadDropDownList>
+<div class="demo" style="margin-left:20px; margin-right:20px;">
+    <div style="width:300px; display:inline-block; position:absolute; align-items:initial">
+        <h2>Histórico</h2>
     </div>
-     <% } %>
+    <div style="width:300px;margin-left:200px; display:inline-block">
+        <asp:Literal ID="Literal1" runat="server"></asp:Literal>
+
+         <%if (Session["puesto"]as string == "2"){%>
+        <div id="divAreas" style="display: inline-block">
+            <h4>Departamento</h4>
+                <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList3" runat="server" Width="300" Height="200px" DropDownHeight="200px"
+                    DataTextField="" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList3_SelectedIndexChanged">
+                </telerik:RadDropDownList>
+        </div>
+        <% } %>
+
+        <%if (Session["puesto"]as string == "1" || Session["puesto"]as string == "2"){%>
+        <div id="divColaboradores" style="display: inline-block;">
+            <h4>Colaborador</h4>
+            <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList2" runat="server" Width="300" Height="200px" DropDownHeight="200px"
+                DataTextField="Texto" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList2_SelectedIndexChanged">
+            </telerik:RadDropDownList>
+        </div>
+         <% } %>
+    </div>
+    
    
     <div style="text-align: right; margin-bottom: 10px;">
         <asp:TextBox ID="txtFilter" Width="200px" runat="server" AutoPostBack="True" OnTextChanged="txtFilter_TextChanged" placeholder="Buscar en la tabla..."></asp:TextBox>
