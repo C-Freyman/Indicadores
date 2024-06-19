@@ -30,14 +30,15 @@
             </ClientSettings>
             <GroupingSettings CaseSensitive="false"></GroupingSettings>
             <HeaderStyle HorizontalAlign="Center" />
-            <MasterTableView AutoGenerateColumns="false" ShowFooter="false" AllowFilteringByColumn="false" CellPadding="0" CellSpacing="0">
+            <MasterTableView AutoGenerateColumns="false" ShowFooter="false" AllowFilteringByColumn="true" CellPadding="0" CellSpacing="0">
                 <Columns>
                     <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='150' DataField='Departamento' SortExpression="Departamento" HeaderText='Departamento' ItemStyle-HorizontalAlign="left" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon='false'></telerik:GridBoundColumn>
                     <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='70' DataField='codigoempleado' SortExpression="codigoempleado" HeaderText='Código empleado' ItemStyle-HorizontalAlign="Center"  AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false'></telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='150' DataField='Nombre' SortExpression="Nombre" HeaderText='Nombre' ItemStyle-HorizontalAlign="left" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false'></telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn FilterControlWidth="80%" HeaderStyle-Width='70' DataField='Calificacion' SortExpression="Calificacion" HeaderText='Calificacion' AutoPostBackOnFilter='true' CurrentFilterFunction="Contains" ShowFilterIcon='false' ItemStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn FilterControlWidth="80%" HeaderStyle-Width='70' DataField='Tamaño' SortExpression="Tamaño" HeaderText='Tamaño Archivo' AutoPostBackOnFilter='true' CurrentFilterFunction="Contains" ShowFilterIcon='false' ItemStyle-HorizontalAlign="Center"></telerik:GridBoundColumn>
-                    <telerik:GridBoundColumn FilterControlWidth="80%" HeaderStyle-Width='100' DataField='FechaArchivo' SortExpression="FechaArchivo" HeaderText='Fecha Archivo' AutoPostBackOnFilter='true' CurrentFilterFunction="Contains" ShowFilterIcon='false'></telerik:GridBoundColumn>
+                    <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='150' DataField='Nombre' SortExpression="Nombre" HeaderText='Nombre' ItemStyle-HorizontalAlign="left" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon='false'></telerik:GridBoundColumn>
+                    <telerik:GridBoundColumn FilterControlWidth="80%" HeaderStyle-Width='70' DataField='Calificacion' SortExpression="Calificacion" HeaderText='Calificacion' AutoPostBackOnFilter='true' CurrentFilterFunction="EqualTo" ItemStyle-HorizontalAlign ="Center" ShowFilterIcon ="false"  ></telerik:GridBoundColumn>
+                    <telerik:GridBoundColumn FilterControlWidth="80%" HeaderStyle-Width='70' DataField='Tamaño' SortExpression="Tamaño" HeaderText='Tamaño Archivo' AutoPostBackOnFilter='true' CurrentFilterFunction="Contains" ShowFilterIcon='false' AllowFiltering ="false"  ItemStyle-HorizontalAlign="Center"></telerik:GridBoundColumn>
+                    <telerik:GridBoundColumn FilterControlWidth="80%" HeaderStyle-Width='100' DataField='fechaCerrado' SortExpression="fechaCerrado" HeaderText='Fecha Cerrado' AutoPostBackOnFilter='true' CurrentFilterFunction="Contains" AllowFiltering ="false" ShowFilterIcon='false' ></telerik:GridBoundColumn>
+                    <telerik:GridBoundColumn FilterControlWidth="80%" HeaderStyle-Width='70' DataField='SumaPonderacion' SortExpression="SumaPonderacion" HeaderText='Suma de Ponderación' AutoPostBackOnFilter='true' CurrentFilterFunction="Contains" ShowFilterIcon='false' AllowFiltering ="false"  ItemStyle-HorizontalAlign="Center"></telerik:GridBoundColumn>
                 </Columns>
             </MasterTableView>
 
