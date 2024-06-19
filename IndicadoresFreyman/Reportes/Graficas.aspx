@@ -17,7 +17,7 @@
     </style>
     <script>
         function OnClientItemChecked(sender, eventArgs) {
-            //document.getElementById("HidChecDepartamento").value = "si";
+            //document.getElementById('<%=HidChecDepartamento.ClientID %>').value = "si";
              __doPostBack(sender.get_id(), "");
             //document.getElementById('btnAux').click();
         }
