@@ -33,7 +33,7 @@ namespace IndicadoresFreyman
             DataTable dt;
             string strsql = String.Format("select IdEmpleado,nombre, DeptoId, Departamento ,isnull(sum(i.ponderacion),0) ponderacion from Vacaciones.dbo.AdministrativosNomiChecador as e " +
                                 "left join  Indicador as i on e.IdEmpleado = i.empleadoId   and activo = 1 " +
-                                "where jefeinmediato = '{0}'" +
+                                "where jefeinmediato = '{0}' and puesto != 22" +
                                 "group by IdEmpleado,nombre, DeptoId, Departamento order by nombre", hdnCorreo.Value);
             dt = con.getDatatable(strsql);
             if (hdnEmpleado.Value == "0")
