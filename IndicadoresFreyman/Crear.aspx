@@ -57,13 +57,31 @@
 
     <script type="text/javascript">
 
-        function soloNumeros(e) {
-            var key = window.Event ? e.which : e.keyCode
-
-            var valido = (key >= 48 && key <= 57);
-            return valido;
+        function filterFloat(evt, input) {
+            // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
+            var key = window.Event ? evt.which : evt.keyCode;
+            var chark = String.fromCharCode(key);
+            var tempValue = input.value + chark;
+            if (key >= 48 && key <= 57) {
+                if (filter(tempValue) === false) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                if (key == 8 || key == 13 || key == 0) {
+                    return true;
+                } else if (key == 46) {
+                    if (filter(tempValue) === false) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } else {
+                    return false;
+                }
+            }
         }
-
 
         function marcalleno() {
             if ($(this).val() != '') {
@@ -314,7 +332,7 @@
                                 <td style="width: 110px">Ponderación:
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtponderacion" runat="server" Text='<%# Bind("ponderacion") %>' TabIndex="2" Width="200px" onKeyPress="return soloNumeros(event)" onChange="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1">
+                                    <asp:TextBox ID="txtponderacion" runat="server" Text='<%# Bind("ponderacion") %>' TabIndex="2" Width="200px" onKeyPress="return filterFloat(event,this)" onChange="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1">
                                     </asp:TextBox>
                                     <div class="invalid-feedback">
                                         Ponderación requerido
@@ -324,7 +342,7 @@
                                 <td style="width: 130px">&nbsp;  &nbsp;   Indicador Mínimo:
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtindicadorMinimo" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorMinimo") %>' TabIndex="2" Width="250px" onKeyPress="return soloNumeros(event)" onChange="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1"  >
+                                    <asp:TextBox ID="txtindicadorMinimo" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorMinimo") %>' TabIndex="2" Width="250px" onKeyPress="return filterFloat(event,this)" onChange="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1"  >
                                     </asp:TextBox>
                                     <div class="invalid-feedback">
                                         indicador Minimo requerido
@@ -339,7 +357,7 @@
                                 <td style="width: 130px">&nbsp;  &nbsp;   Indicador Deseable:
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtindicadorDeseable" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="200px" onKeyPress="return soloNumeros(event)" onBlur="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1">
+                                    <asp:TextBox ID="txtindicadorDeseable" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="200px" onKeyPress="return filterFloat(event,this)" onBlur="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1">
                                     </asp:TextBox>
                                    <%-- <asp:Label ID="lblordrnamiento" runat="server" Text="Label"></asp:Label>--%>
                                     <div class="invalid-feedback">
