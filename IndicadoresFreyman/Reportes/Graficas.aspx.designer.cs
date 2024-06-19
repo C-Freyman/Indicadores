@@ -15,6 +15,15 @@ namespace IndicadoresFreyman.Reportes
     {
 
         /// <summary>
+        /// Control HidChecDepartamento.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HidChecDepartamento;
+
+        /// <summary>
         /// Control rdlQuien.
         /// </summary>
         /// <remarks>
@@ -22,6 +31,51 @@ namespace IndicadoresFreyman.Reportes
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList rdlQuien;
+
+        /// <summary>
+        /// Control UpdatePanel1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+
+        /// <summary>
+        /// Control radDepartamentos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadComboBox radDepartamentos;
+
+        /// <summary>
+        /// Control radEmpleados.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadComboBox radEmpleados;
+
+        /// <summary>
+        /// Control btnActualizar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton btnActualizar;
+
+        /// <summary>
+        /// Control itemsClientSide.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal itemsClientSide;
 
         /// <summary>
         /// Control RadMonthYearPicker1.
@@ -42,48 +96,39 @@ namespace IndicadoresFreyman.Reportes
         protected global::Telerik.Web.UI.RadMonthYearPicker RadMonthYearPicker2;
 
         /// <summary>
-        /// Control radEmpleados.
+        /// Control GraficaMesAño.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadComboBox radEmpleados;
+        protected global::Telerik.Web.UI.RadHtmlChart GraficaMesAño;
 
         /// <summary>
-        /// Control radDepartamentos.
+        /// Control radAñoDe.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadComboBox radDepartamentos;
+        protected global::Telerik.Web.UI.RadComboBox radAñoDe;
 
         /// <summary>
-        /// Control itemsClientSide.
+        /// Control radAñoA.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal itemsClientSide;
+        protected global::Telerik.Web.UI.RadComboBox radAñoA;
 
         /// <summary>
-        /// Control GraficaMesAñoEmpleado.
+        /// Control GraficaAño.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadHtmlChart GraficaMesAñoEmpleado;
-
-        /// <summary>
-        /// Control GraficaAñoEmpleado.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadHtmlChart GraficaAñoEmpleado;
+        protected global::Telerik.Web.UI.RadHtmlChart GraficaAño;
     }
 }
