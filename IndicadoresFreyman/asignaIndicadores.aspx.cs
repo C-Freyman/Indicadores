@@ -36,10 +36,18 @@ namespace IndicadoresFreyman
                                 "where jefeinmediato = '{0}'" +
                                 "group by IdEmpleado,nombre, DeptoId, Departamento order by nombre", hdnCorreo.Value);
             dt = con.getDatatable(strsql);
-            if (dt.Rows.Count > 0)
+            if (hdnEmpleado.Value == "0")
             {
-                hdnEmpleado.Value = Convert.ToString((int)dt.Rows[0]["IdEmpleado"]);
+                if (dt.Rows.Count > 0)
+                {
+                    hdnEmpleado.Value = Convert.ToString((int)dt.Rows[0]["IdEmpleado"]);
+                    hdnNomEmpleado.Value = (string)dt.Rows[0]["nombre"];
+
+
+                }
             }
+            
+
             return dt;
 
         
@@ -59,12 +67,12 @@ namespace IndicadoresFreyman
             {
                 var IdEmpleado = dataItem["IdEmpleado"].Text;
                 hdnEmpleado.Value = IdEmpleado;
+                hdnNomEmpleado.Value =  dataItem["nombre"].Text;
                 hdnIndicador.Value = "0";
                 radGridIndicador.DataSource = consultaIndicadores();
                 radGridIndicador.Rebind();
-                lblsuma.Text = "0";
-                suma();
-
+                //suma();
+                
             }
         }
 
@@ -124,7 +132,7 @@ namespace IndicadoresFreyman
 
             DataTable dt;
             string strsql = "";         
-            strsql = String.Format(" select IndicadorId, i.pIndicadorId, descripcionIndicador, (i.ponderacion*1.0)/100 ponderacion, i.indicadorMinimo, i.indicadorDeseable,  CAST(activo AS BIT)  activo , empleadoId, esAscendente from Indicador as i inner join PlantillaIndicador as p on p.pIndicadorId = i.pIndicadorId    where empleadoId = {0} and estatus = 1 union all select 0, p.pIndicadorId, descripcionIndicador, p.ponderacion/100 ponderacion, p.indicadorMinimo, p.indicadorDeseable, cast(0 as bit) activo ,0, esAscendente from PlantillaIndicador as p  where estatus = 1 and pIndicadorId in ({1})", hdnEmpleado.Value, hdnIndicador.Value);
+            strsql = String.Format(" select IndicadorId, i.pIndicadorId, descripcionIndicador, (i.ponderacion*1.0)/100 ponderacion, i.indicadorMinimo, i.indicadorDeseable,  CAST(activo AS BIT)  activo , empleadoId, esAscendente from Indicador as i inner join PlantillaIndicador as p on p.pIndicadorId = i.pIndicadorId    where empleadoId = {0} and activo = 1 union all select 0, p.pIndicadorId, descripcionIndicador, p.ponderacion/100 ponderacion, p.indicadorMinimo, p.indicadorDeseable, cast(0 as bit) activo ,0, esAscendente from PlantillaIndicador as p  where estatus = 1 and pIndicadorId in ({1})", hdnEmpleado.Value, hdnIndicador.Value);
             dt = con.getDatatable(strsql);
             return dt;
           
@@ -172,19 +180,29 @@ namespace IndicadoresFreyman
                 }
                 sumponderacion += decimal.Parse(ponderacion);
                 plantillaId = fila["pIndicadorId"].Text;
-                strsql += String.Format("insert into indicador (pIndicadorId,	empleadoId,	ponderacion,	indicadorMinimo,	indicadorDeseable,	fechaAsignacion,activo)"+
-                   "select pIndicadorId,    {0},	ponderacion,	indicadorMinimo,	indicadorDeseable,	getdate(), 1 from plantillaIndicador where pIndicadorId = {1}", hdnEmpleado.Value, pIndicadorId);
+          
 
             }
             if (sumponderacion != 100)
             {
                 RadWindowManager1.RadAlert($"La suma de las ponderaciones seleccionadas es diferente a 100, pero los indicadores asingados ya fueron guardados.", 0, 0, "", null);
-                lblsuma.Text = sumponderacion.ToString();
+                //lblsuma.Text = "Total ponderación: " + sumponderacion.ToString();
+                //hdnSuma.Value = sumponderacion.ToString();
+                strsql = cadenaInsert();
                 con.Save(strsql);
+                hdnIndicador.Value = "0";
+                radGridIndicador.DataSource = consultaIndicadores();
+                radGridIndicador.Rebind();
+                radGridEmpleados.DataSource = consultaEmpleados();
+                radGridEmpleados.Rebind();
                 //return;
             }
+
             if (sumponderacion == 100)
             {
+
+
+                strsql = cadenaInsert();
                 con.Save(strsql);
                 RadWindowManager1.RadAlert($"Los indicadores se han asignado correctamente", 0, 0, "", null);
                 hdnIndicador.Value = "0";
@@ -198,6 +216,23 @@ namespace IndicadoresFreyman
 
         }
 
+
+        private string  cadenaInsert()
+        {
+            string strsql = "";
+            foreach (GridDataItem fila in radGridIndicador.MasterTableView.Items)
+            {
+                string pIndicadorId = fila["pIndicadorId"].Text;              
+                string ponderacion = fila["ponderacion"].Text.Replace("%","");
+                string indicadorMinimo = fila["indicadorMinimo"].Text;
+                string indicadorDeseable = fila["indicadorDeseable"].Text;
+                strsql += String.Format("  exec guardaAsignacion {0}, {1}, {2}, {3}, {4}", pIndicadorId, hdnEmpleado.Value, ponderacion, indicadorMinimo, indicadorDeseable);
+             
+
+            }
+            return strsql;
+        }
+
         protected void btnBorrar_Click(object sender, EventArgs e)
         {
             RadImageButton bt = (RadImageButton)sender;
@@ -209,7 +244,7 @@ namespace IndicadoresFreyman
             if (dt.Rows.Count > 0)
             {
                 strslq = "";
-                strslq = String.Format("delete from indicador where pIndicadorId = {0} and empleadoId = {1}", indicadorId, hdnEmpleado.Value);
+                strslq = String.Format("update  indicador set activo = 0 where  pIndicadorId = {0} and empleadoId = {1}", indicadorId, hdnEmpleado.Value);
                 con.Save(strslq);
             }
             else
@@ -229,8 +264,11 @@ namespace IndicadoresFreyman
             }
             radGridIndicador.DataSource = consultaIndicadores();
             radGridIndicador.Rebind();
+            radGridEmpleados.DataSource = consultaEmpleados();
+            radGridEmpleados.Rebind();
+
             
-           suma();
+           //suma();
         }
 
 
@@ -244,7 +282,7 @@ namespace IndicadoresFreyman
         private DataTable consultaAsigna()
         {
             DataTable dt;
-            string strsql = String.Format("select p.pIndicadorId, descripcionIndicador, (ponderacion*1.0)/100 ponderacion, p.indicadorMinimo, p.indicadorDeseable, cast(0 as bit)  activo  from PlantillaIndicador as p   where not exists (select * from  Indicador as a  where p.pIndicadorId = a.pIndicadorId  and empleadoId = {1} ) and area ={0} and estatus = 1 and p.pIndicadorId  not in ({2})", hdnArea.Value, hdnEmpleado.Value, hdnIndicador.Value);
+            string strsql = String.Format("select p.pIndicadorId, descripcionIndicador, (ponderacion*1.0)/100 ponderacion, p.indicadorMinimo, p.indicadorDeseable, cast(0 as bit)  activo  from PlantillaIndicador as p   where not exists (select * from  Indicador as a  where p.pIndicadorId = a.pIndicadorId  and empleadoId = {1} and activo = 1  ) and area ={0} and estatus = 1 and p.pIndicadorId  not in ({2})", hdnArea.Value, hdnEmpleado.Value, hdnIndicador.Value);
             dt = con.getDatatable(strsql);
             return dt;
         }      
@@ -282,7 +320,8 @@ namespace IndicadoresFreyman
                     
                 }
             }
-            lblsuma.Text = Convert.ToString(suma);
+            //lblsuma.Text = "Total ponderación: " + Convert.ToString(suma);
+            //suma();
             radGridIndicador.DataSource = consultaIndicadores();
             radGridIndicador.Rebind();
             pnlEditar.Visible = false;
@@ -303,40 +342,73 @@ namespace IndicadoresFreyman
 
                
             }
-            lblsuma.Text = Convert.ToString(suma);
+            //hdnSuma.Value = Convert.ToString(suma);
+            //lblsuma.Text = "Total ponderación: " + Convert.ToString(suma);
         }
+
+
         protected void radGridIndicador_ItemDataBound(object sender, GridItemEventArgs e)
         {
             try
-            {
+            {   
+                
+
+
                 if (e.Item is GridDataItem)
                 {
                     GridDataItem item = (GridDataItem)e.Item;                    
-                    bool esAscendente = bool.Parse(item["esAscendente"].Text);
+                    double indicadorMinimo = double.Parse(item["indicadorMinimo"].Text);
+                    double indicadorDeseable = double.Parse(item["indicadorDeseable"].Text);
                    
                     HtmlGenericControl statusIcon = (HtmlGenericControl)item["colOrdenamiento"].FindControl("StatusIcon");
 
-                    if (esAscendente == true)
+                    if (indicadorMinimo > indicadorDeseable)
                     {
 
                         statusIcon.Attributes["class"] = "bi bi-arrow-down"; // Icono para "Active"                    
                         //statusIcon.Attributes["title"] = "Orn";
                     }
 
-                    if (esAscendente != false)
+                    if (indicadorMinimo <= indicadorDeseable)
                     {
                         statusIcon.Attributes["class"] = "bi bi-arrow-up  "; // Icono para "Active"
                         //statusIcon.Attributes["title"] = "Ponderacion";
                     }
-                    //}
+                   
 
                 }
-                suma();
+                
             }
             catch (Exception ex)
             {
                 string error = ex.Message;
             }
+        }
+
+        protected void radGridIndicador_ItemCreated(object sender, GridItemEventArgs e)
+        {
+          
+                if (e.Item is GridCommandItem)
+                {
+                   Label lblEmpleado = (Label)e.Item.FindControl("lblEmpleado");
+                   Label lblEmpleadoId = (Label)e.Item.FindControl("lblEmpleado");
+                //Label lblSuma = (Label)e.Item.FindControl("lblsuma");
+
+                if (lblEmpleado != null)
+                    {
+                        lblEmpleado.Text = "Nombre del Colaborador: " + hdnNomEmpleado.Value;
+                    }
+
+                if (lblEmpleadoId != null)
+                {
+                    if (lblEmpleadoId.Text != "0")                    
+                    hdnEmpleadoId.Value = lblEmpleadoId.Text;
+
+                    if (lblEmpleadoId.Text == "0")
+                    lblEmpleadoId.Text = hdnEmpleado.Value;
+                }
+            }
+            
         }
     }
 

@@ -41,6 +41,7 @@ namespace IndicadoresFreyman.Reportes
         }
         protected DataTable ObtenerInfo()
         {
+
                   DataTable dtAux=null;
             try
             {

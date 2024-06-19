@@ -15,15 +15,6 @@ namespace IndicadoresFreyman.Indicadores
     {
 
         /// <summary>
-        /// Control RadDropDownList1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadDropDownList RadDropDownList1;
-
-        /// <summary>
         /// Control Literal1.
         /// </summary>
         /// <remarks>
