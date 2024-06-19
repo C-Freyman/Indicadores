@@ -52,7 +52,7 @@
                              <telerik:RadMenuItem Text="Tablero por Indicador" NavigateUrl="/Reportes/Tablero.aspx?TipoTablero=I" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
                              <telerik:RadMenuItem Text="Tablero por Empleado" NavigateUrl="/Reportes/Tablero.aspx?TipoTablero=E" EnableImageSprite="true" CssClass="icon-chair"></telerik:RadMenuItem>
                              <telerik:RadMenuItem Text="RRHH" NavigateUrl="/Reportes/ReporteRRHH.aspx" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
-                             <telerik:RadMenuItem Text="Gráficas" NavigateUrl="/Reportes/Graficas.aspx" EnableImageSprite="true" CssClass="icon-sofa"></telerik:RadMenuItem>
+                             <telerik:RadMenuItem Text="Gráficas" NavigateUrl="/Reportes/Graficas.aspx" EnableImageSprite="true" CssClass="icon-sofa" Visible="false"></telerik:RadMenuItem>
                          </Items>
                      </telerik:RadMenuItem>
                  </Items>

@@ -180,6 +180,7 @@
                             ButtonType="StandardButton" UseSubmitBehavior="true" OnClick="btnGuardarIndicador_Click" />
                         <asp:Label ID="lblEmpleado" runat="server" ClientIDMode="Static" Text="" Font-Bold="true" Font-Size="Larger" ForeColor="White"  ></asp:Label>
                         <asp:Label ID="lblsuma" runat="server" ClientIDMode="Static" Text="" Font-Bold="true" Font-Size="Larger" ForeColor="White"  CssClass ="label2"></asp:Label>
+                         <asp:Label ID="lblEmpleadoId" runat="server" ClientIDMode="Static" Text="0" Visible ="false"></asp:Label>
                     </CommandItemTemplate>
 
                     <%--<SortExpressions>
@@ -383,7 +384,8 @@
     <asp:HiddenField ID="htntotal" runat="server" Value="0" />
     <asp:HiddenField ID="hdneditar" runat="server" Value="0" />
     <asp:HiddenField ID="hdnArea" runat="server" />
-    <asp:HiddenField ID="hdnEmpleado" runat="server" />
+    <asp:HiddenField ID="hdnEmpleado" runat="server" Value ="0" />
+    <asp:HiddenField ID="hdnEmpleadoId" runat="server" Value ="0" />
     <asp:HiddenField ID="hdnCorreo" runat="server" />
     <asp:HiddenField ID="hdnIndicador" runat="server" Value="0" />
     <asp:HiddenField ID="hdnNomEmpleado" runat="server" Value="0" />
