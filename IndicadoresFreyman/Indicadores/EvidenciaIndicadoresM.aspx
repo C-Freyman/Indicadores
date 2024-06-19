@@ -120,10 +120,14 @@
                 cumplimientoObjetivoCell.title = cumplimientoObjetivoReal;
                 cumplimientoObjetivoCell.innerText = cumplimientoObjetivo.toFixed(2);
                 evaluacionPonderadaCell.innerText = evaluacionPonderada.toFixed(2);
-                cumplimientoObjetivoRealCell.innerText = cumplimientoObjetivoReal.toFixed(2);
+                //cumplimientoObjetivoRealCell.innerText = cumplimientoObjetivoReal.toFixed(2);
                // cumplimientoObjetivoCell.Attributes.Add("title","holaaaa" );
 
                 console.log("Values saved successfully");
+                var grid = $find("<%= gridEvidencias.ClientID %>");
+                if (grid) {
+                    grid.get_masterTableView().rebind();
+                }
             },
             error: function (response) {
                 // Manejar el error
@@ -131,53 +135,6 @@
             }
         });
         
-    }
-
-    function guardarBorrador() {
-        debugger;
-        var grid = $find("<%= gridEvidencias.ClientID %>");
-        var masterTableView = grid.get_masterTableView();
-        var rows = masterTableView.get_dataItems();
-        var tableData = []; 
-
-
-        for (var i = 0; i < rows.length; i++) {
-            var cells = rows[i].get_element().cells;
-            //if (cells[6].innerText.trim()!='0.00') {
-            
-            var rowData = {
-                indicadorId: cells[0].innerText.trim(),
-                resultado: cells[5].innerText.trim(),
-                cumplimientoObjetivo: cells[6].innerText.trim(),
-                evaluacionPonderada: cells[7].innerText.trim(),
-                cumplimientoObjetivoReal: (cells[6].className == '') ? 0 : cells[6].className //cells[8].innerText.trim()
-            };
-            tableData.push(rowData);
-            //}
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "EvidenciaIndicadoresM.aspx/GuardarBorrador",
-            data: JSON.stringify({ tableData: tableData }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-
-                var grid = $find("<%= gridEvidencias.ClientID %>");
-                if (grid) {
-                    grid.get_masterTableView().rebind();
-                }
-
-                return true;
-            },
-            error: function (response) {
-                alert("Error al guardar los datos: " + response.responseText);
-                return false;
-            }
-        });
-
-        return false; // Prevent default form submission
     }
 
     function cerrarCambios() {
@@ -305,8 +262,6 @@
           <MasterTableView  CommandItemDisplay="Top"  EditMode="Batch" AutoGenerateColumns="False" CellPadding="0" CellSpacing="0">
               <CommandItemSettings ShowAddNewRecordButton="false"  />
               <CommandItemTemplate>                        
-                  <asp:Button ID="GuardarBorradorButton" OnClientClick="return guardarBorrador();" runat="server" Text="Guardar Borrador" />
-
                   <asp:Button ID="SaveChangesButton" runat="server" OnClientClick="return cerrarCambios();" Text="Enviar Indicadores" />
 
                   <asp:Label ID="nombreColaborador" CssClass="label1" runat="server" Text="Texto"></asp:Label>
