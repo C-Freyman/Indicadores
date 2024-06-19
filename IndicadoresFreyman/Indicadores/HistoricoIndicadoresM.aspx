@@ -98,7 +98,7 @@
                 </telerik:RadMonthYearPicker>
             </CommandItemTemplate>
             <Columns>
-                <telerik:GridBoundColumn HeaderStyle-Width='3%' HeaderStyle-Font-Bold="true" UniqueName="indicadorId" DataField='indicadorId' SortExpression="indicadorId" HeaderText='ID' 
+                <telerik:GridBoundColumn HeaderStyle-Width='3%' HeaderStyle-Font-Bold="true" UniqueName="pIndicadorId" DataField='pIndicadorId' SortExpression="pIndicadorId" HeaderText='ID' 
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
                 <telerik:GridBoundColumn HeaderStyle-Width='7%' HeaderStyle-Font-Bold="true" UniqueName="Departamento" DataField='Departamento' SortExpression="Departamento" HeaderText='Departamento' 
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" Visible="false"></telerik:GridBoundColumn>
@@ -106,11 +106,11 @@
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" Visible="false"></telerik:GridBoundColumn>
                 <telerik:GridBoundColumn HeaderStyle-Width='30%' HeaderStyle-Font-Bold="true" UniqueName="descripcionIndicador" DataField='descripcionIndicador' SortExpression="descripcionIndicador" 
                     HeaderText='Descripción' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true"  ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                <telerik:GridBoundColumn HeaderStyle-Width='5%' HeaderStyle-Font-Bold="true" UniqueName="ponderacion" DataField='ponderacion' SortExpression="ponderacion" HeaderText='Ponderación' 
+                <telerik:GridBoundColumn HeaderStyle-Width='5%' HeaderStyle-Font-Bold="true" UniqueName="ponderacion" DataField='ponderacion' SortExpression="ponderacion" HeaderText='Ponderación' DataFormatString="{0:P0}" 
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                <telerik:GridBoundColumn HeaderStyle-Width='6%' HeaderStyle-Font-Bold="true" UniqueName="indicadorMinimo" DataField='indicadorMinimo' SortExpression="indicadorMinimo" HeaderText='Indicador Minimo (50 Pts.)' 
+                <telerik:GridBoundColumn HeaderStyle-Width='6%' HeaderStyle-Font-Bold="true" UniqueName="indicadorMinimo" DataField='indicadorMinimo' SortExpression="indicadorMinimo" HeaderText='Indicador Minimo (50 Pts.)'  DataFormatString="{0:N1}"
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                <telerik:GridBoundColumn HeaderStyle-Width='7%' HeaderStyle-Font-Bold="true" UniqueName="indicadorDeseable" DataField='indicadorDeseable' SortExpression="indicadorDeseable" 
+                <telerik:GridBoundColumn HeaderStyle-Width='7%' HeaderStyle-Font-Bold="true" UniqueName="indicadorDeseable" DataField='indicadorDeseable' SortExpression="indicadorDeseable"  DataFormatString="{0:N1}"
                     HeaderText='Indicador Deseable (100 Pts.)' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
                 <telerik:GridBoundColumn HeaderStyle-Width='5%' HeaderStyle-Font-Bold="true" UniqueName="resultado" DataField='resultado' SortExpression="resultado" HeaderText='Resultado' 
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" ItemStyle-BackColor="#74C99B"></telerik:GridBoundColumn>
