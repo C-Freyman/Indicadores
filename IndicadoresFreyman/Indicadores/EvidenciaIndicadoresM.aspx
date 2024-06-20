@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="EvidenciaIndicadoresM.aspx.cs" Inherits="IndicadoresFreyman.Indicadores.EvidenciaIndicadoresM" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style>
+<style>
 
     .demo-container .RadUpload .ruUploadProgress {
         width: 210px;

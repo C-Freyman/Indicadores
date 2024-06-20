@@ -351,6 +351,8 @@ namespace IndicadoresFreyman.Indicadores
             
             var obj = new EvidenciaIndicadoresM();
 
+            decimal resultado = Convert.ToDecimal(valorEditado);
+
             bool esAscendente = false;
             int ponderacion = 0, indicadorMinimo = 0, indicadorDeseable = 0;
 
@@ -387,7 +389,7 @@ namespace IndicadoresFreyman.Indicadores
                 using (var command = new SqlCommand())
                 {
                     command.Connection = con;
-                    command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + valorEditado + ", cumplimientoOBjetivo=" + cumplimientoObjetivo + ",evaluacionPonderada=" + evaluacionPonderada + ", cumplimientoOBjetivoReal= " + cumplimientoObjetivoReal +
+                    command.CommandText = "update resultadoIndicador set fechaBorrador=getdate(), resultado=" + Convert.ToDecimal(valorEditado) + ", cumplimientoOBjetivo=" + cumplimientoObjetivo + ",evaluacionPonderada=" + evaluacionPonderada + ", cumplimientoOBjetivoReal= " + cumplimientoObjetivoReal +
                         " where indicadorId=" + idIndicador + " and mes=" + mes_ + " and año=" + año_ + " and fechaCerrado is null";
                     command.CommandType = CommandType.Text;
                     int i=command.ExecuteNonQuery();
