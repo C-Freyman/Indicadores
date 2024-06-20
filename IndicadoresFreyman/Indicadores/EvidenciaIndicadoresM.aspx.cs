@@ -582,8 +582,8 @@ namespace IndicadoresFreyman.Indicadores
                     }
                 }
             }
-        }
 
+        }
     }
 }
 // Clase del modelo de datos
