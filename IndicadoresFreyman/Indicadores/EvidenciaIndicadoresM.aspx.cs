@@ -20,6 +20,7 @@ namespace IndicadoresFreyman.Indicadores
     {
         static protected string conn = "Server = 187.174.147.102; User ID = sa; password=similares*3; DataBase=Indicadores;";
         public bool archivoGuardado;
+        public bool indicadoresEnviados;
         static private string mes;
         static private string año;
         static private bool cambioDeMes;
@@ -172,10 +173,12 @@ namespace IndicadoresFreyman.Indicadores
                 button1.Visible = false;
                 etiquetaCerrado.Visible = true;
                 etiquetaCerrado.InnerHtml = "<h2 style='color:red'>No tienes indicadores asignados, informa a tu gerente que te los asigne</h2>";
+                indicadoresEnviados = false;
             }
             else if (cerrado == "1")
             {
                 etiquetaCerrado.Visible = false;
+                indicadoresEnviados = false;
             }
             else
             {
@@ -185,6 +188,7 @@ namespace IndicadoresFreyman.Indicadores
                 button1.Visible = false;
                 etiquetaCerrado.Visible = true;
                 etiquetaCerrado.InnerHtml = "<h2 style='color:red'>Tus Indicadores ya fueron enviados</h2>";
+                indicadoresEnviados = true;
             }
         }
 

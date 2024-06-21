@@ -138,48 +138,53 @@
     }
 
     function cerrarCambios() {
-        
+        debugger;
         var archivoGuardado = '<%= archivoGuardado %>' === 'True';
-        if (archivoGuardado) {
-            var seleccion = confirm("¿Desea cerrar los indicadores del mes? \n\n\tYa no podrá realizar cambios.");
-            if (seleccion) {
-                var grid = $find("<%= gridEvidencias.ClientID %>");
-
-                var masterTableView = grid.get_masterTableView();
-                var rows = masterTableView.get_dataItems();
-                var tableData = [];
-
-                for (var i = 0; i < rows.length; i++) {
-                    var cells = rows[i].get_element().cells;
-                    var rowData = {
-                        indicadorId: cells[0].className,
-                        resultado: cells[5].innerText.trim(),
-                        cumplimientoObjetivo: cells[6].innerText.trim(),
-                        evaluacionPonderada: cells[7].innerText.trim(),
-                        cumplimientoObjetivoReal: (cells[6].className == '') ? 0 : cells[6].className //cells[8].innerText.trim()
-                    };
-                    tableData.push(rowData);
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "EvidenciaIndicadoresM.aspx/CerrarCambios",
-                    data: JSON.stringify({ tableData: tableData }),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        masterTableView.rebind();
-                    },
-                    error: function (response) {
-                        alert("Error al guardar los datos: " + response.responseText);
-                    }
-                });
-            }
+        var indicadorCerrado = '<%= indicadoresEnviados %>' === 'True';
+        if (indicadorCerrado) {
+            alert('Los indicadores ya fueron enviados');
         }
         else {
-            alert("No se pueden enviar los resultados sin la evidencia.\n\nFavor de adjuntar el archivo evidencia.")
-        }
+            if (archivoGuardado) {
+                var seleccion = confirm("¿Desea enviar los indicadores del mes? \n\n\tYa no podrá realizar cambios.");
+                if (seleccion) {
+                    var grid = $find("<%= gridEvidencias.ClientID %>");
 
+                    var masterTableView = grid.get_masterTableView();
+                    var rows = masterTableView.get_dataItems();
+                    var tableData = [];
+
+                    for (var i = 0; i < rows.length; i++) {
+                        var cells = rows[i].get_element().cells;
+                        var rowData = {
+                            indicadorId: cells[0].className,
+                            resultado: cells[5].innerText.trim(),
+                            cumplimientoObjetivo: cells[6].innerText.trim(),
+                            evaluacionPonderada: cells[7].innerText.trim(),
+                            cumplimientoObjetivoReal: (cells[6].className == '') ? 0 : cells[6].className //cells[8].innerText.trim()
+                        };
+                        tableData.push(rowData);
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "EvidenciaIndicadoresM.aspx/CerrarCambios",
+                        data: JSON.stringify({ tableData: tableData }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            masterTableView.rebind();
+                        },
+                        error: function (response) {
+                            alert("Error al guardar los datos: " + response.responseText);
+                        }
+                    });
+                }
+            }
+            else {
+                alert("No se pueden enviar los resultados sin la evidencia.\n\nFavor de adjuntar el archivo evidencia.")
+            }
+        }
         return false; // Prevent default form submission
     }
 
