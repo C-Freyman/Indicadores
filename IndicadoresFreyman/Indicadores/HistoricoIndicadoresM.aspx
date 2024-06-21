@@ -53,29 +53,33 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <h2>Histórico</h2>
-<div class="demo" style="margin-left:20px; margin-right:20px;">
-
-
-    <asp:Literal ID="Literal1" runat="server"></asp:Literal>
-
-     <%if (Session["puesto"]as string == "2"){%>
-    <div id="divAreas" style="display: inline-block">
-        <h3>Departamento</h3>
-            <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList3" runat="server" Width="300" Height="200px" DropDownHeight="200px"
-                DataTextField="" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList3_SelectedIndexChanged">
-            </telerik:RadDropDownList>
-    </div>
-    <% } %>
     
-    <%if (Session["puesto"]as string == "1" || Session["puesto"]as string == "2"){%>
-    <div id="divColaboradores" style="display: inline-block;">
-        <h3>Colaborador</h3>
-        <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList2" runat="server" Width="300" Height="200px" DropDownHeight="200px"
-            DataTextField="Texto" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList2_SelectedIndexChanged">
-        </telerik:RadDropDownList>
+<div class="demo" style="margin-left:20px; margin-right:20px;">
+    <div style="width:300px; display:inline-block; position:absolute; align-items:initial">
+        <h2>Histórico</h2>
     </div>
-     <% } %>
+    <div style="width:300px;margin-left:200px; display:inline-block">
+        <asp:Literal ID="Literal1" runat="server"></asp:Literal>
+
+         <%if (Session["puesto"]as string == "2"){%>
+        <div id="divAreas" style="display: inline-block">
+            <h4>Departamento</h4>
+                <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList3" runat="server" Width="300" Height="200px" DropDownHeight="200px"
+                    DataTextField="" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList3_SelectedIndexChanged">
+                </telerik:RadDropDownList>
+        </div>
+        <% } %>
+
+        <%if (Session["puesto"]as string == "1" || Session["puesto"]as string == "2"){%>
+        <div id="divColaboradores" style="display: inline-block;">
+            <h4>Colaborador</h4>
+            <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList2" runat="server" Width="300" Height="200px" DropDownHeight="200px"
+                DataTextField="Texto" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList2_SelectedIndexChanged">
+            </telerik:RadDropDownList>
+        </div>
+         <% } %>
+    </div>
+    
    
     <div style="text-align: right; margin-bottom: 10px;">
         <asp:TextBox ID="txtFilter" Width="200px" runat="server" AutoPostBack="True" OnTextChanged="txtFilter_TextChanged" placeholder="Buscar en la tabla..."></asp:TextBox>
@@ -84,7 +88,7 @@
     <telerik:RadFormDecorator RenderMode="Lightweight" ID="RadFormDecorator1" runat="server" DecorationZoneID="demo" DecoratedControls="All" EnableRoundedCorners="false" />
     <telerik:RadGrid RenderMode="Lightweight" ID="gridHistorico" GridLines="None" runat="server" OnItemDataBound="gridHistorico_ItemDataBound"
         CellSpacing="0" CellPadding="0" Font-Size="Smaller" Style="padding: 0; margin: 0 auto" OnItemCreated="gridHistorico_ItemCreated"
-        AllowAutomaticInserts="True" PageSize="10" AllowAutomaticUpdates="True" AllowPaging="True" OnItemCommand="gridHistorico_ItemCommand"
+        AllowAutomaticInserts="True" PageSize="10" AllowAutomaticUpdates="True" AllowPaging="True" OnItemCommand="gridHistorico_ItemCommand" OnPageIndexChanged="gridHistorico_PageIndexChanged" OnPageSizeChanged="gridHistorico_PageSizeChanged"
         AutoGenerateColumns="False" ShowFooter="true" >
 
         <MasterTableView  CommandItemDisplay="Top" AutoGenerateColumns="False" CellPadding="0" CellSpacing="0">
@@ -98,7 +102,7 @@
                 </telerik:RadMonthYearPicker>
             </CommandItemTemplate>
             <Columns>
-                <telerik:GridBoundColumn HeaderStyle-Width='3%' HeaderStyle-Font-Bold="true" UniqueName="indicadorId" DataField='indicadorId' SortExpression="indicadorId" HeaderText='ID' 
+                <telerik:GridBoundColumn HeaderStyle-Width='3%' HeaderStyle-Font-Bold="true" UniqueName="pIndicadorId" DataField='pIndicadorId' SortExpression="pIndicadorId" HeaderText='ID' 
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
                 <telerik:GridBoundColumn HeaderStyle-Width='7%' HeaderStyle-Font-Bold="true" UniqueName="Departamento" DataField='Departamento' SortExpression="Departamento" HeaderText='Departamento' 
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" Visible="false"></telerik:GridBoundColumn>
@@ -106,11 +110,11 @@
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" Visible="false"></telerik:GridBoundColumn>
                 <telerik:GridBoundColumn HeaderStyle-Width='30%' HeaderStyle-Font-Bold="true" UniqueName="descripcionIndicador" DataField='descripcionIndicador' SortExpression="descripcionIndicador" 
                     HeaderText='Descripción' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true"  ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                <telerik:GridBoundColumn HeaderStyle-Width='5%' HeaderStyle-Font-Bold="true" UniqueName="ponderacion" DataField='ponderacion' SortExpression="ponderacion" HeaderText='Ponderación' 
+                <telerik:GridBoundColumn HeaderStyle-Width='5%' HeaderStyle-Font-Bold="true" UniqueName="ponderacion" DataField='ponderacion' SortExpression="ponderacion" HeaderText='Ponderación' DataFormatString="{0:P0}" 
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                <telerik:GridBoundColumn HeaderStyle-Width='6%' HeaderStyle-Font-Bold="true" UniqueName="indicadorMinimo" DataField='indicadorMinimo' SortExpression="indicadorMinimo" HeaderText='Indicador Minimo (50 Pts.)' 
+                <telerik:GridBoundColumn HeaderStyle-Width='6%' HeaderStyle-Font-Bold="true" UniqueName="indicadorMinimo" DataField='indicadorMinimo' SortExpression="indicadorMinimo" HeaderText='Indicador Minimo (50 Pts.)'  DataFormatString="{0:N1}"
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                <telerik:GridBoundColumn HeaderStyle-Width='7%' HeaderStyle-Font-Bold="true" UniqueName="indicadorDeseable" DataField='indicadorDeseable' SortExpression="indicadorDeseable" 
+                <telerik:GridBoundColumn HeaderStyle-Width='7%' HeaderStyle-Font-Bold="true" UniqueName="indicadorDeseable" DataField='indicadorDeseable' SortExpression="indicadorDeseable"  DataFormatString="{0:N1}"
                     HeaderText='Indicador Deseable (100 Pts.)' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
                 <telerik:GridBoundColumn HeaderStyle-Width='5%' HeaderStyle-Font-Bold="true" UniqueName="resultado" DataField='resultado' SortExpression="resultado" HeaderText='Resultado' 
                     ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" ItemStyle-BackColor="#74C99B"></telerik:GridBoundColumn>

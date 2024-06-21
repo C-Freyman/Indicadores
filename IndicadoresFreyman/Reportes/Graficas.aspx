@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="Graficas.aspx.cs" Inherits="IndicadoresFreyman.Reportes.Graficas"  %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="Graficas.aspx.cs" Inherits="IndicadoresFreyman.Reportes.Graficas" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
@@ -15,37 +15,60 @@
             text-align: center;
         }
     </style>
+    <script>
+        function OnClientItemChecked(sender, eventArgs) {
+            //document.getElementById('<%=HidChecDepartamento.ClientID %>').value = "si";
+             __doPostBack(sender.get_id(), "");
+            //document.getElementById('btnAux').click();
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:HiddenField ID="HidChecDepartamento" runat="server" />
     <div style="text-align: center">
         <div class="ContenidoRecuadro ">
-            <asp:RadioButtonList ID="rdlQuien" runat="server" RepeatDirection="Horizontal" AutoPostBack ="true"  Style="margin: 0 auto;" OnSelectedIndexChanged ="rdlQuien_SelectedIndexChanged">
-                <asp:ListItem Text="Por Empleado" Value="E" Selected="True"></asp:ListItem>
-                <asp:ListItem Text="Por Departamento" Value="D"></asp:ListItem>
-            </asp:RadioButtonList>
-            <panel id="panelFiltros">
-                DE: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker1" runat="server" Width="238px" MinDate="2024-01-1">
-                </telerik:RadMonthYearPicker>
-                A: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker2" runat="server" Width="238px" MinDate="2024-01-1">
-                </telerik:RadMonthYearPicker>
+            <table style="border-spacing: 0;">
+                <tr>
+                    <td style="padding-left: 10px; background: #465a6b; color: white">AGRUPAMIENTO:</td>
+                    <td style="border: 1px solid silver; border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
+                        <asp:RadioButtonList ID="rdlQuien" runat="server" RepeatDirection="Horizontal" AutoPostBack="true" Style="margin: 0 auto;" OnSelectedIndexChanged="rdlQuien_SelectedIndexChanged">
+                            <asp:ListItem Text="Por Empleado" Value="E" Selected="True"></asp:ListItem>
+                            <asp:ListItem Text="Por Departamento" Value="D"></asp:ListItem>
+                        </asp:RadioButtonList>
+                    </td>
+                    <td style="width: 50px;"></td>
+                    <td style="padding-left: 10px; background: #465a6b; color: white">FILTROS:</td>
+                    <td style="border: 1px solid silver; border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
+                        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                            <ContentTemplate>
+                                <telerik:RadComboBox RenderMode="Lightweight" ID="radDepartamentos" runat="server" CheckBoxes="true" EnableCheckAllItemsCheckBox="true" AutoPostBack="true" OnClientItemChecked="OnClientItemChecked"
+                                    Width="400" Label="Departamentos:">
+                                </telerik:RadComboBox>
+                                <telerik:RadComboBox RenderMode="Lightweight" ID="radEmpleados" runat="server" CheckBoxes="true" EnableCheckAllItemsCheckBox="true"
+                                    Width="400" Label="Empleados:">
+                                </telerik:RadComboBox>
+                                <asp:ImageButton ID="btnActualizar" ImageUrl="~/Imagenes/Actualizar.png" Style="margin-left: 5px" Width="25px" OnClick="btnActualizar_Click" runat="server" />
 
-                <telerik:RadComboBox RenderMode="Lightweight" ID="radEmpleados" runat="server" CheckBoxes="true" EnableCheckAllItemsCheckBox="true"
-                    Width="400" Label="Empleados:">
-                </telerik:RadComboBox>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
 
-                <telerik:RadComboBox RenderMode="Lightweight" ID="radDepartamentos" Visible ="false"  runat="server" CheckBoxes="true" EnableCheckAllItemsCheckBox="true"
-                    Width="400" Label="Departamentos:">
-                </telerik:RadComboBox>
-                <asp:Literal ID="itemsClientSide" runat="server" />
 
-            </panel>
+                        <asp:Literal ID="itemsClientSide" runat="server" />
+                    </td>
+                </tr>
+            </table>
+
         </div>
 
         <table style="width: 100%">
             <tr>
                 <td style="width: 50%">
                     <div class="ContenidoRecuadro ">
-                        <telerik:RadHtmlChart runat="server" ID="GraficaMesAñoEmpleado" Width="100%" Transitions="true">
+                        DE: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker1" runat="server" Width="238px" MinDate="2024-01-1">
+                        </telerik:RadMonthYearPicker>
+                        A: &nbsp &nbsp<telerik:RadMonthYearPicker RenderMode="Lightweight" ID="RadMonthYearPicker2" runat="server" Width="238px" MinDate="2024-01-1">
+                        </telerik:RadMonthYearPicker>
+                        <telerik:RadHtmlChart runat="server" ID="GraficaMesAño" Width="100%" Transitions="true">
                             <Appearance>
                                 <FillStyle BackgroundColor="Transparent"></FillStyle>
                             </Appearance>
@@ -70,21 +93,38 @@
                 </td>
                 <td>
                     <div class="ContenidoRecuadro ">
-                        <telerik:RadHtmlChart runat="server" ID="GraficaAñoEmpleado" Width="100%" Style="top: -7px" Transitions="true">
-                            <Legend>
-                                <Appearance BackgroundColor="Transparent" Position="Bottom" Visible="false"></Appearance>
-                            </Legend>
-
+                        <telerik:RadComboBox RenderMode="Lightweight" ID="radAñoDe" runat="server" CheckBoxes="false"
+                            Width="150" Label="Año de:">
+                        </telerik:RadComboBox>
+                        <telerik:RadComboBox RenderMode="Lightweight" ID="radAñoA" runat="server" CheckBoxes="false"
+                            Width="150" Label="Año a:">
+                        </telerik:RadComboBox>
+                        <telerik:RadHtmlChart runat="server" ID="GraficaAño" Width="100%">
                             <PlotArea>
                                 <Series>
-                                    <telerik:DonutSeries StartAngle="60" HoleSize="58" DataFieldY="Valor" NameField="Descripcion">
-                                        <%--ColorField="Color"--%>
-                                        <LabelsAppearance Position="Center" DataFormatString="{0} %" Visible="false"></LabelsAppearance>
-                                        <TooltipsAppearance Color="White" DataFormatString="{0} %"></TooltipsAppearance>
-                                    </telerik:DonutSeries>
+                                    <telerik:ColumnSeries>
+                                        <TooltipsAppearance Color="black" />
+                                        <LabelsAppearance DataFormatString="{0}" Color="black" Position="Center">
+                                        </LabelsAppearance>
+                                        <TooltipsAppearance DataFormatString="{0} Farmacias" Color="black"></TooltipsAppearance>
+                                    </telerik:ColumnSeries>
                                 </Series>
+                                <XAxis DataLabelsField="DVR_" Color="Gray">
+                                    <TitleAppearance>
+                                        <TextStyle Margin="20" Color="Gray" />
+                                    </TitleAppearance>
+                                    <MajorGridLines Visible="false" />
+                                    <MinorGridLines Visible="false" />
+                                </XAxis>
+                                <YAxis Color="Gray">
+                                    <MinorGridLines Visible="false" />
+                                    <MajorGridLines Visible="false" />
+                                </YAxis>
                             </PlotArea>
+
                         </telerik:RadHtmlChart>
+
+
                     </div>
                 </td>
             </tr>

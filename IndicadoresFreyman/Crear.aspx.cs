@@ -25,6 +25,7 @@ namespace IndicadoresFreyman
                 hdnArea.Value = Convert.ToString((int)Session["Depto"]);
                 hdnCorreo.Value = (string)Session["Correo"];
                 int empleado = (int)Session["Log"];
+                hdnJefe.Value = Convert.ToString(empleado);
 
                 DataTable dt;
                 string strsql = String.Format("select IdEmpleado,nombre, DeptoId, Departamento from  Vacaciones.dbo.AdministrativosNomiChecador where JefeInmediato = (select correo from Vacaciones.dbo.AdministrativosNomiChecador where IdEmpleado = {0})", empleado);
@@ -61,7 +62,7 @@ namespace IndicadoresFreyman
             ddltipo.DataBind();
             //ddltipo.SelectedValue = "1";
             ddltipo.Items.Insert(0,"Selecciona tipo");
-            ddltipo.SelectedIndex = 1;
+      
         }
 
 
@@ -91,11 +92,11 @@ namespace IndicadoresFreyman
 
             if (selectedValue == "Activo")
             {
-                strsql = String.Format("SELECT pIndicadorId, descripcionIndicador, ponderacion/100 ponderacion, indicadorMinimo, indicadorDeseable, t.TipoId,tipo,area,estatus FROM[PlantillaIndicador] as i inner join TipoIndicador as t on t.tipoId = i.tipoId  where area ={0} and estatus = 1", hdnArea.Value);
+                strsql = String.Format("SELECT pIndicadorId, descripcionIndicador, ponderacion/100 ponderacion, indicadorMinimo, indicadorDeseable, t.TipoId,tipo,area,estatus FROM[PlantillaIndicador] as i inner join TipoIndicador as t on t.tipoId = i.tipoId  where area ={0} and estatus = 1  and jefeId = {1}", hdnArea.Value, hdnJefe.Value);
             }
             else
             {
-                strsql = String.Format("SELECT pIndicadorId, descripcionIndicador, ponderacion/100 ponderacion, indicadorMinimo, indicadorDeseable, t.TipoId,tipo,area, estatus FROM[PlantillaIndicador] as i inner join TipoIndicador as t on t.tipoId = i.tipoId  where area = {0} and estatus = 0", hdnArea.Value);
+                strsql = String.Format("SELECT pIndicadorId, descripcionIndicador, ponderacion/100 ponderacion, indicadorMinimo, indicadorDeseable, t.TipoId,tipo,area, estatus FROM[PlantillaIndicador] as i inner join TipoIndicador as t on t.tipoId = i.tipoId  where area = {0} and estatus = 0 and jefeId = {1}", hdnArea.Value, hdnJefe.Value);
             }
             dt = con.getDatatable(strsql);
             return dt;
@@ -230,9 +231,16 @@ namespace IndicadoresFreyman
             string area = hdnArea.Value;
             string strsql = "";
 
+            if (ddltipo.SelectedIndex == 0)
+            {
+                RadWindowManager1.RadAlert("Selecciona el tipo de indicador", 0, 0, "", null);
+                return;
+            }
+
+
             if (lblguarda.Text == "1")
             {
-                strsql = String.Format("exec insertPlantllaIndicador  '{0}',   '{1}',  '{2}', '{3}', '{4}', '{5}'", descripcionIndicador, ponderacion, indicadorMinimo, indicadorDeseable, Tipoid, area);
+                strsql = String.Format("exec insertPlantllaIndicador  '{0}',   '{1}',  '{2}', '{3}', '{4}', '{5}', {6}", descripcionIndicador, ponderacion, indicadorMinimo, indicadorDeseable, Tipoid, area, hdnJefe.Value);
                 con.Save(strsql);
                 pnlEditar.Visible = false;
                 RadWindowManager1.RadAlert("Guardado exitosamente", 0, 0, "", null);

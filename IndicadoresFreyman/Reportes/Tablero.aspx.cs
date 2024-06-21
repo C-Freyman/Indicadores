@@ -41,16 +41,17 @@ namespace IndicadoresFreyman.Reportes
         }
         protected DataTable ObtenerInfo()
         {
-            DataTable dtAux = null;
+
+                  DataTable dtAux=null;
             try
             {
+               
 
+            DateTime? FechaDe = RadMonthYearPicker1.SelectedDate;
+            DateTime? FechaA = RadMonthYearPicker2.SelectedDate;
+            DataTable dt = null;
 
-                DateTime? FechaDe = RadMonthYearPicker1.SelectedDate;
-                DateTime? FechaA = RadMonthYearPicker2.SelectedDate;
-                DataTable dt = null;
-
-                dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'" + HidTipoTablero.Value + "'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
+            dt = con.getDatatable(string.Format("exec Indicadores .dbo.TableroHistorico {0},{1},{2},{3},'"+ HidTipoTablero.Value + "'", FechaDe.Value.Month, FechaDe.Value.Year, FechaA.Value.Month, FechaA.Value.Year));
 
                 var dtCOMPAÑEROS = con.getDatatable(@"select IdEmpleado from Vacaciones.dbo.AdministrativosNomiChecador as a1 where a1.Departamento = 
                 (select a2.Departamento from Vacaciones.dbo.AdministrativosNomiChecador as a2 where idempleado=" + HidEmpleado.Value + @") 
@@ -177,10 +178,10 @@ namespace IndicadoresFreyman.Reportes
                                 item[columnName].HorizontalAlign = HorizontalAlign.Center;
                                 double cellValue=0;
                                 string cellText = valor.Split('_')[1];
-                                
-                                if (double.TryParse(valor.Split('_')[0], out cellValue))
+                                 item[columnName].ToolTip ="Resultado:" + (string)valor.Split('_')[0] + " Calificación: " +cellText  ;
+
+                                if (double.TryParse(valor.Split('_')[1], out cellValue))
                                 {
-                                    item[columnName].ToolTip ="Resultado:" + (string)cellValue.ToString("F2") +" Calificación: " +cellText  ;
                                     if (cellValue >= 0 && cellValue <= 80)
                                     {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBCEC0");//rojo
@@ -216,17 +217,17 @@ namespace IndicadoresFreyman.Reportes
                         double cellValue;
                         if (double.TryParse(cellText, out cellValue))
                         {
-                            if (cellValue >= 0 && cellValue < 80)
+                            if (cellValue >= 0 && cellValue <= 80)
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBCEC0");//rojo
                             }
-                            if (cellValue >= 80 && cellValue < 90)
+                            if (cellValue > 80 && cellValue <= 90)
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBF8C0");//amarillo
                             }
-                            if (cellValue >= 90)
+                            if (cellValue > 90 && cellValue <= 100)
                             {
-                                e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#C0FBEF");//azul
+                                e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#CCF7C3");//verde
                             }
                             //e.Item.Cells[i].Text = e.Item.Cells[i].Text + " %";
 

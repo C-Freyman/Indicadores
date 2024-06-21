@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="EvidenciaIndicadoresM.aspx.cs" Inherits="IndicadoresFreyman.Indicadores.EvidenciaIndicadoresM" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style>
+<style>
 
     .demo-container .RadUpload .ruUploadProgress {
         width: 210px;
@@ -93,13 +93,13 @@
         var row = cell.parentNode;
         var filaHTML = row.innerText;
         var valorEditado = cell.innerText;
-        //row.cells[6].innerText = "11";
-        //row.cells[6].Attributes.Add("title", "holaaaa");
+        var idIndicador = row.cells[0].className;
+        
         // Enviar los valores de la fila al servidor usando AJAX
         $.ajax({
             type: "POST",
             url: "EvidenciaIndicadoresM.aspx/SaveRowValues",
-            data: JSON.stringify({ filaHTML: filaHTML, valorEditado: valorEditado }),
+            data: JSON.stringify({ idIndicador: idIndicador, valorEditado: valorEditado }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
@@ -120,10 +120,14 @@
                 cumplimientoObjetivoCell.title = cumplimientoObjetivoReal;
                 cumplimientoObjetivoCell.innerText = cumplimientoObjetivo.toFixed(2);
                 evaluacionPonderadaCell.innerText = evaluacionPonderada.toFixed(2);
-                cumplimientoObjetivoRealCell.innerText = cumplimientoObjetivoReal.toFixed(2);
+                //cumplimientoObjetivoRealCell.innerText = cumplimientoObjetivoReal.toFixed(2);
                // cumplimientoObjetivoCell.Attributes.Add("title","holaaaa" );
 
                 console.log("Values saved successfully");
+                var grid = $find("<%= gridEvidencias.ClientID %>");
+                if (grid) {
+                    grid.get_masterTableView().rebind();
+                }
             },
             error: function (response) {
                 // Manejar el error
@@ -131,53 +135,6 @@
             }
         });
         
-    }
-
-    function guardarBorrador() {
-        debugger;
-        var grid = $find("<%= gridEvidencias.ClientID %>");
-        var masterTableView = grid.get_masterTableView();
-        var rows = masterTableView.get_dataItems();
-        var tableData = []; 
-
-
-        for (var i = 0; i < rows.length; i++) {
-            var cells = rows[i].get_element().cells;
-            //if (cells[6].innerText.trim()!='0.00') {
-            
-            var rowData = {
-                indicadorId: cells[0].innerText.trim(),
-                resultado: cells[5].innerText.trim(),
-                cumplimientoObjetivo: cells[6].innerText.trim(),
-                evaluacionPonderada: cells[7].innerText.trim(),
-                cumplimientoObjetivoReal: (cells[6].className == '') ? 0 : cells[6].className //cells[8].innerText.trim()
-            };
-            tableData.push(rowData);
-            //}
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "EvidenciaIndicadoresM.aspx/GuardarBorrador",
-            data: JSON.stringify({ tableData: tableData }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-
-                var grid = $find("<%= gridEvidencias.ClientID %>");
-                if (grid) {
-                    grid.get_masterTableView().rebind();
-                }
-
-                return true;
-            },
-            error: function (response) {
-                alert("Error al guardar los datos: " + response.responseText);
-                return false;
-            }
-        });
-
-        return false; // Prevent default form submission
     }
 
     function cerrarCambios() {
@@ -195,7 +152,7 @@
                 for (var i = 0; i < rows.length; i++) {
                     var cells = rows[i].get_element().cells;
                     var rowData = {
-                        indicadorId: cells[0].innerText.trim(),
+                        indicadorId: cells[0].className,
                         resultado: cells[5].innerText.trim(),
                         cumplimientoObjetivo: cells[6].innerText.trim(),
                         evaluacionPonderada: cells[7].innerText.trim(),
@@ -305,8 +262,6 @@
           <MasterTableView  CommandItemDisplay="Top"  EditMode="Batch" AutoGenerateColumns="False" CellPadding="0" CellSpacing="0">
               <CommandItemSettings ShowAddNewRecordButton="false"  />
               <CommandItemTemplate>                        
-                  <asp:Button ID="GuardarBorradorButton" OnClientClick="return guardarBorrador();" runat="server" Text="Guardar Borrador" />
-
                   <asp:Button ID="SaveChangesButton" runat="server" OnClientClick="return cerrarCambios();" Text="Enviar Indicadores" />
 
                   <asp:Label ID="nombreColaborador" CssClass="label1" runat="server" Text="Texto"></asp:Label>
@@ -317,7 +272,7 @@
                   </telerik:RadMonthYearPicker>
               </CommandItemTemplate>
               <Columns>
-                  <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='7' HeaderStyle-Font-Bold="true" UniqueName="indicadorId" DataField='indicadorId' SortExpression="indicadorId" HeaderText='ID' 
+                  <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='7' HeaderStyle-Font-Bold="true" UniqueName="pIndicadorId" DataField='pIndicadorId' SortExpression="pIndicadorId" HeaderText='ID' 
                       ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="Contains" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
                   <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='50' HeaderStyle-Font-Bold="true" UniqueName="descripcionIndicador" DataField='descripcionIndicador' SortExpression="descripcionIndicador" 
                       HeaderText='Descripción' ItemStyle-HorizontalAlign="Left" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
@@ -327,8 +282,8 @@
                       ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" HeaderStyle-HorizontalAlign="center" ItemStyle-Font-Size="Medium"></telerik:GridBoundColumn>
                   <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='12' HeaderStyle-Font-Bold="true" UniqueName="indicadorDeseable" DataField='indicadorDeseable' SortExpression="indicadorDeseable" 
                       HeaderText='Indicador Deseable (100 Pts.)' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" ItemStyle-Font-Size="Medium" HeaderStyle-HorizontalAlign="center"></telerik:GridBoundColumn>
-                  <telerik:GridBoundColumn FilterControlWidth='80%' HeaderStyle-Width='15' HeaderStyle-Font-Bold="true" UniqueName="resultado" DataField='resultado' SortExpression="resultado" HeaderText='Resultado' 
-                      ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" ItemStyle-Font-Size="Medium" ItemStyle-BackColor="#BFBBBB"></telerik:GridBoundColumn>
+                  <telerik:GridNumericColumn  FilterControlWidth='80%' HeaderStyle-Width='15' HeaderStyle-Font-Bold="true" UniqueName="resultado" DataField='resultado' SortExpression="resultado" HeaderText='Resultado' 
+                      ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="true" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' HeaderStyle-HorizontalAlign="center" ItemStyle-Font-Size="Medium" ItemStyle-BackColor="#BFBBBB"></telerik:GridNumericColumn>
                   <telerik:GridTemplateColumn FilterControlWidth='80%' HeaderStyle-Width='15' HeaderStyle-Font-Bold="true" UniqueName="cumplimientoObjetivo" DataField='cumplimientoObjetivo' SortExpression="cumplimientoObjetivo" 
                       HeaderText='Cumplimiento Objetivo (0-100 Pts.)' ItemStyle-HorizontalAlign="center" AutoPostBackOnFilter="false" CurrentFilterFunction="EqualTo" ShowFilterIcon='false' ReadOnly="true" ItemStyle-Font-Size="Medium" HeaderStyle-HorizontalAlign="center">
                           <ItemTemplate>

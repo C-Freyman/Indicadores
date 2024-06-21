@@ -197,7 +197,7 @@
 
 
                         <telerik:GridBoundColumn UniqueName="descripcionIndicador" HeaderText="Indicador" DataField="descripcionIndicador" SortExpression="descripcionIndicador"
-                            FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" FooterText ="Total" FooterStyle-HorizontalAlign ="Center" FooterStyle-Font-Size ="18px" FooterStyle-Font-Bold ="true" FooterStyle-ForeColor ="White">
+                            FilterControlWidth="100%" AllowFiltering="false" AutoPostBackOnFilter="false" CurrentFilterFunction="Contains" ShowFilterIcon="false" FooterText ="Total" FooterStyle-HorizontalAlign ="Right" FooterStyle-Font-Size ="18px" FooterStyle-Font-Bold ="true" FooterStyle-ForeColor ="White">
                             <ItemStyle Width="400px" />
                             <HeaderStyle Width="400px" Font-Bold="true" HorizontalAlign="Center" />
                         </telerik:GridBoundColumn>
@@ -390,4 +390,6 @@
     <asp:HiddenField ID="hdnIndicador" runat="server" Value="0" />
     <asp:HiddenField ID="hdnNomEmpleado" runat="server" Value="0" />
     <asp:HiddenField ID="hdnSuma" runat="server" Value="0" />
+     <asp:HiddenField ID="hdnJefe" runat="server"  />
+
 </asp:Content>

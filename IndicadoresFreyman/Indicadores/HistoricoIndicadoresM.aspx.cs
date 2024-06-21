@@ -191,21 +191,21 @@ namespace IndicadoresFreyman.Indicadores
 
                 if (departamento == "" && empleadoId == "")
                 {
-                    query = "select i.IndicadorId as indicadorId,  anc.Departamento, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
+                    query = "select i.IndicadorId as indicadorId, pli.pIndicadorId,  anc.Departamento, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i " +
                         "left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId left join resultadoIndicador e on i.IndicadorId = e.indicadorId " +
                         "left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado where i.activo = 1 and mes = " + mes + " and año=" + año + " order by anc.Nombre_";
                 }
                 else if (empleadoId == "")//consulta el acumulado de todos los colaboradores de un gerente
                 {
-                    query = "select i.IndicadorId as indicadorId, anc.Departamento, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
+                    query = "select i.IndicadorId as indicadorId, pli.pIndicadorId, anc.Departamento, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i " +
                         "left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId left join resultadoIndicador e on i.IndicadorId = e.indicadorId " +
                         "left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado where i.activo = 1 and mes = " + mes + " and año=" + año + " and anc.Departamento='" + departamento + "' order by anc.Nombre_";
                 }
                 else //Filtrado por un colaborador en especifico
                 {
-                    query = "select i.IndicadorId as indicadorId, anc.Departamento, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
+                    query = "select i.IndicadorId as indicadorId, pli.pIndicadorId, anc.Departamento, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i " +
                         "left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId left join resultadoIndicador e on i.IndicadorId = e.indicadorId " +
                         "left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado where i.activo = 1 and mes = " + mes + " and año=" + año + " and anc.IdEmpleado=" + empleadoId + " order by anc.Nombre_";
@@ -251,7 +251,7 @@ namespace IndicadoresFreyman.Indicadores
 
                 if (empleadoId == 1)//consulta el acumulado de todos los colaboradores de un gerente
                 {
-                    query = "select i.IndicadorId as indicadorId, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
+                    query = "select i.IndicadorId as indicadorId, pli.pIndicadorId, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId " +
                         "left join resultadoIndicador e on i.IndicadorId = e.indicadorId left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado " +
                         "where empleadoId in(select IdEmpleado from Vacaciones.dbo.AdministrativosNomiChecador " +
@@ -259,7 +259,7 @@ namespace IndicadoresFreyman.Indicadores
                 }
                 else //Filtrado por un colaborador en especifico
                 {
-                    query = "select i.IndicadorId as indicadorId, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
+                    query = "select i.IndicadorId as indicadorId, pli.pIndicadorId, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId " +
                         "left join resultadoIndicador e on i.IndicadorId = e.indicadorId left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado " +
                         "where empleadoId in(select IdEmpleado from Vacaciones.dbo.AdministrativosNomiChecador " +
@@ -303,7 +303,7 @@ namespace IndicadoresFreyman.Indicadores
 
                 string query;
 
-                query = "select i.IndicadorId as indicadorId, pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
+                query = "select i.IndicadorId as indicadorId, pli.pIndicadorId, pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
                 "isnull(cumplimientoOBjetivo,0)as cumplimientoObjetivo, isnull(evaluacionPonderada,0)as evaluacionPonderada from Indicador i " +
                 "left join PlantillaIndicador pli on pli.pIndicadorId=i.pIndicadorId left join resultadoIndicador e on i.IndicadorId=e.indicadorId where i.activo=1 and empleadoId=" + Session["Log"] + " and mes=" + mes + " and año=" + año + ";";
                 
@@ -587,6 +587,16 @@ namespace IndicadoresFreyman.Indicadores
 
                 DescargarArchivoGerente(indicadorId);
             }
+        }
+
+        protected void gridHistorico_PageIndexChanged(object sender, GridPageChangedEventArgs e)
+        {
+            CargarDatosEnGrid();
+        }
+
+        protected void gridHistorico_PageSizeChanged(object sender, GridPageSizeChangedEventArgs e)
+        {
+            CargarDatosEnGrid();
         }
     }
 }
