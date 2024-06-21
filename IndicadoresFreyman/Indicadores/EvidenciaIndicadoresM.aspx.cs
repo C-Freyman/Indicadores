@@ -289,7 +289,7 @@ namespace IndicadoresFreyman.Indicadores
         }
 
 
-        public void calcularResultados(bool esAscendente, double valor, int indicadorMinimo, int indicadorDeseable, int ponderacion, out double cumplimientoObjetivo, out double evaluacionPonderada, out double cumplimientoObjetivoReal)
+        public void calcularResultados(bool esAscendente, double valor, double indicadorMinimo, double indicadorDeseable, double ponderacion, out double cumplimientoObjetivo, out double evaluacionPonderada, out double cumplimientoObjetivoReal)
         {
             cumplimientoObjetivo = 0;
             cumplimientoObjetivoReal = 0;
@@ -354,7 +354,7 @@ namespace IndicadoresFreyman.Indicadores
             decimal resultado = Convert.ToDecimal(valorEditado);
 
             bool esAscendente = false;
-            int ponderacion = 0, indicadorMinimo = 0, indicadorDeseable = 0;
+            double ponderacion = 0, indicadorMinimo = 0, indicadorDeseable = 0;
 
             using (var con = new SqlConnection(conn))
             {
@@ -369,9 +369,9 @@ namespace IndicadoresFreyman.Indicadores
                     while (reader.Read())
                     {
 
-                        ponderacion = Convert.ToInt32(reader["ponderacion"]);
-                        indicadorMinimo = Convert.ToInt32(reader["indicadorMinimo"]);
-                        indicadorDeseable = Convert.ToInt32(reader["indicadorDeseable"]);
+                        ponderacion = Convert.ToDouble(reader["ponderacion"]);
+                        indicadorMinimo = Convert.ToDouble(reader["indicadorMinimo"]);
+                        indicadorDeseable = Convert.ToDouble(reader["indicadorDeseable"]);
                     }
                 }
             }
