@@ -24,6 +24,24 @@ namespace IndicadoresFreyman.Reportes
         protected global::System.Web.UI.WebControls.HiddenField HidChecDepartamento;
 
         /// <summary>
+        /// Control HidEmpleado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HidEmpleado;
+
+        /// <summary>
+        /// Control hidAccesoEmpleados.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidAccesoEmpleados;
+
+        /// <summary>
         /// Control rdlQuien.
         /// </summary>
         /// <remarks>
@@ -31,15 +49,6 @@ namespace IndicadoresFreyman.Reportes
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList rdlQuien;
-
-        /// <summary>
-        /// Control UpdatePanel1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
 
         /// <summary>
         /// Control radDepartamentos.
@@ -60,6 +69,15 @@ namespace IndicadoresFreyman.Reportes
         protected global::Telerik.Web.UI.RadComboBox radEmpleados;
 
         /// <summary>
+        /// Control RadJerarquia.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadComboBox RadJerarquia;
+
+        /// <summary>
         /// Control btnActualizar.
         /// </summary>
         /// <remarks>
@@ -76,6 +94,15 @@ namespace IndicadoresFreyman.Reportes
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal itemsClientSide;
+
+        /// <summary>
+        /// Control UpdatePanel1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
 
         /// <summary>
         /// Control RadMonthYearPicker1.
@@ -130,5 +157,14 @@ namespace IndicadoresFreyman.Reportes
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::Telerik.Web.UI.RadHtmlChart GraficaAño;
+
+        /// <summary>
+        /// Control btnAux.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAux;
     }
 }
