@@ -83,6 +83,7 @@
             }
         }
 
+
         function marcalleno() {
             if ($(this).val() != '') {
                 $(this).addClass("is-valid");
@@ -123,6 +124,11 @@
             document.getElementById('dllOrden').onselect = mensaje;
         }
 
+
+        function soloNumeros(e) {
+            var key = window.Event ? e.which : e.keyCode
+            return (key >= 48 && key <= 57)
+        }
 
     </script>
 </asp:Content>
@@ -332,7 +338,7 @@
                                 <td style="width: 110px">Ponderación:
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtponderacion" runat="server" Text='<%# Bind("ponderacion") %>' TabIndex="2" Width="200px" onKeyPress="return filterFloat(event,this)" onChange="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1">
+                                    <asp:TextBox ID="txtponderacion" runat="server" Text='<%# Bind("ponderacion") %>' TabIndex="2" Width="200px" onKeyPress="return soloNumeros(event)" onChange="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1">
                                     </asp:TextBox>
                                     <div class="invalid-feedback">
                                         Ponderación requerido
