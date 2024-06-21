@@ -365,7 +365,7 @@
                             </MasterTableView>
                             <ClientSettings AllowKeyboardNavigation="true">
                                 <Selecting AllowRowSelect="true" UseClientSelectColumnOnly="true" />
-                                <Scrolling AllowScroll="True" UseStaticHeaders="true" ScrollHeight ="450px"  />
+                                <Scrolling AllowScroll="True" UseStaticHeaders="true" ScrollHeight ="350px"  />
                                 
                             </ClientSettings>
 
