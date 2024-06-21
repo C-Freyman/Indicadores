@@ -341,8 +341,6 @@ namespace IndicadoresFreyman.Indicadores
                 }
             }
             evaluacionPonderada = Math.Round((ponderacion / 100.00) * cumplimientoObjetivo, 2);
-
-
         }
 
         [WebMethod]
