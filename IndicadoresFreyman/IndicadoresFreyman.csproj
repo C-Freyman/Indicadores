@@ -218,7 +218,6 @@
     <Content Include="obj\Debug\indicadoresfreyman.dll.licenses" />
     <Content Include="obj\Debug\IndicadoresFreyman.pdb" />
     <Content Include="Paramentros.aspx" />
-    <Content Include="Indicadores\EvidenciaIndicadores.aspx" />
     <Content Include="Indicadores\HistoricoIndicadores.aspx" />
     <Content Include="Reportes\ReporteRRHH.aspx" />
     <Content Include="Reportes\ReporteTableroHist.aspx" />
