@@ -58,10 +58,12 @@
     <script type="text/javascript">
 
         function filterFloat(evt, input) {
-            // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
+            // Backspace = 8, Enter = 13, '0' = 48, '9' = 57, '.' = 46
             var key = window.Event ? evt.which : evt.keyCode;
             var chark = String.fromCharCode(key);
             var tempValue = input.value + chark;
+
+            // Verifica si el carácter es un número
             if (key >= 48 && key <= 57) {
                 if (filter(tempValue) === false) {
                     return false;
@@ -69,9 +71,14 @@
                     return true;
                 }
             } else {
+                // Verifica si el carácter es backspace, enter o el primer punto decimal
                 if (key == 8 || key == 13 || key == 0) {
                     return true;
                 } else if (key == 46) {
+                    // Verifica si ya hay un punto decimal en el valor actual
+                    if (input.value.indexOf('.') !== -1) {
+                        return false;
+                    }
                     if (filter(tempValue) === false) {
                         return false;
                     } else {
@@ -81,6 +88,12 @@
                     return false;
                 }
             }
+        }
+
+        function filter(value) {
+            // La función filter verifica si el valor es un número flotante válido con un máximo de dos decimales
+            var regex = /^-?\d*(\.\d{0,2})?$/;
+            return regex.test(value);
         }
 
         function marcalleno() {
@@ -123,6 +136,11 @@
             document.getElementById('dllOrden').onselect = mensaje;
         }
 
+
+        function soloNumeros(e) {
+            var key = window.Event ? e.which : e.keyCode
+            return (key >= 48 && key <= 57)
+        }
 
     </script>
 </asp:Content>
@@ -296,13 +314,13 @@
                                 <td style="width: 150px">Tipo:
                                 </td>
                                 <td>
-                                    <telerik:RadDropDownList RenderMode="Lightweight" ID="ddltipo" runat="server"  CssClass="form-select" data-required="1"
+                                    <telerik:RadDropDownList RenderMode="Lightweight" ID="ddltipo" runat="server" 
                                         DropDownHeight="80px"
                                         TabIndex="7" Width="200px">
                                     </telerik:RadDropDownList>
-                                    <div class="invalid-feedback">
-                                        indicador requerido
-                                    </div>
+                                    
+                                        <asp:Label ID="lblErrortipo" runat="server" Text="Tipo requerido" ForeColor ="Red" Visible ="false" ></asp:Label>
+                                 
                                     <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" ErrorMessage="Tipo requerido" ControlToValidate="ddltipo" ForeColor="Red"></asp:RequiredFieldValidator>--%>
                                 </td>
                                 <td colspan="2"></td>
@@ -332,7 +350,7 @@
                                 <td style="width: 110px">Ponderación:
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtponderacion" runat="server" Text='<%# Bind("ponderacion") %>' TabIndex="2" Width="200px" onKeyPress="return filterFloat(event,this)" onChange="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1">
+                                    <asp:TextBox ID="txtponderacion" runat="server" Text='<%# Bind("ponderacion") %>' TabIndex="2" Width="200px" onKeyPress="return soloNumeros(event)" onChange="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="3" data-required="1">
                                     </asp:TextBox>
                                     <div class="invalid-feedback">
                                         Ponderación requerido
@@ -342,7 +360,7 @@
                                 <td style="width: 130px">&nbsp;  &nbsp;   Indicador Mínimo:
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtindicadorMinimo" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorMinimo") %>' TabIndex="2" Width="250px" onKeyPress="return filterFloat(event,this)" onChange="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1"  >
+                                    <asp:TextBox ID="txtindicadorMinimo" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorMinimo") %>' TabIndex="2" Width="200px" onKeyPress="return filterFloat(event,this)" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1"  >
                                     </asp:TextBox>
                                     <div class="invalid-feedback">
                                         indicador Minimo requerido
@@ -357,7 +375,7 @@
                                 <td style="width: 130px">&nbsp;  &nbsp;   Indicador Deseable:
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtindicadorDeseable" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="200px" onKeyPress="return filterFloat(event,this)" onBlur="calculaTipo()" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1">
+                                    <asp:TextBox ID="txtindicadorDeseable" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="200px" onKeyPress="return filterFloat(event,this)"  CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1">
                                     </asp:TextBox>
                                    <%-- <asp:Label ID="lblordrnamiento" runat="server" Text="Label"></asp:Label>--%>
                                     <div class="invalid-feedback">
@@ -367,16 +385,19 @@
 
                                 </td>
                             </tr>
-                           <%-- <tr>
+                            <tr id="ordenamiento" runat ="server" visible ="false">
                                 <td colspan="2"></td>
                                 <td style="width: 150px">&nbsp;  &nbsp;   Ordenamiento</td>
                                 <td>
-                                    <%--<telerik:RadDropDownList RenderMode="Lightweight" ID="dllOrden" runat="server"
+                                    <telerik:RadDropDownList RenderMode="Lightweight" ID="dllOrden" runat="server" 
                                         DropDownHeight="80px"
                                         Width="200px">
                                     </telerik:RadDropDownList>
+                                 
+                                        <asp:Label ID="lblErrororden" runat="server" Text="Ordenamiento Requerido" ForeColor ="Red" Visible ="false"></asp:Label>
+                                  
                                 </td>
-                            </tr>--%>
+                            </tr>
                         </table>
 
                     </div>

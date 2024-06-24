@@ -77,7 +77,8 @@ namespace IndicadoresFreyman.Indicadores
             }
             else
             {
-                string query = "select IdEmpleado, Nombre_ from Vacaciones.dbo.AdministrativosNomiChecador where JefeInmediato=(select Correo from Vacaciones.dbo.AdministrativosNomiChecador where IdEmpleado=" + Session["Log"] + ");";
+                string query = "select IdEmpleado, Nombre_ from Vacaciones.dbo.AdministrativosNomiChecador where JefeInmediato=(select Correo from Vacaciones.dbo.AdministrativosNomiChecador where IdEmpleado=" + Session["Log"] + ")" +
+                    " or correo=(select Correo from Vacaciones.dbo.AdministrativosNomiChecador where IdEmpleado=" + Session["Log"] + ");";
                 using (SqlConnection con = new SqlConnection(conn))
                 {
                     con.Open();
@@ -255,15 +256,14 @@ namespace IndicadoresFreyman.Indicadores
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId " +
                         "left join resultadoIndicador e on i.IndicadorId = e.indicadorId left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado " +
                         "where empleadoId in(select IdEmpleado from Vacaciones.dbo.AdministrativosNomiChecador " +
-                        "where JefeInmediato = (select a.Correo from Vacaciones.dbo.AdministrativosNomiChecador a where a.IdEmpleado = " + Session["Log"] + ")) and i.activo=1 and mes = " + mes+ " and año=" + año + " order by anc.Nombre_";
+                        "where JefeInmediato = (select a.Correo from Vacaciones.dbo.AdministrativosNomiChecador a where a.IdEmpleado = " + Session["Log"] + ") or Correo = (select a.Correo from Vacaciones.dbo.AdministrativosNomiChecador a where a.IdEmpleado = " + Session["Log"] + ")) and i.activo=1 and mes = " + mes+ " and año=" + año + " order by anc.Nombre_";
                 }
                 else //Filtrado por un colaborador en especifico
                 {
                     query = "select i.IndicadorId as indicadorId, pli.pIndicadorId, anc.Nombre_ ,pli.descripcionIndicador, concat(i.ponderacion,'%')as ponderacion,i.indicadorMinimo,i.indicadorDeseable,isnull(e.resultado,0)as resultado, " +
                         "isnull(cumplimientoOBjetivo, 0) as cumplimientoObjetivo, isnull(evaluacionPonderada, 0) as evaluacionPonderada from Indicador i left join PlantillaIndicador pli on pli.pIndicadorId = i.pIndicadorId " +
                         "left join resultadoIndicador e on i.IndicadorId = e.indicadorId left join Vacaciones.dbo.AdministrativosNomiChecador anc on i.empleadoId = anc.IdEmpleado " +
-                        "where empleadoId in(select IdEmpleado from Vacaciones.dbo.AdministrativosNomiChecador " +
-                        "where JefeInmediato = (select a.Correo from Vacaciones.dbo.AdministrativosNomiChecador a where a.IdEmpleado = " + Session["Log"] + ")) and i.activo=1 and mes = " + mes + " and año=" + año + " and empleadoId=" + empleadoId;
+                        "where i.activo=1 and mes = " + mes + " and año=" + año + " and empleadoId=" + empleadoId;
                 }
 
 
