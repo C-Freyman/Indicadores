@@ -333,15 +333,38 @@ namespace IndicadoresFreyman.Indicadores
             }
             else if (indicadorMinimo == indicadorDeseable)//Por actividad
             {
-                if (valor >= indicadorDeseable)
+                if (esAscendente)
                 {
-                    cumplimientoObjetivo = 100;
-                    cumplimientoObjetivoReal = 100;
+                    if (valor < indicadorMinimo)
+                    {
+                        cumplimientoObjetivo = 0;
+                    }
+                    else if (valor >= indicadorMinimo && valor <= indicadorDeseable)
+                    {
+                        cumplimientoObjetivo = Math.Round(((1 / ((indicadorDeseable - indicadorMinimo) * 2.00)) * (valor - indicadorMinimo) * 100.00) + 50.00, 2);
+                    }
+                    else
+                    {
+                        cumplimientoObjetivo = 100;
+                    }
+                    cumplimientoObjetivoReal = Math.Round(((1 / ((indicadorDeseable - indicadorMinimo) * 2.00)) * (valor - indicadorMinimo) * 100.00) + 50.00, 2);
                 }
-                else if (valor < indicadorMinimo)
+                else
                 {
-                    cumplimientoObjetivo = 0;
-                    cumplimientoObjetivoReal = 0;
+                    // Caso donde valorMinimo es mayor que valorDeseable
+                    if (valor > indicadorMinimo)
+                    {
+                        cumplimientoObjetivo = 0;
+                    }
+                    else if (valor <= indicadorMinimo && valor >= indicadorDeseable)
+                    {
+                        cumplimientoObjetivo = Math.Round(((1 / ((indicadorMinimo - indicadorDeseable) * 2.00)) * (indicadorMinimo - valor) * 100.00) + 50.00, 2);
+                    }
+                    else
+                    {
+                        cumplimientoObjetivo = 100;
+                    }
+                    cumplimientoObjetivoReal = Math.Round(((1 / ((indicadorMinimo - indicadorDeseable) * 2.00)) * (indicadorMinimo - valor) * 100.00) + 50.00, 2);
                 }
             }
             evaluacionPonderada = Math.Round((ponderacion / 100.00) * cumplimientoObjetivo, 2);
@@ -364,13 +387,20 @@ namespace IndicadoresFreyman.Indicadores
                 using (var command = new SqlCommand())
                 {
                     command.Connection = con;
-                    command.CommandText = "select i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli" +
+                    command.CommandText = "select isnull(pli.esAscendente,0)as esAscendente,i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli" +
                         " left join Indicador i on i.pIndicadorId=pli.pIndicadorId where i.IndicadorId=" + idIndicador + " and i.activo=1 and pli.estatus=1 and empleadoId=" + obj.Session["Log"] + ";";
                     command.CommandType = CommandType.Text;
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-
+                         try
+                        {
+                            esAscendente = Convert.ToBoolean(reader["esAscendente"]);
+                        }
+                        catch
+                        {
+                            esAscendente = false;
+                        }
                         ponderacion = Convert.ToDouble(reader["ponderacion"]);
                         indicadorMinimo = Convert.ToDouble(reader["indicadorMinimo"]);
                         indicadorDeseable = Convert.ToDouble(reader["indicadorDeseable"]);
