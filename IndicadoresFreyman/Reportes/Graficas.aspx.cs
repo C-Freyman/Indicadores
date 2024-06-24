@@ -307,10 +307,12 @@ namespace IndicadoresFreyman.Reportes
         {
             radDepartamentos.Visible = false;
             radEmpleados.Visible = false;
+            RadJerarquia .Visible =false;
             if (rdlQuien.SelectedValue == "E")
             {
                 radDepartamentos.Visible = true;
                 radEmpleados.Visible = true;
+                RadJerarquia.Visible = true;
             }
             if (rdlQuien.SelectedValue == "D")
             {
@@ -331,6 +333,14 @@ namespace IndicadoresFreyman.Reportes
             {
                  qEmpleados = string.Format(" and idempleado in({0}) ", hidAccesoEmpleados.Value );
             }
+            List<int> ListJerarquia = new List<int>();
+            ListJerarquia = ShowCheckedItems(RadJerarquia);
+            string Jerarquias = "";
+            if (ListJerarquia .Count>0)
+            {
+               Jerarquias=string .Format (" and jerarquia in ({0}) ", string.Join(",", ListJerarquia));
+            }
+            
             if (rdlQuien.SelectedValue == "E")
             {
                 string qdepartamento = "";
@@ -338,7 +348,7 @@ namespace IndicadoresFreyman.Reportes
                     qdepartamento = string.Format(" and iddepartamento in ({0}) ", departamentos);
                 }
                 radEmpleados.Items.Clear();
-                string q = string.Format("select idempleado, Nombre_ as Nombre from Vacaciones .dbo.AdministrativosNomiChecador where 1=1 {0} {1} order by Departamento", qdepartamento, qEmpleados  );
+                string q = string.Format("select idempleado, Nombre_ as Nombre from Vacaciones .dbo.AdministrativosNomiChecador where 1=1 {0} {1} {2} order by Departamento", qdepartamento, qEmpleados, Jerarquias);
                 DataTable dt = con.getDatatable(q);
                 radEmpleados.DataSource = dt;
                 radEmpleados.DataTextField = "Nombre";
@@ -374,7 +384,7 @@ namespace IndicadoresFreyman.Reportes
         }
         protected void btnAux_Click(object sender, EventArgs e)
         {
-            if (radDepartamentos.CheckedItems.Count > 0)
+            if (radDepartamentos.CheckedItems.Count > 0 || RadJerarquia .CheckedItems .Count >0 )
             {
                 ObtenerEmpleados();
 
@@ -387,6 +397,11 @@ namespace IndicadoresFreyman.Reportes
         }
 
         protected void radDepartamentos_CheckAllCheck(object sender, RadComboBoxCheckAllCheckEventArgs e)
+        {
+            ObtenerEmpleados();
+        }
+
+        protected void RadJerarquia_CheckAllCheck(object sender, RadComboBoxCheckAllCheckEventArgs e)
         {
             ObtenerEmpleados();
         }
