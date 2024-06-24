@@ -339,15 +339,11 @@ namespace IndicadoresFreyman.Indicadores
                     {
                         cumplimientoObjetivo = 0;
                     }
-                    else if (valor >= indicadorMinimo && valor <= indicadorDeseable)
-                    {
-                        cumplimientoObjetivo = Math.Round(((1 / ((indicadorDeseable - indicadorMinimo) * 2.00)) * (valor - indicadorMinimo) * 100.00) + 50.00, 2);
-                    }
                     else
                     {
                         cumplimientoObjetivo = 100;
                     }
-                    cumplimientoObjetivoReal = Math.Round(((1 / ((indicadorDeseable - indicadorMinimo) * 2.00)) * (valor - indicadorMinimo) * 100.00) + 50.00, 2);
+                    cumplimientoObjetivoReal = cumplimientoObjetivo;
                 }
                 else
                 {
@@ -356,15 +352,11 @@ namespace IndicadoresFreyman.Indicadores
                     {
                         cumplimientoObjetivo = 0;
                     }
-                    else if (valor <= indicadorMinimo && valor >= indicadorDeseable)
-                    {
-                        cumplimientoObjetivo = Math.Round(((1 / ((indicadorMinimo - indicadorDeseable) * 2.00)) * (indicadorMinimo - valor) * 100.00) + 50.00, 2);
-                    }
                     else
                     {
                         cumplimientoObjetivo = 100;
                     }
-                    cumplimientoObjetivoReal = Math.Round(((1 / ((indicadorMinimo - indicadorDeseable) * 2.00)) * (indicadorMinimo - valor) * 100.00) + 50.00, 2);
+                    cumplimientoObjetivoReal = cumplimientoObjetivo;
                 }
             }
             evaluacionPonderada = Math.Round((ponderacion / 100.00) * cumplimientoObjetivo, 2);
