@@ -24,17 +24,17 @@ namespace IndicadoresFreyman.Indicadores
         static private string mes;
         static private string año;
         static private bool cambioDeMes;
+        private decimal calificacionMinima;
+        private int diasDisponible;//dias habiles para subir indicadores
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            ConfiguracionIndicadores();
             if (!IsPostBack)
             {
                // Session["Log"] = "3246";
                 ValidarTablaBD();//Procedure para validar si existe o no el registro del mes 
                 
                 DatosUsuario();//Carga el nombre de la persona en label
-
-                
 
                 if (mes == null || mes == string.Empty)
                 {
@@ -62,37 +62,70 @@ namespace IndicadoresFreyman.Indicadores
 
         }
 
-        private void ValidarTablaBD()//Procedure para validar si existe o no el registro del mes 
+        private void ConfiguracionIndicadores()
         {
-            try
+            using (var con = new SqlConnection(conn))
             {
-                using (var con = new SqlConnection(conn))
+                con.Open();
+                using (var cmd = new SqlCommand("SELECT *FROM (SELECT idConfiguracion, valor FROM Configuraciones) as SourceTable PIVOT (MAX(valor)FOR idConfiguracion IN ([1], [2])) as PivotTable;"))
                 {
-                    con.Open();
-                    using (var cmd = new SqlCommand("validarTablaResultado", con))
+                    cmd.Connection = con;
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        cmd.Connection = con;
-                        cmd.Parameters.AddWithValue("empleadoId", Session["Log"]);
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.ExecuteNonQuery();
+                        diasDisponible = Convert.ToInt32(reader["1"]);//Dias habiles para subir indicadores
+                        calificacionMinima = Convert.ToDecimal(reader["2"]);//calificacion minima
                     }
                 }
             }
-            catch (Exception ex)
-            {
+        }
 
+        private void ValidarTablaBD()//Procedure para validar si existe o no el registro del mes 
+        {
+            if (Session["Log"] == null)
+            {
+                Response.Redirect("~/Log.aspx");
+            }
+            else
+            {
+                try
+                {
+                    using (var con = new SqlConnection(conn))
+                    {
+                        con.Open();
+                        using (var cmd = new SqlCommand("validarTablaResultado", con))
+                        {
+                            cmd.Connection = con;
+                            cmd.Parameters.AddWithValue("empleadoId", Session["Log"]);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
         }
         private void cargarDatosEnGrid()
         {
-            DataTable tb= new DataTable();
-            tb = consultaTablaResultados();
-            gridEvidencias.DataSource = tb;
-            gridEvidencias.DataBind();
+            if (Session["Log"] == null)
+            {
+                Response.Redirect("~/Log.aspx");
+            }
+            else
+            {
+                DataTable tb = new DataTable();
+                tb = consultaTablaResultados();
+                gridEvidencias.DataSource = tb;
+                gridEvidencias.DataBind();
+            }
         }
 
         private DataTable consultaTablaResultados()
         {
+
             DataTable tb= new DataTable();
             tb.Columns.Add("indicadorId");
             tb.Columns.Add("descripcionIndicador");
@@ -131,13 +164,14 @@ namespace IndicadoresFreyman.Indicadores
 
         public string CargarEstilosCumplimiento(decimal valor)//Estilos en columna Cumplimiento del Objetivo
         {
-            string estilo = "";
+            decimal mid = (calificacionMinima + 100) / 2;
+            string estilo;
 
-            if (valor >= 90)
+            if (valor >= mid)
             {
                 estilo = "badge badge-pill badge-success";
             }
-            else if (valor >= 80)
+            else if (valor >= calificacionMinima)
             {
                 estilo = "badge badge-pill badge-warning";
             }
@@ -151,62 +185,94 @@ namespace IndicadoresFreyman.Indicadores
 
         private void ValidacionIndicadoresCerrado()
         {
-            string query = "select top 1  isnull(cast(fechaCerrado as varchar(10)),'1') as fechaCerrado from resultadoIndicador ri left join Indicador i on ri.indicadorId=i.IndicadorId where mes=" + mes + " and año=" + año + " and activo=1 and empleadoId=" + Session["Log"];
-            string cerrado = "";
-            using (SqlConnection con = new SqlConnection(conn))
+            if (Session["Log"] == null)
             {
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    con.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
-                    {
-                        cerrado = reader["fechaCerrado"].ToString();
-                    }
-                }
-            }
-            if (cerrado == "")
-            {
-                (gridEvidencias.MasterTableView.GetColumn("resultado") as GridBoundColumn).ReadOnly = true;
-                gridEvidencias.MasterTableView.GetColumn("resultado").ItemStyle.BackColor = ColorTranslator.FromHtml("#74C99B");
-                RadAsyncUpload1.Visible = false;
-                button1.Visible = false;
-                etiquetaCerrado.Visible = true;
-                etiquetaCerrado.InnerHtml = "<h2 style='color:red'>No tienes indicadores asignados, informa a tu gerente que te los asigne</h2>";
-                indicadoresEnviados = false;
-            }
-            else if (cerrado == "1")
-            {
-                etiquetaCerrado.Visible = false;
-                indicadoresEnviados = false;
+                Response.Redirect("~/Log.aspx");
             }
             else
             {
-                (gridEvidencias.MasterTableView.GetColumn("resultado") as GridBoundColumn).ReadOnly = true;
-                gridEvidencias.MasterTableView.GetColumn("resultado").ItemStyle.BackColor = ColorTranslator.FromHtml("#74C99B");
-                RadAsyncUpload1.Visible = false;
-                button1.Visible = false;
-                etiquetaCerrado.Visible = true;
-                etiquetaCerrado.InnerHtml = "<h2 style='color:red'>Tus Indicadores ya fueron enviados</h2>";
-                indicadoresEnviados = true;
+                string query = "select top 1  isnull(cast(fechaCerrado as varchar(10)),'1') as fechaCerrado from resultadoIndicador ri left join Indicador i on ri.indicadorId=i.IndicadorId where mes=" + mes + " and año=" + año + " and activo=1 and empleadoId=" + Session["Log"];
+                string cerrado = "";
+                using (SqlConnection con = new SqlConnection(conn))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            cerrado = reader["fechaCerrado"].ToString();
+                        }
+                    }
+                }
+                if (cerrado == "1")
+                {
+                    if (DateTime.Now.Day >= diasDisponible)
+                    {
+                        cerrado = "2";
+                    }
+                }
+
+                if (cerrado == "")
+                {
+                    (gridEvidencias.MasterTableView.GetColumn("resultado") as GridBoundColumn).ReadOnly = true;
+                    gridEvidencias.MasterTableView.GetColumn("resultado").ItemStyle.BackColor = ColorTranslator.FromHtml("#74C99B");
+                    RadAsyncUpload1.Visible = false;
+                    button1.Visible = false;
+                    etiquetaCerrado.Visible = true;
+                    etiquetaCerrado.InnerHtml = "<h2 style='color:red'>No tienes indicadores asignados, informa a tu gerente que te los asigne</h2>";
+                    indicadoresEnviados = false;
+                }
+                else if (cerrado == "1")
+                {
+                    etiquetaCerrado.Visible = false;
+                    indicadoresEnviados = false;
+                }
+                else if (cerrado == "2")
+                {
+                    (gridEvidencias.MasterTableView.GetColumn("resultado") as GridBoundColumn).ReadOnly = true;
+                    gridEvidencias.MasterTableView.GetColumn("resultado").ItemStyle.BackColor = ColorTranslator.FromHtml("#74C99B");
+                    RadAsyncUpload1.Visible = false;
+                    button1.Visible = false;
+                    etiquetaCerrado.Visible = true;
+                    etiquetaCerrado.InnerHtml = "<h2 style='color:red'>Se excedió el tiempo para subir indicadores</h2>";
+                    indicadoresEnviados = true;
+                }
+                else
+                {
+                    (gridEvidencias.MasterTableView.GetColumn("resultado") as GridBoundColumn).ReadOnly = true;
+                    gridEvidencias.MasterTableView.GetColumn("resultado").ItemStyle.BackColor = ColorTranslator.FromHtml("#74C99B");
+                    RadAsyncUpload1.Visible = false;
+                    button1.Visible = false;
+                    etiquetaCerrado.Visible = true;
+                    etiquetaCerrado.InnerHtml = "<h2 style='color:red'>Tus Indicadores ya fueron enviados</h2>";
+                    indicadoresEnviados = true;
+                }
             }
         }
 
         private void DatosUsuario()//Datos del usuario
         {
-            string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["Log"] + ";";
-
-            using (SqlConnection con = new SqlConnection(conn))
+            if (Session["Log"] == null)
             {
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                Response.Redirect("~/Log.aspx");
+            }
+            else
+            {
+                string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["Log"] + ";";
+
+                using (SqlConnection con = new SqlConnection(conn))
                 {
-                    con.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        // Assuming your data is a string
-                        string dataFromDb = reader["nombre"].ToString();
-                        HiddenLabel.Text = dataFromDb; // Assigning to a hidden label
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            // Assuming your data is a string
+                            string dataFromDb = reader["nombre"].ToString();
+                            HiddenLabel.Text = dataFromDb; // Assigning to a hidden label
+                        }
                     }
                 }
             }
@@ -214,19 +280,25 @@ namespace IndicadoresFreyman.Indicadores
 
         private void ValidarArchivoEvidencia()//Datos del mes
         {
-
-            DataTable dt = ConsultaArchivo();
-            if (dt.Rows.Count > 0)
+            if (Session["Log"] == null)
             {
-                ltrNoResults.Visible = false;
-                Repeater1.DataSource = dt;
-                Repeater1.DataBind();
-                archivoGuardado = true;
+                Response.Redirect("~/Log.aspx");
             }
             else
             {
-                ltrNoResults.Visible = true;
-                archivoGuardado = false;
+                DataTable dt = ConsultaArchivo();
+                if (dt.Rows.Count > 0)
+                {
+                    ltrNoResults.Visible = false;
+                    Repeater1.DataSource = dt;
+                    Repeater1.DataBind();
+                    archivoGuardado = true;
+                }
+                else
+                {
+                    ltrNoResults.Visible = true;
+                    archivoGuardado = false;
+                }
             }
         }
 
@@ -508,57 +580,64 @@ namespace IndicadoresFreyman.Indicadores
         }
         protected void RadAsyncUpload1_FileUploaded(object sender, FileUploadedEventArgs e)
         {
-            if (RadAsyncUpload1.UploadedFiles.Count > 1)
+            if (Session["Log"] == null)
             {
-                // If more than one file is uploaded, show an error and return
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Solo se puede seleccionar un archivo');", true);
-                return;
+                Response.Redirect("~/Log.aspx");
             }
-            if (e.File != null)
+            else
             {
-                // Convert file to byte array
-                byte[] fileData;
-                using (var ms = new MemoryStream())
+                if (RadAsyncUpload1.UploadedFiles.Count > 1)
                 {
-                    e.File.InputStream.CopyTo(ms);
-                    fileData = ms.ToArray();
+                    // If more than one file is uploaded, show an error and return
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Solo se puede seleccionar un archivo');", true);
+                    return;
                 }
-
-                try
+                if (e.File != null)
                 {
-                    string nombreArchivo = e.File.FileName;
-                    long tamaño = e.File.ContentLength;
-
-                    string query = "if (select top 1 fechaCerrado from resultadoIndicador where mes=" + mes + " and año=" + año + " and indicadorId=(select top 1 indicadorId from Indicador where empleadoId=" + Session["Log"] + " and activo=1)) is null begin " +
-                                    "if not exists(select* from Evidencia where mes=" + mes + " and año=" + mes + " and empleadoId=" + Session["Log"] + ") " +
-                                        "begin " +
-                                        "insert into Evidencia values(" + Session["Log"] + "," + mes + "," + año + ",'" + nombreArchivo + "',null,@archivo," + tamaño + ", getdate() ); " +
-                                    "end " +
-                                    "else " +
-                                        "begin " +
-                                        "update Evidencia set nombreArchivo='" + nombreArchivo + "', archivo=@archivo, tamaño=" + tamaño + " where empleadoId=" + Session["Log"] + " and mes=" + mes + " and año=" + año + " " +
-                                    "end end";
-
-                    using (SqlConnection connection = new SqlConnection(conn))
+                    // Convert file to byte array
+                    byte[] fileData;
+                    using (var ms = new MemoryStream())
                     {
-                        using (SqlCommand command = new SqlCommand(query, connection))
-                        {
-                            command.Parameters.Add("@archivo", SqlDbType.VarBinary).Value = fileData;
-
-                            connection.Open();
-                            int i = command.ExecuteNonQuery();
-
-                            archivoGuardado = (i > 0) ? true : false;
-                        }
+                        e.File.InputStream.CopyTo(ms);
+                        fileData = ms.ToArray();
                     }
 
+                    try
+                    {
+                        string nombreArchivo = e.File.FileName;
+                        long tamaño = e.File.ContentLength;
 
-                }
-                catch (Exception ex)
-                {
-                    // Register a script to display an alert with the error message
-                    string errorMessage = ex.Message.Replace("'", "\\'"); // Escape single quotes
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", $"alert('Error: {errorMessage}');", true);
+                        string query = "if (select top 1 fechaCerrado from resultadoIndicador where mes=" + mes + " and año=" + año + " and indicadorId=(select top 1 indicadorId from Indicador where empleadoId=" + Session["Log"] + " and activo=1)) is null begin " +
+                                        "if not exists(select* from Evidencia where mes=" + mes + " and año=" + mes + " and empleadoId=" + Session["Log"] + ") " +
+                                            "begin " +
+                                            "insert into Evidencia values(" + Session["Log"] + "," + mes + "," + año + ",'" + nombreArchivo + "',null,@archivo," + tamaño + ", getdate() ); " +
+                                        "end " +
+                                        "else " +
+                                            "begin " +
+                                            "update Evidencia set nombreArchivo='" + nombreArchivo + "', archivo=@archivo, tamaño=" + tamaño + " where empleadoId=" + Session["Log"] + " and mes=" + mes + " and año=" + año + " " +
+                                        "end end";
+
+                        using (SqlConnection connection = new SqlConnection(conn))
+                        {
+                            using (SqlCommand command = new SqlCommand(query, connection))
+                            {
+                                command.Parameters.Add("@archivo", SqlDbType.VarBinary).Value = fileData;
+
+                                connection.Open();
+                                int i = command.ExecuteNonQuery();
+
+                                archivoGuardado = (i > 0) ? true : false;
+                            }
+                        }
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        // Register a script to display an alert with the error message
+                        string errorMessage = ex.Message.Replace("'", "\\'"); // Escape single quotes
+                        ClientScript.RegisterStartupScript(this.GetType(), "alert", $"alert('Error: {errorMessage}');", true);
+                    }
                 }
             }
 
