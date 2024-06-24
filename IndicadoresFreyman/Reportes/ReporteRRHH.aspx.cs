@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Telerik.Web.UI;
 
 namespace IndicadoresFreyman.Reportes
 {
@@ -49,9 +50,23 @@ namespace IndicadoresFreyman.Reportes
 
         protected void RadGridRRHH_ItemDataBound(object sender, Telerik.Web.UI.GridItemEventArgs e)
         {
-
+            if (e.Item is GridDataItem)
+            {
+                GridDataItem item = e.Item as GridDataItem;
+                try 
+                {
+                    if (item["fechaCerrado"].Text !="&nbsp;") {
+                         DateTime fechaCerrado = DateTime.Parse(item["fechaCerrado"].Text);
+                    
+                        if (fechaCerrado.Day > 7)
+                        {
+                            item["fechaCerrado"].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBCEC0");
+                        }
+                    }
+                
+                } catch { }
+            }
         }
-
         protected void btnActualizar_Click(object sender, ImageClickEventArgs e)
         {
             ObtenerInfo();

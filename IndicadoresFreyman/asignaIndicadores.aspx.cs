@@ -18,14 +18,17 @@ namespace IndicadoresFreyman
         Conexion con = new Conexion();
         protected void Page_Load(object sender, EventArgs e)
         {
-           // hdnEmpleadoLog.Value = Convert.ToString((int)Session["Log"]);
+            hdnJefe.Value = Convert.ToString((int)Session["Log"]);
             hdnArea.Value = Convert.ToString((int)Session["Depto"]);
             hdnCorreo.Value = (string)Session["Correo"];
+
            
         }
 
 
 
+
+       
 
 
         private DataTable consultaEmpleados()
@@ -33,7 +36,7 @@ namespace IndicadoresFreyman
             DataTable dt;
             string strsql = String.Format("select IdEmpleado,nombre, DeptoId, Departamento ,isnull(sum(i.ponderacion),0) ponderacion from Vacaciones.dbo.AdministrativosNomiChecador as e " +
                                 "left join  Indicador as i on e.IdEmpleado = i.empleadoId   and activo = 1 " +
-                                "where jefeinmediato = '{0}'" +
+                                "where jefeinmediato = '{0}' and puesto not in ('GERENTE DE AUDITORIA', 'GERENTE DE VENTAS', 'COORDINADOR DE AUDITORIA') " +
                                 "group by IdEmpleado,nombre, DeptoId, Departamento order by nombre", hdnCorreo.Value);
             dt = con.getDatatable(strsql);
             if (hdnEmpleado.Value == "0")
@@ -85,7 +88,7 @@ namespace IndicadoresFreyman
                 {
                     GridDataItem item = (GridDataItem)e.Item;
                     string nombre = item["nombre"].Text;
-                    int ponderacion = int.Parse(item["ponderacion"].Text);
+                    decimal  ponderacion = decimal.Parse(item["ponderacion"].Text);
                     //if (ponderacionStr != "")
                     //{
                     //int ponderacion = int.Parse(ponderacionStr);
@@ -224,8 +227,8 @@ namespace IndicadoresFreyman
             {
                 string pIndicadorId = fila["pIndicadorId"].Text;              
                 string ponderacion = fila["ponderacion"].Text.Replace("%","");
-                string indicadorMinimo = fila["indicadorMinimo"].Text;
-                string indicadorDeseable = fila["indicadorDeseable"].Text;
+                string indicadorMinimo = fila["indicadorMinimo"].Text.Replace(",", "");
+                string indicadorDeseable = fila["indicadorDeseable"].Text.Replace(",", "");
                 strsql += String.Format("  exec guardaAsignacion {0}, {1}, {2}, {3}, {4}", pIndicadorId, hdnEmpleado.Value, ponderacion, indicadorMinimo, indicadorDeseable);
              
 
@@ -282,7 +285,7 @@ namespace IndicadoresFreyman
         private DataTable consultaAsigna()
         {
             DataTable dt;
-            string strsql = String.Format("select p.pIndicadorId, descripcionIndicador, (ponderacion*1.0)/100 ponderacion, p.indicadorMinimo, p.indicadorDeseable, cast(0 as bit)  activo  from PlantillaIndicador as p   where not exists (select * from  Indicador as a  where p.pIndicadorId = a.pIndicadorId  and empleadoId = {1} and activo = 1  ) and area ={0} and estatus = 1 and p.pIndicadorId  not in ({2})", hdnArea.Value, hdnEmpleado.Value, hdnIndicador.Value);
+            string strsql = String.Format("select p.pIndicadorId, descripcionIndicador, (ponderacion*1.0)/100 ponderacion, p.indicadorMinimo, p.indicadorDeseable, cast(0 as bit)  activo  from PlantillaIndicador as p   where not exists (select * from  Indicador as a  where p.pIndicadorId = a.pIndicadorId  and empleadoId = {1} and activo = 1  ) and area ={0} and estatus = 1 and p.pIndicadorId  not in ({2})  and jefeId = {3}", hdnArea.Value, hdnEmpleado.Value, hdnIndicador.Value, hdnJefe.Value);
             dt = con.getDatatable(strsql);
             return dt;
         }      
@@ -320,6 +323,9 @@ namespace IndicadoresFreyman
                     
                 }
             }
+
+
+           
             //lblsuma.Text = "Total ponderación: " + Convert.ToString(suma);
             //suma();
             radGridIndicador.DataSource = consultaIndicadores();

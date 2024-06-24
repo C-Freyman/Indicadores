@@ -25,6 +25,7 @@ namespace IndicadoresFreyman
                 hdnArea.Value = Convert.ToString((int)Session["Depto"]);
                 hdnCorreo.Value = (string)Session["Correo"];
                 int empleado = (int)Session["Log"];
+                hdnJefe.Value = Convert.ToString(empleado);
 
                 DataTable dt;
                 string strsql = String.Format("select IdEmpleado,nombre, DeptoId, Departamento from  Vacaciones.dbo.AdministrativosNomiChecador where JefeInmediato = (select correo from Vacaciones.dbo.AdministrativosNomiChecador where IdEmpleado = {0})", empleado);
@@ -36,7 +37,7 @@ namespace IndicadoresFreyman
 
                 tipo();
                 estatus();
-                //ordenamiento();
+                cargaOrdenamiento();
             }
         }
 
@@ -61,19 +62,20 @@ namespace IndicadoresFreyman
             ddltipo.DataBind();
             //ddltipo.SelectedValue = "1";
             ddltipo.Items.Insert(0,"Selecciona tipo");
-            ddltipo.SelectedIndex = 1;
+      
         }
 
 
-        //private void ordenamiento()
-        //{
-        //    string strsql = "select * from Ordenamiento order by orden";
-        //    dllOrden.DataSource = con.getReader(strsql);
-        //    dllOrden.DataTextField = "orden";
-        //    dllOrden.DataValueField = "ordenId";
-        //    dllOrden.DataBind();
-            
-        //}
+        private void cargaOrdenamiento()
+        {
+            string strsql = "select * from Ordenamiento order by orden";
+            dllOrden.DataSource = con.getReader(strsql);
+            dllOrden.DataTextField = "orden";
+            dllOrden.DataValueField = "ordenId";
+            dllOrden.DataBind();
+            dllOrden.Items.Insert(0, "Selecciona orden");
+
+        }
 
 
         protected void radGridIndicador_NeedDataSource(object sender, Telerik.Web.UI.GridNeedDataSourceEventArgs e)
@@ -91,11 +93,11 @@ namespace IndicadoresFreyman
 
             if (selectedValue == "Activo")
             {
-                strsql = String.Format("SELECT pIndicadorId, descripcionIndicador, ponderacion/100 ponderacion, indicadorMinimo, indicadorDeseable, t.TipoId,tipo,area,estatus FROM[PlantillaIndicador] as i inner join TipoIndicador as t on t.tipoId = i.tipoId  where area ={0} and estatus = 1", hdnArea.Value);
+                strsql = String.Format("SELECT pIndicadorId, descripcionIndicador, ponderacion/100 ponderacion, indicadorMinimo, indicadorDeseable, t.TipoId,tipo,area,estatus FROM[PlantillaIndicador] as i inner join TipoIndicador as t on t.tipoId = i.tipoId  where area ={0} and estatus = 1  and jefeId = {1}", hdnArea.Value, hdnJefe.Value);
             }
             else
             {
-                strsql = String.Format("SELECT pIndicadorId, descripcionIndicador, ponderacion/100 ponderacion, indicadorMinimo, indicadorDeseable, t.TipoId,tipo,area, estatus FROM[PlantillaIndicador] as i inner join TipoIndicador as t on t.tipoId = i.tipoId  where area = {0} and estatus = 0", hdnArea.Value);
+                strsql = String.Format("SELECT pIndicadorId, descripcionIndicador, ponderacion/100 ponderacion, indicadorMinimo, indicadorDeseable, t.TipoId,tipo,area, estatus FROM[PlantillaIndicador] as i inner join TipoIndicador as t on t.tipoId = i.tipoId  where area = {0} and estatus = 0 and jefeId = {1}", hdnArea.Value, hdnJefe.Value);
             }
             dt = con.getDatatable(strsql);
             return dt;
@@ -222,17 +224,45 @@ namespace IndicadoresFreyman
 
         protected void btnGuardaEditar_Click(object sender, EventArgs e)
         {
+
+            visibleOrdenamiento();
+
             string descripcionIndicador = txtdescripcionIndicador.Text;
             string ponderacion = txtponderacion.Text;
-            string indicadorMinimo = txtindicadorMinimo.Text;
-            string indicadorDeseable = txtindicadorDeseable.Text;
+            string indicadorMinimo = txtindicadorMinimo.Text.Replace(",","");
+            string indicadorDeseable = txtindicadorDeseable.Text.Replace(",", "");
             string Tipoid = ddltipo.SelectedValue;
             string area = hdnArea.Value;
             string strsql = "";
 
+            if (ddltipo.SelectedIndex == 0)
+            {
+                lblErrortipo.Visible = true;
+                return;
+            }
+            else
+            {
+                lblErrortipo.Visible = false;
+            }
+        
+
+            if (txtindicadorMinimo.Text.Replace(".00","") == txtindicadorDeseable.Text.Replace(".00",""))
+            {
+                if (dllOrden.SelectedIndex == 0)
+                {
+                    //RadWindowManager1.RadAlert("Selecciona el ordenamiento de indicador", 0, 0, "", null);
+                    lblErrororden.Visible = true;
+                    return;
+                }
+                else
+                {
+                    lblErrororden.Visible = false;
+                }
+            }
+
             if (lblguarda.Text == "1")
             {
-                strsql = String.Format("exec insertPlantllaIndicador  '{0}',   '{1}',  '{2}', '{3}', '{4}', '{5}'", descripcionIndicador, ponderacion, indicadorMinimo, indicadorDeseable, Tipoid, area);
+                strsql = String.Format("exec insertPlantllaIndicador  '{0}',   '{1}',  '{2}', '{3}', '{4}', '{5}', {6}, {7}", descripcionIndicador, ponderacion, indicadorMinimo, indicadorDeseable, Tipoid, area, hdnJefe.Value, dllOrden.SelectedValue);
                 con.Save(strsql);
                 pnlEditar.Visible = false;
                 RadWindowManager1.RadAlert("Guardado exitosamente", 0, 0, "", null);
@@ -240,7 +270,7 @@ namespace IndicadoresFreyman
 
             if (lblguarda.Text == "0")
             {
-                strsql = String.Format("exec updatePlantllaIndicador  '{0}',   {1},  {2}, {3}, {4}, {5}", descripcionIndicador, ponderacion, indicadorMinimo, indicadorDeseable, Tipoid,  hdnIndicadorId.Value );
+                strsql = String.Format("exec updatePlantllaIndicador  '{0}',   {1},  {2}, {3}, {4}, {5}, {6}", descripcionIndicador, ponderacion, indicadorMinimo, indicadorDeseable, Tipoid,  hdnIndicadorId.Value,  dllOrden.SelectedValue);
                 con.Save(strsql);
                 pnlEditar.Visible = false;
                 RadWindowManager1.RadAlert("Actualizado exitosamente", 0, 0, "", null);
@@ -248,6 +278,7 @@ namespace IndicadoresFreyman
             radGridIndicador.DataSource = consulta();
             radGridIndicador.Rebind();
             limpiar();
+            ordenamiento.Visible = false;
         }
 
         protected void btncerrarMdl_Click(object sender, EventArgs e)
@@ -255,59 +286,81 @@ namespace IndicadoresFreyman
            
             pnlEditar.Visible = false;
             limpiar();
+           
             
             
 
         }
 
-        
+        private void visibleOrdenamiento()
+        {
+            decimal minimo = 0;
+            decimal deseable = 0;
+            if (txtindicadorMinimo.Text != "")
+            {
+                minimo = decimal.Parse(txtindicadorMinimo.Text);
+            }
+            if (txtindicadorDeseable.Text != "")
+            {
+                deseable = decimal.Parse(txtindicadorDeseable.Text);
+            }
+
+            if (minimo == deseable)
+            {
+                ordenamiento.Visible = true;
+            }
+            else
+            {
+                ordenamiento.Visible = false;
+            }
+        }
 
         protected void txtindicadorMinimo_TextChanged(object sender, EventArgs e)
         {
-            //decimal minimo = 0;
-            //decimal deseable = 0;
-            //if (txtindicadorMinimo.Text != "")
-            //{
-            //    minimo = decimal.Parse(txtindicadorMinimo.Text);
-            //}
-            //if (txtindicadorDeseable.Text != "")
-            //{ 
-            //    deseable = decimal.Parse(txtindicadorDeseable.Text);
-            //}
+            decimal minimo = 0;
+            decimal deseable = 0;
+            if (txtindicadorMinimo.Text != "")
+            {
+                minimo = decimal.Parse(txtindicadorMinimo.Text);
+            }
+            if (txtindicadorDeseable.Text != "")
+            {
+                deseable = decimal.Parse(txtindicadorDeseable.Text);
+            }
 
-            //if (minimo < deseable)
-            //{
-            //    lblordrnamiento.Text = "Ascendente";
-            //}
+            if (minimo == deseable)
+            {
+                ordenamiento.Visible = true;
+            }
+            else
+            {
+                ordenamiento.Visible = false;
+            }
 
-            //if (minimo > deseable)
-            //{
-            //    lblordrnamiento.Text = "Descendente";
-            //}
         }
 
         protected void txtindicadorDeseable_TextChanged(object sender, EventArgs e)
         {
-            //decimal minimo = 0;
-            //decimal deseable = 0;
-            //if (txtindicadorMinimo.Text != "")
-            //{
-            //    minimo = decimal.Parse(txtindicadorMinimo.Text);
-            //}
-            //if (txtindicadorDeseable.Text != "")
-            //{
-            //    deseable = decimal.Parse(txtindicadorDeseable.Text);
-            //}
+            decimal minimo = 0;
+            decimal deseable = 0;
+            if (txtindicadorMinimo.Text != "")
+            {
+                minimo = decimal.Parse(txtindicadorMinimo.Text);
+            }
+            if (txtindicadorDeseable.Text != "")
+            {
+                deseable = decimal.Parse(txtindicadorDeseable.Text);
+            }
 
-            //if (minimo < deseable)
-            //{
-            //    lblordrnamiento.Text = "Ascendente";
-            //}
+            if (minimo == deseable)
+            {
+                ordenamiento.Visible = true;
+            }
+            else
+            {
+                ordenamiento.Visible=false;
+            }
 
-            //if (minimo > deseable)
-            //{
-            //    lblordrnamiento.Text = "Descendente";
-            //}
 
         }
 

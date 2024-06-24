@@ -105,6 +105,15 @@ namespace IndicadoresFreyman
         protected global::Telerik.Web.UI.RadDropDownList ddltipo;
 
         /// <summary>
+        /// Control lblErrortipo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrortipo;
+
+        /// <summary>
         /// Control txtdescripcionIndicador.
         /// </summary>
         /// <remarks>
@@ -141,6 +150,33 @@ namespace IndicadoresFreyman
         protected global::System.Web.UI.WebControls.TextBox txtindicadorDeseable;
 
         /// <summary>
+        /// Control ordenamiento.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow ordenamiento;
+
+        /// <summary>
+        /// Control dllOrden.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadDropDownList dllOrden;
+
+        /// <summary>
+        /// Control lblErrororden.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrororden;
+
+        /// <summary>
         /// Control btnGuardaEditar.
         /// </summary>
         /// <remarks>
@@ -175,5 +211,14 @@ namespace IndicadoresFreyman
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::Telerik.Web.UI.RadWindow RadWindow1;
+
+        /// <summary>
+        /// Control hdnJefe.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnJefe;
     }
 }
