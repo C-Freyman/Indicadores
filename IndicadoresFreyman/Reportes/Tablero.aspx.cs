@@ -182,15 +182,15 @@ namespace IndicadoresFreyman.Reportes
 
                                 if (double.TryParse(valor.Split('_')[1], out cellValue))
                                 {
-                                    if (cellValue >= 0 && cellValue <= 80)
+                                    if (cellValue >= 0 && cellValue < 80)
                                     {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBCEC0");//rojo
                                     }
-                                    if (cellValue > 80 && cellValue <= 90)
+                                    if (cellValue >= 80 && cellValue < 90)
                                     {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBF8C0");//amarillo
                                     }
-                                    if (cellValue > 90 && cellValue <=100)
+                                    if (cellValue >= 90 && cellValue <100)
                                     {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#CCF7C3");//verde
                                     }//
@@ -217,15 +217,15 @@ namespace IndicadoresFreyman.Reportes
                         double cellValue;
                         if (double.TryParse(cellText, out cellValue))
                         {
-                            if (cellValue >= 0 && cellValue <= 80)
+                            if (cellValue >= 0 && cellValue < 80)
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBCEC0");//rojo
                             }
-                            if (cellValue > 80 && cellValue <= 90)
+                            if (cellValue >= 80 && cellValue < 90)
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBF8C0");//amarillo
                             }
-                            if (cellValue > 90 && cellValue <= 100)
+                            if (cellValue >= 90 && cellValue < 100)
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#CCF7C3");//verde
                             }
