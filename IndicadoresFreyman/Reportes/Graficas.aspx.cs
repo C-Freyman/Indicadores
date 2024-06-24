@@ -42,8 +42,9 @@ namespace IndicadoresFreyman.Reportes
                 radDepartamentos.DataTextField = "Departamento";
                 radDepartamentos.DataValueField = "iddepartamento";
                 radDepartamentos.DataBind();
-                radDepartamentos.Items.Add(new RadComboBoxItem("SELECCIONA", "-1"));
-                radDepartamentos.SelectedValue = "-1";
+                SeleccionarItemsCombo(radDepartamentos);
+                //radDepartamentos.Items.Add(new RadComboBoxItem("SELECCIONA", "-1"));
+                //radDepartamentos.SelectedValue = "-1";
 
                 string qa = "select distinct año from [Indicadores] .dbo.[HistoricoEmpleadoIndicador] where año is not null order by año\r\n";
                 DataTable dta = con.getDatatable(qa);
@@ -65,6 +66,10 @@ namespace IndicadoresFreyman.Reportes
                 RadJerarquia.DataTextField = "Descripcion";
                 RadJerarquia.DataValueField = "Id";
                 RadJerarquia.DataBind();
+
+                SeleccionarItemsCombo(RadJerarquia);
+
+                ObtenerEmpleados();
                 // radAñoA.Items.Add(new RadComboBoxItem("SELECCIONA", "-1"));
                 // radAñoA.SelectedValue = "-1";
 
@@ -354,8 +359,18 @@ namespace IndicadoresFreyman.Reportes
                 radEmpleados.DataTextField = "Nombre";
                 radEmpleados.DataValueField = "idempleado";
                 radEmpleados.DataBind();
-                radEmpleados.Items.Add(new RadComboBoxItem("SELECCIONA", "-1"));
-                radEmpleados.SelectedValue = "-1";
+                //radEmpleados.Items.Add(new RadComboBoxItem("SELECCIONA", "-1"));
+                //radEmpleados.SelectedValue = "-1";
+                SeleccionarItemsCombo(radEmpleados);
+
+
+            }
+        }
+        private void SeleccionarItemsCombo(Telerik.Web.UI.RadComboBox radCombo)
+        {
+            foreach (RadComboBoxItem item in radCombo.Items)
+            {
+                item.Checked = true;
             }
         }
         private List<int> ShowCheckedItems(Telerik.Web.UI.RadComboBox comboBox)
