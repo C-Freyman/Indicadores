@@ -20,6 +20,7 @@ namespace IndicadoresFreyman.Indicadores
     {
         static protected string conn = "Server = 187.174.147.102; User ID = sa; password=similares*3; DataBase=Indicadores;";
         public bool archivoGuardado;
+        public bool indicadoresEnviados;
         static private string mes;
         static private string año;
         static private bool cambioDeMes;
@@ -172,10 +173,12 @@ namespace IndicadoresFreyman.Indicadores
                 button1.Visible = false;
                 etiquetaCerrado.Visible = true;
                 etiquetaCerrado.InnerHtml = "<h2 style='color:red'>No tienes indicadores asignados, informa a tu gerente que te los asigne</h2>";
+                indicadoresEnviados = false;
             }
             else if (cerrado == "1")
             {
                 etiquetaCerrado.Visible = false;
+                indicadoresEnviados = false;
             }
             else
             {
@@ -185,6 +188,7 @@ namespace IndicadoresFreyman.Indicadores
                 button1.Visible = false;
                 etiquetaCerrado.Visible = true;
                 etiquetaCerrado.InnerHtml = "<h2 style='color:red'>Tus Indicadores ya fueron enviados</h2>";
+                indicadoresEnviados = true;
             }
         }
 
@@ -329,20 +333,33 @@ namespace IndicadoresFreyman.Indicadores
             }
             else if (indicadorMinimo == indicadorDeseable)//Por actividad
             {
-                if (valor >= indicadorDeseable)
+                if (esAscendente)
                 {
-                    cumplimientoObjetivo = 100;
-                    cumplimientoObjetivoReal = 100;
+                    if (valor < indicadorMinimo)
+                    {
+                        cumplimientoObjetivo = 0;
+                    }
+                    else
+                    {
+                        cumplimientoObjetivo = 100;
+                    }
+                    cumplimientoObjetivoReal = cumplimientoObjetivo;
                 }
-                else if (valor < indicadorMinimo)
+                else
                 {
-                    cumplimientoObjetivo = 0;
-                    cumplimientoObjetivoReal = 0;
+                    // Caso donde valorMinimo es mayor que valorDeseable
+                    if (valor > indicadorMinimo)
+                    {
+                        cumplimientoObjetivo = 0;
+                    }
+                    else
+                    {
+                        cumplimientoObjetivo = 100;
+                    }
+                    cumplimientoObjetivoReal = cumplimientoObjetivo;
                 }
             }
             evaluacionPonderada = Math.Round((ponderacion / 100.00) * cumplimientoObjetivo, 2);
-
-
         }
 
         [WebMethod]
@@ -362,13 +379,20 @@ namespace IndicadoresFreyman.Indicadores
                 using (var command = new SqlCommand())
                 {
                     command.Connection = con;
-                    command.CommandText = "select i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli" +
+                    command.CommandText = "select isnull(pli.esAscendente,0)as esAscendente,i.ponderacion,i.indicadorMinimo, i.indicadorDeseable from PlantillaIndicador pli" +
                         " left join Indicador i on i.pIndicadorId=pli.pIndicadorId where i.IndicadorId=" + idIndicador + " and i.activo=1 and pli.estatus=1 and empleadoId=" + obj.Session["Log"] + ";";
                     command.CommandType = CommandType.Text;
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-
+                         try
+                        {
+                            esAscendente = Convert.ToBoolean(reader["esAscendente"]);
+                        }
+                        catch
+                        {
+                            esAscendente = false;
+                        }
                         ponderacion = Convert.ToDouble(reader["ponderacion"]);
                         indicadorMinimo = Convert.ToDouble(reader["indicadorMinimo"]);
                         indicadorDeseable = Convert.ToDouble(reader["indicadorDeseable"]);
