@@ -58,7 +58,7 @@
     <div style="width:300px; display:inline-block; position:absolute; align-items:initial">
         <h2>Histórico</h2>
     </div>
-    <div style="width:300px;margin-left:200px; display:inline-block">
+    <div style="width:300px;margin-left:200px; display:flex">
         <asp:Literal ID="Literal1" runat="server"></asp:Literal>
 
          <%if (Session["puesto"]as string == "2"){%>
@@ -71,7 +71,7 @@
         <% } %>
 
         <%if (Session["puesto"]as string == "1" || Session["puesto"]as string == "2"){%>
-        <div id="divColaboradores" style="display: inline-block;">
+        <div id="divColaboradores" style="margin-left:50px; display: inline-block;">
             <h4>Colaborador</h4>
             <telerik:RadDropDownList RenderMode="Lightweight" ID="RadDropDownList2" runat="server" Width="300" Height="200px" DropDownHeight="200px"
                 DataTextField="Texto" EnableVirtualScrolling="true" AutoPostBack="true" OnSelectedIndexChanged="RadDropDownList2_SelectedIndexChanged">
