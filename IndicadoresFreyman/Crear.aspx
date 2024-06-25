@@ -411,23 +411,31 @@
 
 
                                 </td>
-                            </tr>
-                            <tr id="ordenamiento" runat ="server" visible ="false">
-                                <td colspan="2"></td>
-                                <td style="width: 150px">&nbsp;  &nbsp;   Ordenamiento</td>
-                                <td>
+                                <td id="ordenamientos" runat ="server" visible ="false">
                                     <telerik:RadDropDownList RenderMode="Lightweight" ID="dllOrden" runat="server" 
                                         DropDownHeight="80px"
                                         Width="200px">
                                     </telerik:RadDropDownList>
-                                 
-                                        <asp:Label ID="lblErrororden" runat="server" Text="Ordenamiento Requerido" ForeColor ="Red" Visible ="false"></asp:Label>
-                                  
+                                     <asp:Label ID="lblErrororden" runat="server" Text="Ordenamiento Requerido" ForeColor ="Red" Visible ="false"></asp:Label>
                                 </td>
                             </tr>
+                            
+                            <%--<tr id="ordenamiento" runat ="server" visible ="false" style ="height:80px">
+                                <td colspan="2"></td>
+                                <td style="width: 150px">&nbsp;  &nbsp;   Ordenamiento</td>
+                                <td>
+                                    
+                                 
+                                        <asp:Label ID="lblErrororden2" runat="server" Text="Ordenamiento Requerido" ForeColor ="Red" Visible ="false"></asp:Label>
+                                  
+                                </td>
+                            </tr>--%>
+                           
                         </table>
+                      
                     
                     </div>
+                    
                     <div class="modal-footer">
                         <asp:Button ID="btnGuardaEditar" runat="server" Text="Guardar" OnClick="btnGuardaEditar_Click" OnClientClick="return validaFormulario()" />
                         <asp:Button ID="btncerrarMdl" runat="server" OnClick="btncerrarMdl_Click" Text="Cerrar" />
