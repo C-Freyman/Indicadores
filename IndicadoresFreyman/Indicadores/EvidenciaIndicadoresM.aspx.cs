@@ -26,7 +26,8 @@ namespace IndicadoresFreyman.Indicadores
         static private string año;
         static private bool cambioDeMes;
         private decimal calificacionMinima;
-        private string nombreUsuario;
+        static private string nombreUsuario;
+        static private string correoJefe;
         private int diasDisponible;//dias habiles para subir indicadores
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -260,7 +261,8 @@ namespace IndicadoresFreyman.Indicadores
             }
             else
             {
-                string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["Log"] + ";";
+                string query = "select ent.nombre, a.JefeInmediato from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos ent " +
+                    "left join Directorio.dbo.Administrativos a on ent.codigoempleado=a.NumChecador where ent.idempleado=" + Session["Log"] + ";";
 
                 using (SqlConnection con = new SqlConnection(conn))
                 {
@@ -272,6 +274,7 @@ namespace IndicadoresFreyman.Indicadores
                         {
                             // Assuming your data is a string
                             nombreUsuario = reader["nombre"].ToString();
+                            correoJefe = reader["JefeInmediato"].ToString();
                             HiddenLabel.Text = nombreUsuario; // Assigning to a hidden label
                         }
                     }
@@ -523,6 +526,16 @@ namespace IndicadoresFreyman.Indicadores
                     }
                 }
             }
+            string Correo = "<h2>RESULTADOS DE INDICADORES ENVIADOS</h2>";
+            Correo += "</br>";
+            Correo += "<h3>El colaborador: " + nombreUsuario + " acaba de enviar sus resultados de indicadores.</h3>";
+
+            var ServicioMail = new MailServer.MailSupport();
+            ServicioMail.EnviarMail(
+                asunto: "INDICADORES ENVIADOS DE - " + nombreUsuario,
+                cuerpo: Correo,
+                MailReceptor: new List<string> { correoJefe }
+                );
         }
 
         [WebMethod]
@@ -690,14 +703,18 @@ namespace IndicadoresFreyman.Indicadores
             }
 
         }
-        private void EnvioCorreo()
+        public void EnvioCorreo()
         {
             string Correo = "<h2>RESULTADOS DE INDICADORES ENVIADOS</h2>";
             Correo += "</br>";
             Correo += "<h3>El colaborador: " + nombreUsuario + " acaba de enviar sus resultados de indicadores.</h3>";
 
             var ServicioMail = new MailServer.MailSupport();
-            ServicioMail
+            ServicioMail.EnviarMail(
+                asunto: "INDICADORES ENVIADOS DE - " + nombreUsuario,
+                cuerpo: Correo,
+                MailReceptor: new List<string> { "dfernandez@lofasociados.com.mx" }
+                );
         }
     }
 }
