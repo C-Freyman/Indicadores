@@ -66,5 +66,10 @@ namespace IndicadoresFreyman
             Session["Log"] = null;
             Response.Redirect("/Log.aspx");
         }
+
+        protected void btnManual_Click(object sender, ImageClickEventArgs e)
+        {
+
+        }
     }
 }

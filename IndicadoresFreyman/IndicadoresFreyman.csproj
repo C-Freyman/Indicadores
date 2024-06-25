@@ -192,6 +192,7 @@
     <Content Include="Imagenes\basura.PNG" />
     <Content Include="Imagenes\editar.PNG" />
     <Content Include="Imagenes\editar2.PNG" />
+    <Content Include="Imagenes\Manual.png" />
     <Content Include="Imagenes\paloma.PNG" />
     <Content Include="Imagenes\x.PNG" />
     <Content Include="Log.aspx" />
@@ -417,6 +418,7 @@
     <Content Include="App_Data\RadUploadTemp\1717607752162usuario %281%29.png.tmp" />
     <Content Include="App_Data\RadUploadTemp\RadUploadTestFile" />
     <Content Include="bin\roslyn\Microsoft.Managed.Core.CurrentVersions.targets" />
+    <Content Include="Imagenes\MU-Indicadores_V2.pdf" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
