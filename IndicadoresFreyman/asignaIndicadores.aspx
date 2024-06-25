@@ -78,6 +78,7 @@
     <telerik:RadWindowManager RenderMode="Lightweight" ID="RadWindowManager1" runat="server" EnableShadow="true" Localization-OK="Si" Localization-Cancel="No">
     </telerik:RadWindowManager>
 
+   
     <h2>Asignar</h2>
 
     <div class="split-screen">

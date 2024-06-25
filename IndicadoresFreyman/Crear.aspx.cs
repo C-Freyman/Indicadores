@@ -226,11 +226,14 @@ namespace IndicadoresFreyman
         {
 
             visibleOrdenamiento();
-
+            if (dllOrden.SelectedValue == "0")
+            {
+                dllOrden.SelectedValue = "1";
+            }
             string descripcionIndicador = txtdescripcionIndicador.Text;
             string ponderacion = txtponderacion.Text;
             string indicadorMinimo = txtindicadorMinimo.Text.Replace(",","");
-            string indicadorDeseable = txtindicadorDeseable.Text.Replace(",", "");
+            string indicadorDeseable  = txtindicadorDeseable.Text.Replace(",", "");
             string Tipoid = ddltipo.SelectedValue;
             string area = hdnArea.Value;
             string strsql = "";
