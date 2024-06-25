@@ -16,7 +16,13 @@
             padding: 0;
         }
     </style>
+    <script>
+        function llamarPagina(pagina) {
+            window.open(pagina);
+            // window.location = pagina;
 
+        }
+    </script>
 </head>
 <body>
      <form id="form1" runat="server">
