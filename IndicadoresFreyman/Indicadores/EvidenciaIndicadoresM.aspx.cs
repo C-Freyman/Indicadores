@@ -13,6 +13,7 @@ using Telerik.Web.UI.Skins;
 using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.UI;
+using Telerik.Web;
 
 namespace IndicadoresFreyman.Indicadores
 {
@@ -25,16 +26,17 @@ namespace IndicadoresFreyman.Indicadores
         static private string año;
         static private bool cambioDeMes;
         private decimal calificacionMinima;
+        static private string nombreUsuario;
+        static private string correoJefe;
         private int diasDisponible;//dias habiles para subir indicadores
         protected void Page_Load(object sender, EventArgs e)
         {
             ConfiguracionIndicadores();
+            DatosUsuario();//Carga el nombre de la persona en label
             if (!IsPostBack)
             {
                // Session["Log"] = "3246";
                 ValidarTablaBD();//Procedure para validar si existe o no el registro del mes 
-                
-                DatosUsuario();//Carga el nombre de la persona en label
 
                 if (mes == null || mes == string.Empty)
                 {
@@ -259,7 +261,8 @@ namespace IndicadoresFreyman.Indicadores
             }
             else
             {
-                string query = "select nombre from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos where idempleado=" + Session["Log"] + ";";
+                string query = "select ent.nombre, a.JefeInmediato from MovimientosEmpleados.dbo.EmpleadosNOMI_Todos ent " +
+                    "left join Directorio.dbo.Administrativos a on ent.codigoempleado=a.NumChecador where ent.idempleado=" + Session["Log"] + ";";
 
                 using (SqlConnection con = new SqlConnection(conn))
                 {
@@ -270,8 +273,9 @@ namespace IndicadoresFreyman.Indicadores
                         if (reader.Read())
                         {
                             // Assuming your data is a string
-                            string dataFromDb = reader["nombre"].ToString();
-                            HiddenLabel.Text = dataFromDb; // Assigning to a hidden label
+                            nombreUsuario = reader["nombre"].ToString();
+                            correoJefe = reader["JefeInmediato"].ToString();
+                            HiddenLabel.Text = nombreUsuario; // Assigning to a hidden label
                         }
                     }
                 }
@@ -522,6 +526,16 @@ namespace IndicadoresFreyman.Indicadores
                     }
                 }
             }
+            string Correo = "<h2>RESULTADOS DE INDICADORES ENVIADOS</h2>";
+            Correo += "</br>";
+            Correo += "<h3>El colaborador: " + nombreUsuario + " acaba de enviar sus resultados de indicadores.</h3>";
+
+            var ServicioMail = new MailServer.MailSupport();
+            ServicioMail.EnviarMail(
+                asunto: "INDICADORES ENVIADOS DE - " + nombreUsuario,
+                cuerpo: Correo,
+                MailReceptor: new List<string> { correoJefe }
+                );
         }
 
         [WebMethod]
@@ -688,6 +702,19 @@ namespace IndicadoresFreyman.Indicadores
                 }
             }
 
+        }
+        public void EnvioCorreo()
+        {
+            string Correo = "<h2>RESULTADOS DE INDICADORES ENVIADOS</h2>";
+            Correo += "</br>";
+            Correo += "<h3>El colaborador: " + nombreUsuario + " acaba de enviar sus resultados de indicadores.</h3>";
+
+            var ServicioMail = new MailServer.MailSupport();
+            ServicioMail.EnviarMail(
+                asunto: "INDICADORES ENVIADOS DE - " + nombreUsuario,
+                cuerpo: Correo,
+                MailReceptor: new List<string> { "dfernandez@lofasociados.com.mx" }
+                );
         }
     }
 }
