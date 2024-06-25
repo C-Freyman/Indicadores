@@ -16,7 +16,13 @@
             padding: 0;
         }
     </style>
+    <script>
+        function llamarPagina(pagina) {
+            window.open(pagina);
+            // window.location = pagina;
 
+        }
+    </script>
 </head>
 <body>
      <form id="form1" runat="server">
@@ -60,6 +66,9 @@
              <div onclick="document.getElementById(btnDeslog').click();" style="position: absolute; margin-top: -30px; margin-left: 90%; z-index: 10000">
                  <table>
                      <tr>
+                         <td>
+                             <asp:ImageButton ID="btnManual" Width="30px" ImageUrl="~/Imagenes/Manual.png" runat="server" ToolTip ="MANUAL DE USUARIO" OnClick ="btnManual_Click" style="margin-right :20px" OnClientClick="llamarPagina('http://lof.com.mx:3645/Imagenes/MU-Indicadores_V2.pdf')" />
+                         </td>
                          <td>
                              <asp:ImageButton ID="btnDeslog" ImageUrl="~/Imagenes/LogF_.png" Width="30px" Style="margin-right: 85%" runat="server" OnClick="btnDeslog_Click" /></td>
                          <td>
