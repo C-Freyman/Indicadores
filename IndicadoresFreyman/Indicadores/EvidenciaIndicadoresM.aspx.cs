@@ -13,6 +13,7 @@ using Telerik.Web.UI.Skins;
 using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.UI;
+using Telerik.Web;
 
 namespace IndicadoresFreyman.Indicadores
 {
@@ -25,16 +26,16 @@ namespace IndicadoresFreyman.Indicadores
         static private string año;
         static private bool cambioDeMes;
         private decimal calificacionMinima;
+        private string nombreUsuario;
         private int diasDisponible;//dias habiles para subir indicadores
         protected void Page_Load(object sender, EventArgs e)
         {
             ConfiguracionIndicadores();
+            DatosUsuario();//Carga el nombre de la persona en label
             if (!IsPostBack)
             {
                // Session["Log"] = "3246";
                 ValidarTablaBD();//Procedure para validar si existe o no el registro del mes 
-                
-                DatosUsuario();//Carga el nombre de la persona en label
 
                 if (mes == null || mes == string.Empty)
                 {
@@ -270,8 +271,8 @@ namespace IndicadoresFreyman.Indicadores
                         if (reader.Read())
                         {
                             // Assuming your data is a string
-                            string dataFromDb = reader["nombre"].ToString();
-                            HiddenLabel.Text = dataFromDb; // Assigning to a hidden label
+                            nombreUsuario = reader["nombre"].ToString();
+                            HiddenLabel.Text = nombreUsuario; // Assigning to a hidden label
                         }
                     }
                 }
@@ -691,7 +692,12 @@ namespace IndicadoresFreyman.Indicadores
         }
         private void EnvioCorreo()
         {
-            string Correo="<h2>"
+            string Correo = "<h2>RESULTADOS DE INDICADORES ENVIADOS</h2>";
+            Correo += "</br>";
+            Correo += "<h3>El colaborador: " + nombreUsuario + " acaba de enviar sus resultados de indicadores.</h3>";
+
+            var ServicioMail = new MailServer.MailSupport();
+            ServicioMail
         }
     }
 }
