@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -13,8 +14,10 @@ namespace IndicadoresFreyman.Reportes
     public partial class Tablero : System.Web.UI.Page
     {
         Conexion con = new Conexion();
+        private decimal calificacionMinima;
         protected void Page_Load(object sender, EventArgs e)
         {
+            ConfiguracionIndicadores();
             string TipoTablero = Request.QueryString["TipoTablero"];
             HidTipoTablero.Value = TipoTablero;
 
@@ -38,6 +41,22 @@ namespace IndicadoresFreyman.Reportes
             }
            
             
+        }
+        private void ConfiguracionIndicadores()
+        {
+            using (var con = new SqlConnection("Server = 192.168.0.76; Database = Indicadores; Uid = sa; Pwd = similares * 3;"))
+            {
+                con.Open();
+                using (var cmd = new SqlCommand("SELECT *FROM (SELECT idConfiguracion, valor FROM Configuraciones) as SourceTable PIVOT (MAX(valor)FOR idConfiguracion IN ([1], [2])) as PivotTable;"))
+                {
+                    cmd.Connection = con;
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        calificacionMinima = Convert.ToDecimal(reader["2"]);//calificacion minima
+                    }
+                }
+            }
         }
         protected DataTable ObtenerInfo()
         {
