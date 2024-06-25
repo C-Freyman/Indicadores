@@ -60,6 +60,15 @@ namespace IndicadoresFreyman
         protected global::Telerik.Web.UI.RadMenu RadMenu1;
 
         /// <summary>
+        /// Control btnManual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton btnManual;
+
+        /// <summary>
         /// Control btnDeslog.
         /// </summary>
         /// <remarks>
