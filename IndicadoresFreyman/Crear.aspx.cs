@@ -336,12 +336,14 @@ namespace IndicadoresFreyman
             if (minimo == deseable)
             {
                 ordenamientos.Visible = true;
-               
+                lblErrororden.Visible = true;
+
             }
             else
             {
                 ordenamientos.Visible = false;
-              
+                lblErrororden.Visible = false;
+
             }
 
         }
@@ -362,10 +364,12 @@ namespace IndicadoresFreyman
             if (minimo == deseable)
             {
                 ordenamientos.Visible = true;
+                lblErrororden.Visible = true;
             }
             else
             {
                 ordenamientos.Visible=false;
+                lblErrororden.Visible = false;
             }
 
 

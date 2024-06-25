@@ -18,7 +18,7 @@
 
         .modal-contenidos2 {
             background-color: white;
-            width: 850px;
+            width: 920px;
             padding: 5px 5px;
             margin: 3% auto;
             position: relative;
@@ -395,6 +395,13 @@
 
 
                                 </td>
+                                <td id="ordenamientos" runat ="server" visible ="false">
+                                    &nbsp; &nbsp;
+                                     <telerik:RadDropDownList RenderMode="Lightweight" ID="dllOrden" runat="server" 
+                                        DropDownHeight="80px"
+                                        Width="200px">
+                                    </telerik:RadDropDownList>
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="2"></td>
@@ -411,13 +418,11 @@
 
 
                                 </td>
-                                <td id="ordenamientos" runat ="server" visible ="false">
-                                    <telerik:RadDropDownList RenderMode="Lightweight" ID="dllOrden" runat="server" 
-                                        DropDownHeight="80px"
-                                        Width="200px">
-                                    </telerik:RadDropDownList>
-                                     <asp:Label ID="lblErrororden" runat="server" Text="Ordenamiento Requerido" ForeColor ="Red" Visible ="false"></asp:Label>
+                                <td >
+                                   
+                                     <asp:Label ID="lblErrororden" runat="server" Text="&nbsp; &nbsp; Ordenamiento Requerido" ForeColor ="Red" Visible ="false"></asp:Label>
                                 </td>
+
                             </tr>
                             
                             <%--<tr id="ordenamiento" runat ="server" visible ="false" style ="height:80px">
