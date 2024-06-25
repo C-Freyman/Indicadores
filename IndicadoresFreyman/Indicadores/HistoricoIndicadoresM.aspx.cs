@@ -51,8 +51,9 @@ namespace IndicadoresFreyman.Indicadores
 
         private void ValidarPuesto()
         {
+            var i = Session["Log"];
             //Puestos= 0-colaborador////1-gerente/////2-Contralor
-            if (Session["Log"] as string == "42")//Contralor
+            if (i.ToString() == "42")//Contralor
             {
                 Session["puesto"] = "2";
                 Literal1.Text = "<script>document.getElementById('divColaboradores').style.display = 'inline-block';</script>";

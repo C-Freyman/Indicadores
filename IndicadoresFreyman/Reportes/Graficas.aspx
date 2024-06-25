@@ -54,7 +54,7 @@
                                 <telerik:RadComboBox RenderMode="Lightweight" ID="radDepartamentos" runat="server" CheckBoxes="true" EnableCheckAllItemsCheckBox="true" AutoPostBack="true" OnClientItemChecked="clicItemFiltros" OnCheckAllCheck="radDepartamentos_CheckAllCheck"
                                     Width="300" Label="Departamentos:">
                                 </telerik:RadComboBox>
-                                <telerik:RadComboBox RenderMode="Lightweight" ID="radEmpleados" runat="server" CheckBoxes="true" EnableCheckAllItemsCheckBox="true"
+                                <telerik:RadComboBox RenderMode="Lightweight" ID="radEmpleados" runat="server" CheckBoxes="true" EnableCheckAllItemsCheckBox="true" 
                                     Width="300" Label="Empleados:">
                                 </telerik:RadComboBox>
                                 <span>&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp</span>
