@@ -87,19 +87,28 @@ namespace IndicadoresFreyman.Indicadores
                     {
                         cmd.Connection = con;
                         SqlDataReader reader = cmd.ExecuteReader();
-
+                        int cont = 0;
                         if (reader.HasRows)//Si es gerente
                         {
+                            
                             Session["puesto"] = "1";
                             Literal1.Text = "<script>document.getElementById('divColaboradores').style.display = 'inline-block';</script>";
                             gridHistorico.MasterTableView.GetColumn("Nombre_").Visible = true;
                             RadDropDownList2.Items.Add(new DropDownListItem("TODOS", "1"));
                             while (reader.Read())
                             {
+                                cont++;
                                 RadDropDownList2.Items.Add(new DropDownListItem(reader["Nombre_"].ToString(), reader["IdEmpleado"].ToString()));
                             }
 
                             RadDropDownList2.Enabled = true;
+
+                            if (cont < 2)
+                            {
+                                Session["puesto"] = "0";
+                                LoadDataFromDatabase();
+                                gridHistorico.MasterTableView.GetColumn("Evidencia").Visible = false;
+                            }
                         }
                         else//Colaborador 
                         {

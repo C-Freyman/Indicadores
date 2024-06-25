@@ -226,11 +226,14 @@ namespace IndicadoresFreyman
         {
 
             visibleOrdenamiento();
-
+            if (dllOrden.SelectedValue == "0")
+            {
+                dllOrden.SelectedValue = "1";
+            }
             string descripcionIndicador = txtdescripcionIndicador.Text;
             string ponderacion = txtponderacion.Text;
             string indicadorMinimo = txtindicadorMinimo.Text.Replace(",","");
-            string indicadorDeseable = txtindicadorDeseable.Text.Replace(",", "");
+            string indicadorDeseable  = txtindicadorDeseable.Text.Replace(",", "");
             string Tipoid = ddltipo.SelectedValue;
             string area = hdnArea.Value;
             string strsql = "";
@@ -278,7 +281,7 @@ namespace IndicadoresFreyman
             radGridIndicador.DataSource = consulta();
             radGridIndicador.Rebind();
             limpiar();
-            ordenamiento.Visible = false;
+            ordenamientos.Visible = false;
         }
 
         protected void btncerrarMdl_Click(object sender, EventArgs e)
@@ -307,11 +310,13 @@ namespace IndicadoresFreyman
 
             if (minimo == deseable)
             {
-                ordenamiento.Visible = true;
+                ordenamientos.Visible = true;
+              
             }
             else
             {
-                ordenamiento.Visible = false;
+                ordenamientos.Visible = false;
+              
             }
         }
 
@@ -330,11 +335,15 @@ namespace IndicadoresFreyman
 
             if (minimo == deseable)
             {
-                ordenamiento.Visible = true;
+                ordenamientos.Visible = true;
+                lblErrororden.Visible = true;
+
             }
             else
             {
-                ordenamiento.Visible = false;
+                ordenamientos.Visible = false;
+                lblErrororden.Visible = false;
+
             }
 
         }
@@ -354,11 +363,13 @@ namespace IndicadoresFreyman
 
             if (minimo == deseable)
             {
-                ordenamiento.Visible = true;
+                ordenamientos.Visible = true;
+                lblErrororden.Visible = true;
             }
             else
             {
-                ordenamiento.Visible=false;
+                ordenamientos.Visible=false;
+                lblErrororden.Visible = false;
             }
 
 
