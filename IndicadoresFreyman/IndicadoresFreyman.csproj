@@ -273,6 +273,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Indicadores\MailServer\MailSupport.cs" />
+    <Compile Include="Indicadores\MailServer\MasterServer.cs" />
     <Compile Include="Log.aspx.cs">
       <DependentUpon>Log.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

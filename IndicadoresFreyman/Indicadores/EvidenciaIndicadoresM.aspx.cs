@@ -689,6 +689,10 @@ namespace IndicadoresFreyman.Indicadores
             }
 
         }
+        private void EnvioCorreo()
+        {
+            string Correo="<h2>"
+        }
     }
 }
 // Clase del modelo de datos
