@@ -44,7 +44,7 @@ namespace IndicadoresFreyman.Reportes
         }
         private void ConfiguracionIndicadores()
         {
-            using (var con = new SqlConnection("Server = 192.168.0.76; Database = Indicadores; Uid = sa; Pwd = similares * 3;"))
+            using (var con = new SqlConnection("Server = 192.168.0.76; Database = Indicadores; Uid = sa; Pwd = similares*3;"))
             {
                 con.Open();
                 using (var cmd = new SqlCommand("SELECT *FROM (SELECT idConfiguracion, valor FROM Configuraciones) as SourceTable PIVOT (MAX(valor)FOR idConfiguracion IN ([1], [2])) as PivotTable;"))
@@ -209,7 +209,7 @@ namespace IndicadoresFreyman.Reportes
                                     {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBF8C0");//amarillo
                                     }
-                                    if (cellValue >= 90 && cellValue <100)
+                                    if (cellValue >= 90 && cellValue <=100)
                                     {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#CCF7C3");//verde
                                     }//
@@ -244,7 +244,7 @@ namespace IndicadoresFreyman.Reportes
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBF8C0");//amarillo
                             }
-                            if (cellValue >= 90 && cellValue < 100)
+                            if (cellValue >= 90 && cellValue <= 100)
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#CCF7C3");//verde
                             }
