@@ -14,7 +14,7 @@ namespace IndicadoresFreyman.Reportes
     public partial class Tablero : System.Web.UI.Page
     {
         Conexion con = new Conexion();
-        private decimal calificacionMinima;
+        private double calificacionMinima;
         protected void Page_Load(object sender, EventArgs e)
         {
             ConfiguracionIndicadores();
@@ -44,7 +44,9 @@ namespace IndicadoresFreyman.Reportes
         }
         private void ConfiguracionIndicadores()
         {
-            using (var con = new SqlConnection("Server = 192.168.0.76; Database = Indicadores; Uid = sa; Pwd = similares*3;"))
+
+            using (var con = new SqlConnection("Server = 192.168.0.76; User ID = sa; password=similares*3; DataBase=Indicadores;"))
+
             {
                 con.Open();
                 using (var cmd = new SqlCommand("SELECT *FROM (SELECT idConfiguracion, valor FROM Configuraciones) as SourceTable PIVOT (MAX(valor)FOR idConfiguracion IN ([1], [2])) as PivotTable;"))
@@ -53,7 +55,7 @@ namespace IndicadoresFreyman.Reportes
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        calificacionMinima = Convert.ToDecimal(reader["2"]);//calificacion minima
+                        calificacionMinima = Convert.ToDouble(reader["2"]);//calificacion minima
                     }
                 }
             }
@@ -163,6 +165,8 @@ namespace IndicadoresFreyman.Reportes
         {
             if (e.Item is GridDataItem)
             {
+                double mid = (calificacionMinima + 100) / 2;
+
                 GridDataItem item = e.Item as GridDataItem;
                 if (HidTipoTablero.Value == "I")
                 {
@@ -173,6 +177,7 @@ namespace IndicadoresFreyman.Reportes
                     item["Ponderación"].Font.Bold = true;
                     item["Indicador Mínimo"].Font.Bold = true;
                     item["Indicador Deseable"].Font.Bold = true;
+
 
                     //for (int i = 0; i < item.OwnerTableView.Columns.Count; i++)
                     for (int i = 0; i < item.OwnerTableView.Columns.Count; i++)
@@ -201,18 +206,20 @@ namespace IndicadoresFreyman.Reportes
 
                                 if (double.TryParse(valor.Split('_')[1], out cellValue))
                                 {
-                                    if (cellValue >= 0 && cellValue < 80)
+                                    if (cellValue >= 0 && cellValue < calificacionMinima)
                                     {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBCEC0");//rojo
                                     }
-                                    if (cellValue >= 80 && cellValue < 90)
+                                    if (cellValue >= calificacionMinima && cellValue < mid)
                                     {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBF8C0");//amarillo
                                     }
-                                    if (cellValue >= 90 && cellValue <=100)
+
+                                    if (cellValue >= mid && cellValue <=100)
+
                                     {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#CCF7C3");//verde
-                                    }//
+                                    }
                                     if (cellValue >100) {
                                         e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#C0FBEF");//azul
                                     }
@@ -236,15 +243,16 @@ namespace IndicadoresFreyman.Reportes
                         double cellValue;
                         if (double.TryParse(cellText, out cellValue))
                         {
-                            if (cellValue >= 0 && cellValue < 80)
+                            if (cellValue >= 0 && cellValue < calificacionMinima)
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBCEC0");//rojo
                             }
-                            if (cellValue >= 80 && cellValue < 90)
+                            if (cellValue >= calificacionMinima && cellValue < mid)
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#FBF8C0");//amarillo
                             }
-                            if (cellValue >= 90 && cellValue <= 100)
+
+                            if (cellValue >= mid && cellValue <= 100)
                             {
                                 e.Item.Cells[idex].BackColor = System.Drawing.ColorTranslator.FromHtml("#CCF7C3");//verde
                             }

@@ -363,19 +363,19 @@ namespace IndicadoresFreyman
                 if (e.Item is GridDataItem)
                 {
                     GridDataItem item = (GridDataItem)e.Item;                    
-                    double indicadorMinimo = double.Parse(item["indicadorMinimo"].Text);
-                    double indicadorDeseable = double.Parse(item["indicadorDeseable"].Text);
+                    bool esAscendente = bool.Parse(item["esAscendente"].Text);
+                   
                    
                     HtmlGenericControl statusIcon = (HtmlGenericControl)item["colOrdenamiento"].FindControl("StatusIcon");
 
-                    if (indicadorMinimo > indicadorDeseable)
+                    if (!esAscendente)
                     {
 
                         statusIcon.Attributes["class"] = "bi bi-arrow-down"; // Icono para "Active"                    
                         //statusIcon.Attributes["title"] = "Orn";
                     }
 
-                    if (indicadorMinimo <= indicadorDeseable)
+                    if (esAscendente)
                     {
                         statusIcon.Attributes["class"] = "bi bi-arrow-up  "; // Icono para "Active"
                         //statusIcon.Attributes["title"] = "Ponderacion";

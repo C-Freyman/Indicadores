@@ -194,12 +194,14 @@ namespace IndicadoresFreyman
             pnlEditar.Visible = true;
             btnGuardaEditar.Text = "Guardar";
             //dllOrden.SelectedValue = "0";
+            ordenamientos.Visible = false;
+            lblErrororden.Visible = false;
         }
 
         private DataTable consultaEditar(string pIndicadorId)
         {
             DataTable dt;
-            string strsql = String.Format("SELECT pIndicadorId, descripcionIndicador, ponderacion, indicadorMinimo, indicadorDeseable, t.TipoId,tipo,area,estatus FROM[PlantillaIndicador] as i inner join TipoIndicador as t on t.tipoId = i.tipoId  where area ={0} and estatus = 1 and pIndicadorId = {1}", hdnArea.Value, pIndicadorId);
+            string strsql = String.Format("SELECT pIndicadorId, descripcionIndicador, ponderacion, indicadorMinimo, indicadorDeseable, t.TipoId,tipo,area,estatus, case when cast(esAscendente as bit) = 1 then 1 else 0 end  esAscendente FROM[PlantillaIndicador] as i inner join TipoIndicador as t on t.tipoId = i.tipoId  where area ={0} and estatus = 1 and pIndicadorId = {1}", hdnArea.Value, pIndicadorId);
             dt = con.getDatatable(strsql);
             return dt;
         }
@@ -218,7 +220,18 @@ namespace IndicadoresFreyman
             txtponderacion.Text = Convert.ToString((decimal)dt.Rows[0]["ponderacion"]);
             txtindicadorMinimo.Text = Convert.ToString((decimal)dt.Rows[0]["indicadorMinimo"]);
             txtindicadorDeseable.Text = Convert.ToString((decimal)dt.Rows[0]["indicadorDeseable"]);
+            if (txtindicadorMinimo.Text.Replace(".00","") == txtindicadorDeseable.Text.Replace(".00", ""))
+            {
+                ordenamientos.Visible = true;
+            }
+            else
+            {
+                ordenamientos.Visible = false;
+                lblErrororden.Visible = false;
+            }
+
             ddltipo.SelectedValue = Convert.ToString((int)dt.Rows[0]["Tipoid"]);
+            dllOrden.SelectedValue = Convert.ToString((int)dt.Rows[0]["esAscendente"]);
             btnGuardaEditar.Text = "Actualizar";
         }
 
@@ -226,11 +239,11 @@ namespace IndicadoresFreyman
         {
 
             visibleOrdenamiento();
-
+           
             string descripcionIndicador = txtdescripcionIndicador.Text;
             string ponderacion = txtponderacion.Text;
             string indicadorMinimo = txtindicadorMinimo.Text.Replace(",","");
-            string indicadorDeseable = txtindicadorDeseable.Text.Replace(",", "");
+            string indicadorDeseable  = txtindicadorDeseable.Text.Replace(",", "");
             string Tipoid = ddltipo.SelectedValue;
             string area = hdnArea.Value;
             string strsql = "";
@@ -259,9 +272,14 @@ namespace IndicadoresFreyman
                     lblErrororden.Visible = false;
                 }
             }
+            else
+            {
+                dllOrden.SelectedValue = "1";
+            }
 
             if (lblguarda.Text == "1")
             {
+                
                 strsql = String.Format("exec insertPlantllaIndicador  '{0}',   '{1}',  '{2}', '{3}', '{4}', '{5}', {6}, {7}", descripcionIndicador, ponderacion, indicadorMinimo, indicadorDeseable, Tipoid, area, hdnJefe.Value, dllOrden.SelectedValue);
                 con.Save(strsql);
                 pnlEditar.Visible = false;
@@ -278,7 +296,7 @@ namespace IndicadoresFreyman
             radGridIndicador.DataSource = consulta();
             radGridIndicador.Rebind();
             limpiar();
-            ordenamiento.Visible = false;
+            ordenamientos.Visible = false;
         }
 
         protected void btncerrarMdl_Click(object sender, EventArgs e)
@@ -307,11 +325,13 @@ namespace IndicadoresFreyman
 
             if (minimo == deseable)
             {
-                ordenamiento.Visible = true;
+                ordenamientos.Visible = true;
+              
             }
             else
             {
-                ordenamiento.Visible = false;
+                ordenamientos.Visible = false;
+              
             }
         }
 
@@ -330,11 +350,15 @@ namespace IndicadoresFreyman
 
             if (minimo == deseable)
             {
-                ordenamiento.Visible = true;
+                ordenamientos.Visible = true;
+                lblErrororden.Visible = true;
+
             }
             else
             {
-                ordenamiento.Visible = false;
+                ordenamientos.Visible = false;
+                lblErrororden.Visible = false;
+
             }
 
         }
@@ -354,11 +378,13 @@ namespace IndicadoresFreyman
 
             if (minimo == deseable)
             {
-                ordenamiento.Visible = true;
+                ordenamientos.Visible = true;
+                lblErrororden.Visible = true;
             }
             else
             {
-                ordenamiento.Visible=false;
+                ordenamientos.Visible=false;
+                lblErrororden.Visible = false;
             }
 
 

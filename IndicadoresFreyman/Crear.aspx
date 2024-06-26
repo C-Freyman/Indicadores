@@ -18,7 +18,7 @@
 
         .modal-contenidos2 {
             background-color: white;
-            width: 850px;
+            width: 920px;
             padding: 5px 5px;
             margin: 3% auto;
             position: relative;
@@ -126,14 +126,39 @@
 
         });
 
+        function orden() {
+                var minimo = parseInt(document.getElementById('txtindicadorMinimo').value) || 0;
+                var deseable = parseInt(document.getElementById('txtindicadorDeseable').value) || 0;
+                var drpOrden = document.getElementById('dllOrden');
 
-        function calculaTipo() {
+                if (minimo !== deseable) {
+                    drpOrden.style.display = 'none';
+                } else {
+                    drpOrden.style.display = 'block';
+                }
+        }
+
+        //function calculaTipo() {
+        //    var minimo = parseInt(document.getElementById('txtindicadorMinimo').value) || 0;
+        //    var deseable = parseInt(document.getElementById('txtindicadorDeseable').value) || 0;
+
+        //    var mensaje = (minimo = deseable) ? 'Ascendente' : 'Descendente';
+        //    mensaje = (minimo == 0 || deseable == 0) ? '  ' : mensaje;
+        //    document.getElementById('dllOrden') = mensaje;
+        //}
+
+        function ocultaDrop() {
+        {
             var minimo = parseInt(document.getElementById('txtindicadorMinimo').value) || 0;
-            var deseable = parseInt(document.getElementById('txtindicadorDeseable').value) || 0;
+                var deseable = parseInt(document.getElementById('txtindicadorDeseable').value) || 0;
+                var drpOrden = document.getElementById('drpOrden');
 
-            var mensaje = (minimo < deseable) ? 'Ascendente' : 'Descendente';
-            mensaje = (minimo == 0 || deseable == 0) ? '  ' : mensaje;
-            document.getElementById('dllOrden').onselect = mensaje;
+            if (minimo === 0 || deseable === 0) {
+                mensaje = '';
+                document.getElementById('dllOrden').style.display = 'none';
+            } else {
+                document.getElementById('dllOrden').style.display = 'block';
+            }
         }
 
 
@@ -146,8 +171,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-
-
+    
+   
 
 
     <h2>Crear</h2>
@@ -296,6 +321,7 @@
         <%--   <div class="modal fade" id="mdlEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-contenidos2">--%>
+        
         <div class="modales" id="mdlencuesta" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-contenidos2" role="document">
                 <div class="modal-content">
@@ -307,6 +333,7 @@
                         <asp:Button ID="btnclose" runat="server" Text="X" Font-Size="Smaller" BorderStyle="None" BackColor="Transparent" class="close" data-dismiss="modal" aria-label="Close" OnClick="btncerrarMdl_Click" />
                     </div>
                     <div class="modal-body">
+                      
                         <table id="Table2" cellspacing="2" cellpadding="1" border="0" rules="none" style="border-collapse: collapse;">
 
 
@@ -360,13 +387,20 @@
                                 <td style="width: 130px">&nbsp;  &nbsp;   Indicador Mínimo:
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtindicadorMinimo" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorMinimo") %>' TabIndex="2" Width="200px" onKeyPress="return filterFloat(event,this)" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1"  >
+                                    <asp:TextBox ID="txtindicadorMinimo" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorMinimo") %>' TabIndex="2" Width="200px" onKeyPress="return filterFloat(event,this)" CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1"   OnTextChanged ="txtindicadorMinimo_TextChanged" AutoPostBack ="true">
                                     </asp:TextBox>
                                     <div class="invalid-feedback">
                                         indicador Minimo requerido
                                     </div>
 
 
+                                </td>
+                                <td id="ordenamientos" runat ="server" visible ="false">
+                                    &nbsp; &nbsp;
+                                     <telerik:RadDropDownList RenderMode="Lightweight" ID="dllOrden" runat="server" 
+                                        DropDownHeight="80px"
+                                        Width="200px">
+                                    </telerik:RadDropDownList>
                                 </td>
                             </tr>
                             <tr>
@@ -375,7 +409,7 @@
                                 <td style="width: 130px">&nbsp;  &nbsp;   Indicador Deseable:
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtindicadorDeseable" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="200px" onKeyPress="return filterFloat(event,this)"  CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1">
+                                    <asp:TextBox ID="txtindicadorDeseable" ClientIDMode="Static" runat="server" Text='<%# Bind("indicadorDeseable") %>' TabIndex="2" Width="200px" onKeyPress="return filterFloat(event,this)"  CssClass="form-control" autocomplete="off" MaxLength="10" data-required="1"  OnTextChanged ="txtindicadorDeseable_TextChanged" AutoPostBack ="true">
                                     </asp:TextBox>
                                    <%-- <asp:Label ID="lblordrnamiento" runat="server" Text="Label"></asp:Label>--%>
                                     <div class="invalid-feedback">
@@ -384,23 +418,29 @@
 
 
                                 </td>
+                                <td >
+                                   
+                                     <asp:Label ID="lblErrororden" runat="server" Text="&nbsp; &nbsp; Ordenamiento Requerido" ForeColor ="Red" Visible ="false"></asp:Label>
+                                </td>
+
                             </tr>
-                            <tr id="ordenamiento" runat ="server" visible ="false">
+                            
+                            <%--<tr id="ordenamiento" runat ="server" visible ="false" style ="height:80px">
                                 <td colspan="2"></td>
                                 <td style="width: 150px">&nbsp;  &nbsp;   Ordenamiento</td>
                                 <td>
-                                    <telerik:RadDropDownList RenderMode="Lightweight" ID="dllOrden" runat="server" 
-                                        DropDownHeight="80px"
-                                        Width="200px">
-                                    </telerik:RadDropDownList>
+                                    
                                  
-                                        <asp:Label ID="lblErrororden" runat="server" Text="Ordenamiento Requerido" ForeColor ="Red" Visible ="false"></asp:Label>
+                                        <asp:Label ID="lblErrororden2" runat="server" Text="Ordenamiento Requerido" ForeColor ="Red" Visible ="false"></asp:Label>
                                   
                                 </td>
-                            </tr>
+                            </tr>--%>
+                           
                         </table>
-
+                      
+                    
                     </div>
+                    
                     <div class="modal-footer">
                         <asp:Button ID="btnGuardaEditar" runat="server" Text="Guardar" OnClick="btnGuardaEditar_Click" OnClientClick="return validaFormulario()" />
                         <asp:Button ID="btncerrarMdl" runat="server" OnClick="btncerrarMdl_Click" Text="Cerrar" />

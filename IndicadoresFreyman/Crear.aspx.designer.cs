@@ -141,22 +141,13 @@ namespace IndicadoresFreyman
         protected global::System.Web.UI.WebControls.TextBox txtindicadorMinimo;
 
         /// <summary>
-        /// Control txtindicadorDeseable.
+        /// Control ordenamientos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtindicadorDeseable;
-
-        /// <summary>
-        /// Control ordenamiento.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableRow ordenamiento;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell ordenamientos;
 
         /// <summary>
         /// Control dllOrden.
@@ -166,6 +157,15 @@ namespace IndicadoresFreyman
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::Telerik.Web.UI.RadDropDownList dllOrden;
+
+        /// <summary>
+        /// Control txtindicadorDeseable.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtindicadorDeseable;
 
         /// <summary>
         /// Control lblErrororden.

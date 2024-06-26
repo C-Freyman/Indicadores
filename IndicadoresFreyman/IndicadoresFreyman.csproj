@@ -219,7 +219,6 @@
     <Content Include="obj\Debug\indicadoresfreyman.dll.licenses" />
     <Content Include="obj\Debug\IndicadoresFreyman.pdb" />
     <Content Include="Paramentros.aspx" />
-    <Content Include="Indicadores\HistoricoIndicadores.aspx" />
     <Content Include="Reportes\ReporteRRHH.aspx" />
     <Content Include="Reportes\ReporteTableroHist.aspx" />
     <Content Include="Reportes\ReporteTableroHistorico.aspx" />
@@ -274,6 +273,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Indicadores\MailServer\MailSupport.cs" />
+    <Compile Include="Indicadores\MailServer\MasterServer.cs" />
     <Compile Include="Log.aspx.cs">
       <DependentUpon>Log.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
