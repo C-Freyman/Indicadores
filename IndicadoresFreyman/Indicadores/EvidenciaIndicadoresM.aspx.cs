@@ -621,7 +621,7 @@ namespace IndicadoresFreyman.Indicadores
                         string nombreArchivo = e.File.FileName;
                         long tamaño = e.File.ContentLength;
 
-                        string query = "if (select top 1 fechaCerrado from resultadoIndicador where mes=" + mes + " and año=" + año + " and indicadorId=(select top 1 indicadorId from Indicador where empleadoId=" + Session["Log"] + " and activo=1)) is null begin " +
+                        string query = "if (select top 1 * from resultadoIndicador where mes=" + mes + " and año=" + año + " and indicadorId=(select top 1 indicadorId from Indicador where empleadoId=" + Session["Log"] + " and activo=1)) is null begin " +
                                         "if not exists(select* from Evidencia where mes=" + mes + " and año=" + mes + " and empleadoId=" + Session["Log"] + ") " +
                                             "begin " +
                                             "insert into Evidencia values(" + Session["Log"] + "," + mes + "," + año + ",'" + nombreArchivo + "',null,@archivo," + tamaño + ", getdate() ); " +
