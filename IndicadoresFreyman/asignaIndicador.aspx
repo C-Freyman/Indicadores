@@ -291,7 +291,7 @@
 
 
                         <telerik:GridBoundColumn HeaderText="Indicador Minimo" HeaderStyle-Width="80px" SortExpression="indicadorMinimo" UniqueName="indicadorMinimo" ColumnGroupName="Editables"
-                            DataField="indicadorMinimo" DataFormatString="{0:N0}">
+                            DataField="indicadorMinimo" DataFormatString="{0:N2}">
                             <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                 <RequiredFieldValidator ForeColor="Red" Text="*Indicador Minimo" Display="Dynamic">
                                 </RequiredFieldValidator>
@@ -302,7 +302,7 @@
 
 
                         <telerik:GridBoundColumn HeaderText="Indicador Deseable" HeaderStyle-Width="80px" SortExpression="indicadorDeseable" UniqueName="indicadorDeseable" ColumnGroupName="Editables"
-                            DataField="indicadorDeseable" DataFormatString="{0:N0}">
+                            DataField="indicadorDeseable" DataFormatString="{0:N2}">
                             <ColumnValidationSettings EnableRequiredFieldValidation="true">
                                 <RequiredFieldValidator ForeColor="Red" Text="Indicador deseable" Display="Dynamic">
                                 </RequiredFieldValidator>
