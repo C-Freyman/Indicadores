@@ -28,8 +28,8 @@ namespace IndicadoresFreyman
             //Session["Log"] = 1356;// 5273;
 
             int empleado = (int)Session["Log"];
-            var dtJefe = con.getDatatable ("select * from Vacaciones.dbo.AdministrativosNomiChecador where Departamento ='RECURSOS HUMANOS' and idempleado=" + Session["Log"] );
-            if (dtJefe.Rows.Count == 0)//solo si es de RRHH
+            var dtJefe = con.getDatatable ("select * from Vacaciones.dbo.AdministrativosNomiChecador where (Departamento ='RECURSOS HUMANOS' or departamento='CONTRALORIA') and idempleado=" + Session["Log"] );
+            if (dtJefe.Rows.Count == 0)//solo si es de RRHH o arturo
             {
                 RadMenu1.Items[2].Items[2].Visible = false;
             }
