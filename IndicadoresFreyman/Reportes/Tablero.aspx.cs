@@ -85,7 +85,7 @@ namespace IndicadoresFreyman.Reportes
                 var lst = (from c in dtCOMPAÑEROS.AsEnumerable() select c.Field<int>("IdEmpleado")).ToList();
                 dtAux = (from c in dt.AsEnumerable() where lst.Contains(c.Field<int>("IdEmpleado")) select c).CopyToDataTable();
 
-                if (dtAux == null)
+                if (dtAux == null || HidEmpleado.Value == "42")
                 {
                     dtAux = dt;
                 }
