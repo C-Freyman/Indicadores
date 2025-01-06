@@ -40,8 +40,11 @@ namespace IndicadoresFreyman.Indicadores
 
                 if (mes == null || mes == string.Empty)
                 {
-                    mes = DateTime.Now.AddMonths(-1).Month.ToString();
-                    año = DateTime.Now.Year.ToString();
+                    DateTime fecha= DateTime.Now.AddMonths(-1).Date;
+
+                    mes = fecha.Month.ToString();
+                    año = fecha.Year.ToString();
+                    
                     cargarDatosEnGrid();//Carga datos en grid
                     ValidarArchivoEvidencia();//FileRepeater
                     cambioDeMes = false;
@@ -691,7 +694,7 @@ namespace IndicadoresFreyman.Indicadores
                 {
                     if (!cambioDeMes)
                     {
-                        radMonthYearPicker.SelectedDate = DateTime.Now.AddMonths(-1);
+                        radMonthYearPicker.SelectedDate = DateTime.Now.AddMonths(-1).Date;
                         cambioDeMes = true;
                     }
                     else
