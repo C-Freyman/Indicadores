@@ -10,7 +10,7 @@ namespace IndicadoresFreyman.Indicadores.MailServer
         public MailSupport()
         {
             mail = "webmaster@lofasociados.com.mx";
-            password = "P4$$w0rd.Fr3y";
+            password = "zzcg oxqc ucll izfq";
             host = "smtp.gmail.com";
             puerto = 587;
             ssl = true;
