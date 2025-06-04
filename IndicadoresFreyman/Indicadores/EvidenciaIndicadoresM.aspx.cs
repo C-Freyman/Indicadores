@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.UI;
 using Telerik.Web;
+using System.Net.Mail;
 
 namespace IndicadoresFreyman.Indicadores
 {
@@ -511,6 +512,7 @@ namespace IndicadoresFreyman.Indicadores
         [WebMethod]
         public static void cerrarCambios(List<MyDataModel> tableData)
         {
+            var obj = new EvidenciaIndicadoresM();
             string mes_ = EvidenciaIndicadoresM.mes;
             string año_ = EvidenciaIndicadoresM.año;
 
@@ -533,12 +535,15 @@ namespace IndicadoresFreyman.Indicadores
             Correo += "</br>";
             Correo += "<h3>El colaborador: " + nombreUsuario + " acaba de enviar sus resultados de indicadores.</h3>";
 
-            var ServicioMail = new MailServer.MailSupport();
-            ServicioMail.EnviarMail(
-                asunto: "INDICADORES ENVIADOS DE - " + nombreUsuario,
-                cuerpo: Correo,
-                MailReceptor: new List<string> { correoJefe }
-                );
+            //var ServicioMail = new MailServer.MailSupport();
+            //ServicioMail.EnviarMail(
+            //    asunto: "INDICADORES ENVIADOS DE - " + nombreUsuario,
+            //    cuerpo: Correo,
+            //    MailReceptor: new List<string> { correoJefe }
+            //    );
+
+            obj.EnviarCorreo(Correo, new List<string> { correoJefe }, "", "SISTEMA INDICADORES", "INDICADORES ENVIADOS DE - " + nombreUsuario);
+
         }
 
         [WebMethod]
@@ -705,18 +710,35 @@ namespace IndicadoresFreyman.Indicadores
             }
 
         }
-        public void EnvioCorreo()
+        private bool EnviarCorreo(string Cuerpo, List<string> para, string de, string nombreDe, string subject_)
         {
-            string Correo = "<h2>RESULTADOS DE INDICADORES ENVIADOS</h2>";
-            Correo += "</br>";
-            Correo += "<h3>El colaborador: " + nombreUsuario + " acaba de enviar sus resultados de indicadores.</h3>";
+            MailMessage mail = new MailMessage();
+            SmtpClient smtp = new SmtpClient();
 
-            var ServicioMail = new MailServer.MailSupport();
-            ServicioMail.EnviarMail(
-                asunto: "INDICADORES ENVIADOS DE - " + nombreUsuario,
-                cuerpo: Correo,
-                MailReceptor: new List<string> { "dfernandez@lofasociados.com.mx" }
-                );
+            try
+            {
+                mail.From = new MailAddress("webmaster@lofasociados.com.mx", nombreDe);
+                foreach (string c in para)
+                {
+                    mail.To.Add(c);
+                }
+
+                mail.Subject = subject_;
+                mail.IsBodyHtml = true;
+                mail.Body = Cuerpo;
+
+                SmtpClient s = new SmtpClient("smtp.gmail.com");
+                s.Port = 587;
+                s.EnableSsl = true;
+                s.Credentials = new System.Net.NetworkCredential("webmaster@lofasociados.com.mx", "zzcg oxqc ucll izfq");
+                s.Send(mail);
+                // MessageBox.Show("mensaje enviado");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
